@@ -1,0 +1,45 @@
+
+.footerCont {
+    background-color: rgba(6, 4, 47, 0.962);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 14px;
+}
+
+.socialLinks {
+    text-decoration: none;
+    color: white;
+}
+
+.socialLinks:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.smallEl {
+    text-align: center;
+    
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+}
+
+@media screen and (max-width: 400px) {
+    .footerCont{
+        padding: 4px;
+    }
+    
+}
+
+@media screen and (max-width: 370px) {
+    .footerCont{
+        font-size: 14px;
+    }
+    
+    
+}

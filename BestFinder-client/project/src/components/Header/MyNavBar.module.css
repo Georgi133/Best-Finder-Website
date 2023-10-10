@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(6, 4, 47, 0.962);
+    color: white;
+    padding: 8px 60px;
+    position: sticky;
+    border-radius: 6px;
+    top: 0;
+}
+
+.innerContainer {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 40px;
+}
+
+.pg:hover {
+    cursor: pointer;
+    background-color: #0b489d;
+}
+
+.pg, .pg2 {
+    margin: 0;
+    padding: 6px 8px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+}
+
+.selectContainer {
+    background-color: rgba(6, 4, 47, 0.962);
+    color: white;
+    padding: 4px;
+    border: 2px white solid;
+}
+
+.selectContainer:hover {
+    cursor: pointer;
+    background-color: #0b489d;
+}
+
+@media screen and (max-width: 493px) {
+    .innerContainer {
+        gap: 4px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .innerContainer {
+        font-size: 13px;
+    }
+    .container {
+        padding: 8px 20px;
+    }
+}
+
+@media screen and (max-width: 361px) {
+    
+    .container {
+        padding: 8px 4px;
+    }
+}
+

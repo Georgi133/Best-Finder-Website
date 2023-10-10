@@ -1,0 +1,47 @@
+{
+  "userForm": {
+    "username": "Username",
+    "password": "Password",
+    "forgotten": "Forgotten Password",
+    "remember": "Remember me",
+    "submit": "Submit",
+    "email": "Email",
+    "confirmPassword": "Confirm Password"
+  },
+  "linked": {
+    "movies": "Go to Movies",
+    "serials": "Go to Serials",
+    "games": "Go to Games",
+    "songs": "Go to Songs",
+    "animes": "Go to Animes",
+    "jokes":"Go to Jokes"
+  },
+  "passRecovery": "Password Recovery",
+  "defaultOptionLang" : "Language",
+  "home" : "Home",
+  "title": "Welcome:",
+  "login": "Login",
+  "register": "Register",
+  "language": {
+    "bulgarian": "Bulgarian",
+    "english": "English"
+  },
+  "header": "Web-Finder",
+  "movies": "Top Movies",
+  "serials": "Top Serials",
+  "games": "Top Games",
+  "songs": "Top Songs",
+  "animes": "Top Animes",
+  "jokes":"Top Jokes",
+  "categories": {
+    "movies": "Movies Category",
+    "songs": "Songs Category",
+    "serials": "Serials Category",
+    "games": "Games Category",
+    "animes": "Animes Category",
+    "jokes": "Jokes Category"
+  },
+  "description":"Description",
+    "category": "Categories",
+     "added": "Last added on"
+}
