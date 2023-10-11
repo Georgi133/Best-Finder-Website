@@ -2,24 +2,36 @@ import { MyNavBar } from "../Header/MyNavBar";
 import { ButtonSubmit } from "../Login/ButtonSubmit";
 import style from "./Register.module.css";
 import { useTranslation } from "react-i18next";
-import { Footer } from "../Footer/Footer";
+import { useForm } from "../useForm/useForm";
+import { useAuthContext } from "../AuthContext/AuthContext";
 
 
 export const Register = () => {
 
   const { t } = useTranslation()
 
+  const { onRegisterSubmit } = useAuthContext();
+  const {values , changeHandler , onSubmit} = useForm({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  }, onRegisterSubmit); 
+
+
 
   return (
     <>
       <MyNavBar url={"register"} />
       <div className={style.container}>
-        <form className={style.formContainer}>
+        <form onSubmit={onSubmit} className={style.formContainer}>
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="username">
             {t("userForm.username")}:
             </label>
             <input
+            value={values.username}
+            onChange={changeHandler}
               type="text"
               name="username"
               className={style.inp + " form-control"}
@@ -34,6 +46,8 @@ export const Register = () => {
             {t("userForm.email")}:
             </label>
             <input
+            value={values.email}
+            onChange={changeHandler}
               type="email"
               name="email"
               className={style.inp + " form-control"}
@@ -47,6 +61,8 @@ export const Register = () => {
             {t("userForm.password")}:
             </label>
             <input
+            value={values.password}
+            onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="password"
@@ -61,6 +77,8 @@ export const Register = () => {
             {t("userForm.confirmPassword")}:
             </label>
             <input
+            value={values.confirmPassword}
+            onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="confirmPassword"
