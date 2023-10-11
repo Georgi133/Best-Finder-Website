@@ -2,10 +2,10 @@ package softuni.WebFinderserver.init;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import softuni.WebFinderserver.domain.entities.Actor;
-import softuni.WebFinderserver.domain.entities.CategoryProjection;
-import softuni.WebFinderserver.domain.entities.categories.Movie;
-import softuni.WebFinderserver.domain.enums.CategoryProjectionEnum;
+import softuni.WebFinderserver.model.entities.Actor;
+import softuni.WebFinderserver.model.entities.CategoryProjection;
+import softuni.WebFinderserver.model.entities.categories.Movie;
+import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.repositories.*;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.domain.entities;
+package softuni.WebFinderserver.model.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -6,9 +6,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import softuni.WebFinderserver.domain.entities.categories.BaseCatalogue;
-import softuni.WebFinderserver.domain.entities.categories.BaseEntity;
-import softuni.WebFinderserver.domain.entities.categories.CataloguesWithCommonCategories;
+import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
+import softuni.WebFinderserver.model.entities.categories.BaseEntity;
+import softuni.WebFinderserver.model.entities.categories.CataloguesWithCommonCategories;
 
 @Table(name = "comments")
 @Entity

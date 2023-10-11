@@ -1,10 +1,10 @@
-package softuni.WebFinderserver.domain.entities.categories;
+package softuni.WebFinderserver.model.entities.categories;
 
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import softuni.WebFinderserver.domain.entities.CategoryProjection;
+import softuni.WebFinderserver.model.entities.CategoryProjection;
 
 import java.util.List;
 

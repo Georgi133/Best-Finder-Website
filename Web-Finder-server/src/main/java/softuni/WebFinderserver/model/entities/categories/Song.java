@@ -1,15 +1,14 @@
-package softuni.WebFinderserver.domain.entities.categories;
+package softuni.WebFinderserver.model.entities.categories;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import softuni.WebFinderserver.domain.entities.Comment;
-import softuni.WebFinderserver.domain.entities.Like;
-import softuni.WebFinderserver.domain.entities.Singer;
-import softuni.WebFinderserver.domain.entities.SongCategory;
+import softuni.WebFinderserver.model.entities.Comment;
+import softuni.WebFinderserver.model.entities.Like;
+import softuni.WebFinderserver.model.entities.Singer;
+import softuni.WebFinderserver.model.entities.SongCategory;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity

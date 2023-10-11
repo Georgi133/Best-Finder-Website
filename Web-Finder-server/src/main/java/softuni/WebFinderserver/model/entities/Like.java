@@ -1,10 +1,9 @@
-package softuni.WebFinderserver.domain.entities;
+package softuni.WebFinderserver.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import softuni.WebFinderserver.domain.entities.categories.BaseCatalogue;
-import softuni.WebFinderserver.domain.entities.categories.BaseEntity;
-import softuni.WebFinderserver.domain.entities.categories.CataloguesWithCommonCategories;
+import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
+import softuni.WebFinderserver.model.entities.categories.BaseEntity;
 
 @Entity
 @Table(name = "likes", uniqueConstraints = @UniqueConstraint(columnNames = {"project_id", "user_id"}))

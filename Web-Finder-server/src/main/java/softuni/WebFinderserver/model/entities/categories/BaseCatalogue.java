@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.domain.entities.categories;
+package softuni.WebFinderserver.model.entities.categories;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;

@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.domain.enums;
+package softuni.WebFinderserver.model.enums;
 
 public enum CategoryProjectionEnum {
 

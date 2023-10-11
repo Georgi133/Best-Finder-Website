@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.domain.entities;
+package softuni.WebFinderserver.model.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import softuni.WebFinderserver.domain.entities.categories.BaseEntity;
-import softuni.WebFinderserver.domain.enums.SongCategoryEnum;
+import softuni.WebFinderserver.model.entities.categories.BaseEntity;
+import softuni.WebFinderserver.model.enums.SongCategoryEnum;
 
 @Table(name = "songs_categories")
 @Entity
