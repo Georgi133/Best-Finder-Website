@@ -1,5 +1,12 @@
 {
+  "profileChange": {
+    "profile": "Профил",
+    "changePass":"Смяна на парола",
+    "changeProfile": "Поправи профил"
+  },
   "userForm": {
+    "fullName":"Име и Фамилия",
+    "age" : "Години",
     "username": "Потребител",
     "password": "Парола",
     "forgotten": "Забравена Парола",

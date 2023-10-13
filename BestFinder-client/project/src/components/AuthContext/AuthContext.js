@@ -1,17 +1,30 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, createContext } from 'react';
-// import { useLocalStorage } from '../hooks/useLocalStorage';
+import { authServiceFactory } from '../services/AuthService';
+import { useLocalStorage } from '../useLocalStorage/useLocalStorage';
 // import { authServiceFactory } from '../services/authService';
 
-const baseUrl = 'http://localhost:8080'
 export const AuthContext = createContext();
 
 export const AuthProvider = ({
     children,
 }) => {
-    // const [user, setUser] = useLocalStorage('user', {});
+    const authService = authServiceFactory();
+    const [user, setUser] = useLocalStorage('user', {});
 
     const navigate = useNavigate();
+
+    const onLoginSubmit = async (data) => {
+        try {
+            const result = await authService.login(data);
+
+            setUser(result);
+
+            navigate('/');
+        } catch (error) {
+            console.log('There is a problem');
+        }
+    };
 
     const onRegisterSubmit = async (values) => {
         console.log(values);
@@ -21,26 +34,30 @@ export const AuthProvider = ({
             return;
         }
         try {
-            console.log('fetch')
-            const result = fetch(`${baseUrl}/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData)
 
-            });
+             await authService.register(registerData);
 
-            // setUser(result);
-            navigate('/');
+            navigate('/login');
         } catch (error) {
             console.log('There is a problem');
         }
     };
 
+    const onLogout = async () => {
+        await authService.logout();
+
+        setUser({});
+    };
+
 
     const contextValues = {
         onRegisterSubmit,
+        onLoginSubmit,
+        onLogout,
+        userId: user.id,
+        userEmail: user.email,
+        token: user.token
+
     }
 
 

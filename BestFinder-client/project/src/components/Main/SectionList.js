@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CategoryDetails } from "./CategoryDetails";
 import style from "./SectionList.module.css";
 import { useTranslation } from 'react-i18next';
+import { authServiceFactory } from '../services/AuthService';
 
 const image = {
   game: "https://lumiere-a.akamaihd.net/v1/images/star-wars-outlaws-key-art-square_b893fc9e.jpeg?region=0%2C0%2C1080%2C1080",
@@ -44,6 +45,7 @@ export const SectionList = () => {
     const categoryCopy = category[0] + category.slice(1) + 's';
     setCategoryName(categoryCopy);
   }
+
 
   return (
     <>

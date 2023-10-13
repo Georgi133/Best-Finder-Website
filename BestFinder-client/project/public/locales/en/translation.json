@@ -1,5 +1,12 @@
 {
+  "profileChange": {
+    "profile": "Profile",
+    "changePass":"Change password",
+    "changeProfile": "Edit profile"
+  },
   "userForm": {
+    "fullName":"First and Last name",
+    "age" : "Age",
     "username": "Username",
     "password": "Password",
     "forgotten": "Forgotten Password",

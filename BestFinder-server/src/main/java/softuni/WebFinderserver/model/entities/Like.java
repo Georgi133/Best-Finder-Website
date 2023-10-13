@@ -19,6 +19,6 @@ public class Like extends BaseEntity {
 
     @JoinColumn(name = "user_id")
     @ManyToOne
-    private User user;
+    private UserEntity user;
 
 }

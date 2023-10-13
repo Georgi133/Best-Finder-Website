@@ -1,38 +1,32 @@
 package softuni.WebFinderserver.web;
 
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatusCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import softuni.WebFinderserver.model.dtos.UserRegistrationDto;
 import softuni.WebFinderserver.model.views.UserRegisterView;
 import softuni.WebFinderserver.services.UserService;
 
-@RequestMapping("/register")
+import java.net.URI;
+
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
 public class RegisterController {
 
     private final UserService userService;
 
-    public RegisterController(UserService userService) {
-        this.userService = userService;
-    }
 
-
-    @PostMapping(consumes = "application/json")
+    @PostMapping(path = "/register")
     public ResponseEntity<UserRegisterView> register (
-            @RequestBody @Valid UserRegistrationDto userRegistrationDto
-    , UriComponentsBuilder uriComponentsBuilder) {
+            @RequestBody UserRegistrationDto userRegistrationDto) {
 
-        UserRegisterView userRegisterView = userService.create(userRegistrationDto);
-        if(userRegisterView == null) {
-            return ResponseEntity.status(404).build();
-        }
+        UserRegisterView register = userService.register(userRegistrationDto);
 
-        return ResponseEntity.ok(userRegisterView);
+     return ResponseEntity.ok(register);
     }
+
 
 
 }

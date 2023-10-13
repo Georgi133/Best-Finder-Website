@@ -4,12 +4,18 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Forgotten } from "./Forgotten";
 import { ButtonSubmit } from "./ButtonSubmit";
-import { Footer } from "../Footer/Footer";
+import { useAuthContext } from "../AuthContext/AuthContext";
+import { useForm } from "../useForm/useForm"; 
 
 export const Login = () => {
-  const [forgottenPass, setForgottenPass] = useState(false);
+  const { onLoginSubmit } = useAuthContext();
 
+  const [forgottenPass, setForgottenPass] = useState(false);
   const { t } = useTranslation();
+  const { values , changeHandler, onSubmit } = useForm({
+    email: '',
+    password: '',
+  }, onLoginSubmit);
 
   const onClickForgotten = () => {
     setForgottenPass(true);
@@ -20,16 +26,18 @@ export const Login = () => {
       <MyNavBar url={"login"} />
       {forgottenPass && <Forgotten setForgottenPass={setForgottenPass} />}
       <div className={style.container}>
-        <form className={style.formContainer}>
+        <form className={style.formContainer} onSubmit={onSubmit}>
           <div className={style.login + " " + "form-group"}>
-            <label className={style.lyrics} htmlFor="username">
-              {t("userForm.username")}:
+            <label className={style.lyrics} htmlFor="email">
+              {t("userForm.email")}:
             </label>
             <input
-              type="text"
-              name="username"
+            value={values.email}
+            onChange={changeHandler}
+              type="email"
+              name="email"
               className={style.inp + " form-control"}
-              id="username"
+              id="email"
               placeholder="Enter email"
               required
               min={3}
@@ -40,6 +48,8 @@ export const Login = () => {
               {t("userForm.password")}:
             </label>
             <input
+            value={values.password}
+            onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="password"

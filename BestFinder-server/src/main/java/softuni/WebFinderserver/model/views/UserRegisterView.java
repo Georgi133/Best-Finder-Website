@@ -1,10 +1,13 @@
 package softuni.WebFinderserver.model.views;
 
+import lombok.*;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRegisterView {
 
-    private Long id;
-    private String username;
-    private String email;
-
+    private String token;
 
 }

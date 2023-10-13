@@ -5,20 +5,20 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "../useForm/useForm";
 import { useAuthContext } from "../AuthContext/AuthContext";
 
-
 export const Register = () => {
-
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const { onRegisterSubmit } = useAuthContext();
-  const {values , changeHandler , onSubmit} = useForm({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  }, onRegisterSubmit); 
-
-
+  const { values, changeHandler, onSubmit } = useForm(
+    {
+      email: "",
+      password: "",
+      fullName: "",
+      age: null,
+      confirmPassword: "",
+    },
+    onRegisterSubmit
+  );
 
   return (
     <>
@@ -26,28 +26,43 @@ export const Register = () => {
       <div className={style.container}>
         <form onSubmit={onSubmit} className={style.formContainer}>
           <div className={style.login + " " + "form-group"}>
-            <label className={style.lyrics} htmlFor="username">
-            {t("userForm.username")}:
+            <label className={style.lyrics} htmlFor="fullName">
+              {t("userForm.fullName")}:
             </label>
             <input
-            value={values.username}
-            onChange={changeHandler}
+              value={values.fullName}
+              onChange={changeHandler}
               type="text"
-              name="username"
-              className={style.inp + " form-control"}
-              id="username"
-              placeholder="Enter username"
+              id="fullName"
+              name="fullName"
+              placeholder="Anatoli Bojinov"
               required
-              min={3}
+              className={style.inp + " form-control"}
+            />
+          </div>
+
+          <div className={style.login + " " + "form-group"}>
+            <label className={style.lyrics} htmlFor="age">
+              {t("userForm.age")}:
+            </label>
+            <input
+              value={values.age}
+              onChange={changeHandler}
+              type="age"
+              id="age"
+              name="age"
+              required
+              placeholder="Age: 19"
+              className={style.inp + " form-control"}
             />
           </div>
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="email">
-            {t("userForm.email")}:
+              {t("userForm.email")}:
             </label>
             <input
-            value={values.email}
-            onChange={changeHandler}
+              value={values.email}
+              onChange={changeHandler}
               type="email"
               name="email"
               className={style.inp + " form-control"}
@@ -58,11 +73,11 @@ export const Register = () => {
           </div>
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="password">
-            {t("userForm.password")}:
+              {t("userForm.password")}:
             </label>
             <input
-            value={values.password}
-            onChange={changeHandler}
+              value={values.password}
+              onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="password"
@@ -74,11 +89,11 @@ export const Register = () => {
           </div>
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="confirmPassword">
-            {t("userForm.confirmPassword")}:
+              {t("userForm.confirmPassword")}:
             </label>
             <input
-            value={values.confirmPassword}
-            onChange={changeHandler}
+              value={values.confirmPassword}
+              onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="confirmPassword"

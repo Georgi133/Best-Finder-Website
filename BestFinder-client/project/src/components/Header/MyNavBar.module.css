@@ -40,10 +40,22 @@
     background-color: #0b489d;
 }
 
+.changeOpt {
+    max-width: 110px;
+}
+
+
+@media screen and (max-width: 506px) {
+.changeOpt {
+    max-height: 50px;
+}
+}
+
 @media screen and (max-width: 493px) {
     .innerContainer {
         gap: 4px;
     }
+
 }
 
 @media screen and (max-width: 460px) {

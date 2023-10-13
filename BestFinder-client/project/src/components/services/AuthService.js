@@ -1,13 +1,14 @@
-// import { requestFactory } from './requester';
+import { requestFactory } from './requester';
 
-// const baseUrl = `http://localhost:3030/users`;
+const baseUrl = `http://localhost:8080`;
 
-// export const authServiceFactory = (token) => {
-//     const request = requestFactory(token);
+export const authServiceFactory = () => {
+    const request = requestFactory();
 
-//     return {
-//         login: (data) => request.post(`${baseUrl}/login`, data),
-//         register: (data) => request.post(`${baseUrl}/register`, data),
-//         logout: () => request.get(`${baseUrl}/logout`),
-//     }
-// };
+    return {
+        login: (data) => request.post(`${baseUrl}/login`, data),
+        register: (data) => request.post(`${baseUrl}/register`, data),
+        logout: () => request.get(`${baseUrl}/logout`),
+        message:() => request.get(`${baseUrl}/message222`),
+    }
+};

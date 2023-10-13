@@ -18,7 +18,7 @@ import softuni.WebFinderserver.model.entities.categories.CataloguesWithCommonCat
 @Setter
 public class Comment extends BaseEntity {
 
-    public Comment(String text, CataloguesWithCommonCategories category, User createdBy) {
+    public Comment(String text, CataloguesWithCommonCategories category, UserEntity createdBy) {
         this.catalogue = category;
         this.createdBy = createdBy;
         this.text = text;
@@ -31,7 +31,7 @@ public class Comment extends BaseEntity {
     private BaseCatalogue catalogue;
 
     @ManyToOne
-    private User createdBy;
+    private UserEntity createdBy;
 
 
 }
