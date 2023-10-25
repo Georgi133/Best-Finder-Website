@@ -25,6 +25,9 @@ public class Joke extends BaseCatalogue {
         this.jokeName = jokeName;
     }
 
+    @Column(nullable = false)
+    private String pictureUrl;
+
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 

@@ -4,8 +4,8 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost:3306/webFinder?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
-    username: root
-    password: Ivaila12
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   servlet:
     multipart:
       max-file-size: 1MB
@@ -27,10 +27,21 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: false
+
+best-finder:
+    admin: ${ADMIN_EMAIL}
+    defaultpass: ${ADMIN_PASS}
   #Cloudinary Properties
   #cloudinary:
   #api-key:
   #api-secret:
   #cloud-name:
+
+cloudinary:
+ cloud-name: "${CLOUD_NAME}"
+ api-key: "${CLOUD_API_KEY}"
+ api-secret: "${CLOUD_API_SECRET}"
+
+
 
 

@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.model.entities.categories;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,9 @@ public class Anime extends CataloguesWithCommonCategories {
         this.setCategories(categories);
         this.resume = resume;
     }
+
+    @Column(nullable = false)
+    private String pictureUrl;
 
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;

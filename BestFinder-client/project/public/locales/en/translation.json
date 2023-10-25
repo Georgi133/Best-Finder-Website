@@ -4,6 +4,11 @@
     "changePass":"Change password",
     "changeProfile": "Edit profile"
   },
+  "changePasswordPage": {
+    "currentPass": "Current Password",
+    "newPass": "New Password",
+    "confirmNewPass": "Confirm new Password"
+  },
   "userForm": {
     "fullName":"First and Last name",
     "age" : "Age",
@@ -13,7 +18,10 @@
     "remember": "Remember me",
     "submit": "Submit",
     "email": "Email",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "editButton": "Edit",
+    "profile": "Edit Profile",
+    "profileOnEditPage": "User Information"
   },
   "linked": {
     "movies": "Go to Movies",
@@ -33,6 +41,7 @@
     "bulgarian": "Bulgarian",
     "english": "English"
   },
+  "logout": "Logout",
   "header": "Web-Finder",
   "movies": "Top Movies",
   "serials": "Top Serials",

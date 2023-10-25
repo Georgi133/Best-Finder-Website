@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import softuni.WebFinderserver.model.entities.Role;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.repositories.UserRepository;
 

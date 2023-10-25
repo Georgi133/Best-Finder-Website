@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+    min-height: 720px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.header {
+    margin-top: 10px;
+}
+
+.selectContainer {
+    width: 20vh;
+    padding: 4px;
+}
+
+.selectContainer:hover {
+    background-color: #0b489d;
+    cursor: pointer;
+}
+
+
+
+
+
+

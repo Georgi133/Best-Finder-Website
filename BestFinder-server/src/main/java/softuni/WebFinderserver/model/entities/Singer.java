@@ -17,10 +17,8 @@ import softuni.WebFinderserver.model.entities.categories.BaseEntity;
 @Setter
 public class Singer extends BaseEntity {
 
-    @Column
-    private String firstName;
+    @Column(unique = true)
+    private String fullName;
 
-    @Column
-    private String lastName;
 
 }

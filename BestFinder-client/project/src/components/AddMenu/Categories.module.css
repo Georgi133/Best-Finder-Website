@@ -1,0 +1,45 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    border: 1px solid gray;
+    padding: 20px;
+    width: 60vh;
+}
+
+.innerContainer {
+    margin: 2px auto;
+    width: 50vh;
+}
+
+.actorContainer {
+    margin: 8px auto;
+    border: 1px solid gold;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.categoryContainer {
+    margin: 8px auto;
+    border: 1px solid gold;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.innerCategory {
+    margin: 4px;
+}
+
+.pictureLabel {
+    margin: 4px auto;
+}
+
+.pictureInput {
+    margin: 4px auto;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.pictureInput:hover {
+   cursor: pointer;
+}

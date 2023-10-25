@@ -9,7 +9,7 @@ export const MyNavBar = ({ url }) => {
   const [lang, setLang] = useLocalStorage("lang", {});
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { userId, userEmail } = useAuthContext();
+  const { userEmail, onLogout, userRole } = useAuthContext();
 
   const emailForLogin = () => {
     let email = userEmail;
@@ -21,13 +21,24 @@ export const MyNavBar = ({ url }) => {
     return email;
   };
 
+  const onChangeAdminMenu = (e) => {
+    const value = e.target.value;
+
+    if(value === "add") {
+      navigate("/admin/add");
+    }else if(value === "role") {
+      navigate("/admin/change-role")
+    }
+
+  } 
+
   const onProfilChange = (e) => {
     const value = e.target.value;
 
     if (value === "pass") {
-      navigate("/change-password");
+      navigate("/users/change-password");
     } else if (value === "prof") {
-      navigate("/edit-profile");
+      navigate("/users/edit-profile");
     }
   };
 
@@ -39,6 +50,7 @@ export const MyNavBar = ({ url }) => {
   };
 
   return (
+    
     <div className={style.container}>
       <div className={style.innerContainer}>
         {url !== "home" && (
@@ -49,16 +61,35 @@ export const MyNavBar = ({ url }) => {
         <p className={style.pg2}>
           <strong>{t("title") + ` ${emailForLogin() === undefined ? 'Anonymous' : emailForLogin()}`}</strong>
         </p>
+        { userRole === 'ADMIN'  &&
+        <select
+          value="admin"
+          onChange={onChangeAdminMenu}
+          className={style.selectContainer + " " + style.changeOpt + " " + style.adminSelect}
+        >
+          <option hidden value="admin">
+              Admin
+            </option>
+          <option className={style.opt} value="add">
+            Add Torrent
+          </option>
+          <option className={style.opt} value="role">
+            Change User role
+          </option>
+          
+        </select>
+                 }
+
       </div>
 
       <div className={style.innerContainer}>
-        {!userId && url !== "login" && (
-          <Link to="/login" className={style.pg}>
+        {!userEmail && url !== "login" && (
+          <Link to="/users/login" className={style.pg}>
             <strong>{t("login")}</strong>
           </Link>
         )}
-        {!userId && url !== "register" && (
-          <Link to="/register" className={style.pg}>
+        {!userEmail && url !== "register" && (
+          <Link to="/users/register" className={style.pg}>
             <strong>{t("register")}</strong>
           </Link>
         )}
@@ -76,7 +107,7 @@ export const MyNavBar = ({ url }) => {
           </option>
         </select>
 
-        {userId && (
+        {userEmail && (
           <select
             value="pr"
             onChange={onProfilChange}
@@ -92,6 +123,11 @@ export const MyNavBar = ({ url }) => {
               {t("profileChange.changeProfile")}
             </option>
           </select>
+        )}
+        {userEmail && (
+          <div onClick={onLogout} className={style.pg + " " + style.changeOpt}>
+          <strong className={style.logoutBtn}>{t("logout")}</strong>
+        </div>
         )}
       </div>
     </div>

@@ -17,9 +17,7 @@ import softuni.WebFinderserver.model.entities.categories.BaseEntity;
 @Getter
 public class Actor extends BaseEntity {
 
-    @Column
-    private String firstName;
-    @Column
+    @Column(unique = true)
     private String fullName;
 
 }

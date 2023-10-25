@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, createContext } from 'react';
+import { useContext, createContext, useState } from 'react';
 import { authServiceFactory } from '../services/AuthService';
 import { useLocalStorage } from '../useLocalStorage/useLocalStorage';
 // import { authServiceFactory } from '../services/authService';
@@ -8,17 +8,44 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({
     children,
+    userReload,
+
 }) => {
+    const [userInfo, setUserInfo] = useState({});
     const authService = authServiceFactory();
-    const [user, setUser] = useLocalStorage('user', {});
+    const [token, setToken] = useLocalStorage('token', {});
+    const[isLoggedOut, setIsLoggedOut] = useState(false);
 
     const navigate = useNavigate();
+
+    const onChangePasswordSubmit =  async (data) => {
+        await authService.changePassword(data);
+
+        navigate('/');
+    }
+
+    const onEditSubmit = async (data) => {
+        try {
+            const result = await authService.edit(data);
+            
+            setUserInfo(result)
+
+            navigate('/');
+        } catch (error) {
+            console.log('There is a problem');
+        }
+        
+    }
 
     const onLoginSubmit = async (data) => {
         try {
             const result = await authService.login(data);
+            
+            const { token, ...userInfo } = result;
+            setToken(token);
 
-            setUser(result);
+            setUserInfo(userInfo)
+            setIsLoggedOut(false);
 
             navigate('/');
         } catch (error) {
@@ -37,29 +64,38 @@ export const AuthProvider = ({
 
              await authService.register(registerData);
 
-            navigate('/login');
+            navigate('/users/login');
         } catch (error) {
             console.log('There is a problem');
         }
     };
 
     const onLogout = async () => {
-        await authService.logout();
-
-        setUser({});
+        // await authService.logout();
+        localStorage.removeItem('token');
+        setUserInfo({});
+        setIsLoggedOut(true)
     };
 
+    const onProfileChange = async (data) => {
+        const result = await authService.getUserInfo(data);
+        setUserInfo(result);
+    }
 
     const contextValues = {
         onRegisterSubmit,
         onLoginSubmit,
         onLogout,
-        userId: user.id,
-        userEmail: user.email,
-        token: user.token
+        onChangePasswordSubmit,
+        onProfileChange,
+        onEditSubmit,
+        userId: userInfo.id,
+        userEmail: userInfo.email ? userInfo.email : isLoggedOut ? undefined : userReload.email,
+        userFullName: userInfo.fullName,
+        userRole: userInfo.role ? userInfo.role : isLoggedOut ? undefined : userReload.role,
+        userAge: userInfo.age,
 
     }
-
 
     return(
             <AuthContext.Provider value={contextValues}>

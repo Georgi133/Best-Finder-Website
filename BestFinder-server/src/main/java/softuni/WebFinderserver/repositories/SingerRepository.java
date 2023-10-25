@@ -6,4 +6,5 @@ import softuni.WebFinderserver.model.entities.Singer;
 
 @Repository
 public interface SingerRepository extends JpaRepository<Singer, Long> {
+
 }

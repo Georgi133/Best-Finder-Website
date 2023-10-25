@@ -9,10 +9,11 @@
     top: 0;
 }
 
+
 .innerContainer {
     display: flex;
     justify-content: space-evenly;
-    gap: 40px;
+    gap: 4vh;
 }
 
 .pg:hover {
@@ -28,6 +29,7 @@
     color: white;
 }
 
+
 .selectContainer {
     background-color: rgba(6, 4, 47, 0.962);
     color: white;
@@ -41,36 +43,65 @@
 }
 
 .changeOpt {
-    max-width: 110px;
+    max-height: 40px;
+    max-width: 90px;
 }
 
 
-@media screen and (max-width: 506px) {
-.changeOpt {
-    max-height: 50px;
-}
-}
+@media screen and (max-width: 812px) {
+    .adminSelect {
+        margin-right: 1vh;
+      }
+   }
 
-@media screen and (max-width: 493px) {
-    .innerContainer {
-        gap: 4px;
-    }
-
-}
-
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 671px) {
     .innerContainer {
         font-size: 13px;
     }
     .container {
-        padding: 8px 20px;
+        padding: 6px 14px;
     }
 }
 
-@media screen and (max-width: 361px) {
-    
+
+@media screen and (max-width: 583px) {
+        .innerContainer {
+            gap: 1vh;
+        }
+     }
+
+
+@media screen and (max-width: 506px) {
+.changeOpt {
+    max-height: 40px;
+}
+}
+
+@media screen and (max-width: 452px) {
+    .innerContainer {
+        font-size: 11px;
+    }
     .container {
-        padding: 8px 4px;
+        padding: 4px 12px;
     }
 }
+
+@media screen and (max-width: 430px) {
+    .container {
+        padding: 4px 10px;
+    }
+    .changeOpt {
+        max-width: 76px;
+    }
+}
+
+@media screen and (max-width: 410px) {
+    .changeOpt {
+        max-width: 68px;
+    }
+}
+
+
+
+
 

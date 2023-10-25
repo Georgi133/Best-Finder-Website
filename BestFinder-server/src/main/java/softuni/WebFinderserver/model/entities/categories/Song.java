@@ -26,8 +26,10 @@ public class Song extends BaseCatalogue {
     }
 
     @Column(nullable = false)
-    private String songName;
+    private String pictureUrl;
 
+    @Column(nullable = false, unique = true)
+    private String songName;
 
 
     @ManyToMany

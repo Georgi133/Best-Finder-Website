@@ -1,37 +1,35 @@
+
 const requester = async (method, url, data) => {
     const options = {};
 
-    if (method !== 'GET') {
+    // if (method !== 'GET') {
         options.method = method;
 
+        console.log(data);
         if (data) {
             options.headers = {
                 'content-type': 'application/json',
             };
-
             options.body = JSON.stringify(data);
         }
-    }
+    // }
 
 
-    const serializedAuth = localStorage.getItem('user');
-    if (serializedAuth) {
-        const auth = JSON.parse(serializedAuth);
+    const token = localStorage.getItem('token');
+    if (token) {
+        const auth = JSON.parse(token); // is with ""
+        //when parse removes them
         
-        console.log('here')
-        if (auth.token) {
+        if (auth) {
             options.headers = {
                 ...options.headers,
-                "authorization": `Bearer ${auth.token}`
+                "authorization": `Bearer ${auth}`
             }
         }
 
-        console.log('here2')
     }
 
-    console.log('requester ' + options.headers)
     const response = await fetch(url, options);
-    console.log(response);
 
     const result = await response.json();
     
@@ -43,6 +41,33 @@ const requester = async (method, url, data) => {
     return result;
 };
 
+const uploadImage = async (method, url, formData) => {
+
+
+    const token = localStorage.getItem('token');
+        const auth = JSON.parse(token); // is with ""
+        //when parse removes them
+
+    const response = await fetch(url, 
+        {
+        method: method,
+        headers: {
+            "authorization": `Bearer ${auth}`
+        },
+        body: formData
+    })
+
+    const result = await response.json();
+    
+
+    // if (!response.ok) {
+    //     throw result;
+    // }
+
+    return result;
+};
+
+
 export const requestFactory = () => {
     return {
         get: requester.bind(null, 'GET'),
@@ -50,5 +75,6 @@ export const requestFactory = () => {
         put: requester.bind(null, 'PUT'),
         patch: requester.bind(null, 'PATCH'),
         delete: requester.bind(null, 'DELETE'),
+        upload: uploadImage.bind(null, 'POST'),
     }
 };

@@ -21,7 +21,7 @@ public class Movie extends CataloguesWithCommonCategories {
 
     public Movie(String movieName,
                  String resume,
-                 LocalDate releaseDate,
+                 Integer releasedYear,
                  List<Actor> actors,
                  List<CategoryProjection> categories
     )
@@ -29,16 +29,18 @@ public class Movie extends CataloguesWithCommonCategories {
     {
         this.resume = resume;
         this.movieName = movieName;
-        this.releasedDate = releaseDate;
+        this.releasedYear = releasedYear;
         this.actors = actors;
         this.setCategories(categories);
     }
 
+    @Column(nullable = false)
+    private String pictureUrl;
 
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String movieName;
 
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -48,8 +50,8 @@ public class Movie extends CataloguesWithCommonCategories {
     private List<Comment> comments;
 
 
-    @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate releasedDate;
+    @Column(nullable = false)
+    private Integer releasedYear;
 
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -63,14 +65,6 @@ public class Movie extends CataloguesWithCommonCategories {
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     private List<Like> likes;
 
-
-//    @ManyToMany(cascade = CascadeType.PERSIST)
-//    @JoinTable(
-//            name = "movies_categories",
-//            joinColumns = { @JoinColumn(name = "movie_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "category_id")}
-//    )
-//    private List<CategoryProjection> categories;
 
 
 }

@@ -1,6 +1,5 @@
 package softuni.WebFinderserver.config;
 
-import jakarta.servlet.FilterRegistration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebMvc
-public class WebConfig {
+public class CorsConfig {
 
     @Bean
     public FilterRegistrationBean corsFilter () {
@@ -33,7 +32,8 @@ public class WebConfig {
                 HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.DELETE.name(),
-                HttpMethod.PUT.name()
+                HttpMethod.PUT.name(),
+                HttpMethod.PATCH.name()
         ));
         configuration.setMaxAge(3600L);
 

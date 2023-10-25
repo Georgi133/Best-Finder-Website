@@ -17,7 +17,6 @@ public class UserRegistrationDto {
 
     @NotNull
     private String fullName;
-
     @NotNull
     private Integer age;
     @Email

@@ -20,7 +20,6 @@ import java.util.List;
 
 public class Serial extends CataloguesWithCommonCategories {
 
-
     public Serial(String serialName,
                   Integer seasons,
                   List<Actor> actors,
@@ -32,11 +31,13 @@ public class Serial extends CataloguesWithCommonCategories {
         this.setCategories(categories);
         this.resume = resume;
     }
+    @Column(nullable = false)
+    private String pictureUrl;
 
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String serialName;
 
     @Column(nullable = false)
@@ -50,15 +51,6 @@ public class Serial extends CataloguesWithCommonCategories {
             inverseJoinColumns = {@JoinColumn(name = "actor_id")}
     )
     private List<Actor> actors;
-
-
-
-//    @ManyToMany(cascade = CascadeType.PERSIST)
-//    @JoinTable(
-//            name = "serials_categories",
-//            joinColumns = { @JoinColumn(name = "serial_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-//    private List<CategoryProjection> categories;
 
     @Column(columnDefinition = "TEXT")
     private String resume;

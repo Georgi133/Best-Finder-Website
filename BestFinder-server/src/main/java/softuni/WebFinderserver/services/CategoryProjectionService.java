@@ -35,5 +35,8 @@ public class CategoryProjectionService {
         }
     }
 
+    public CategoryProjection findCategory(CategoryProjectionEnum categoryProjectionEnum) {
+        return categoryProjectionRepository.findFirstByCategory(categoryProjectionEnum);
+    }
 
 }

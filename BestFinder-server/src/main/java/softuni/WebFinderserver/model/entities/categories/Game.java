@@ -29,6 +29,9 @@ public class Game extends CataloguesWithCommonCategories {
         this.resume = resume;
     }
 
+    @Column(nullable = false)
+    private String pictureUrl;
+
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
@@ -38,13 +41,6 @@ public class Game extends CataloguesWithCommonCategories {
     @Column
     private Integer releasedYear;
 
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "games_categories",
-//            joinColumns = { @JoinColumn(name = "game_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-//    private List<CategoryProjection> categories;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String resume;

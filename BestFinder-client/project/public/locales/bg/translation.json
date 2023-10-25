@@ -4,6 +4,11 @@
     "changePass":"Смяна на парола",
     "changeProfile": "Поправи профил"
   },
+  "changePasswordPage": {
+    "currentPass": "Настояща парола",
+    "newPass": "Нова парола",
+    "confirmNewPass": "Потвърди нова парола"
+  },
   "userForm": {
     "fullName":"Име и Фамилия",
     "age" : "Години",
@@ -13,7 +18,10 @@
     "remember": "Запомни ме",
     "submit": "Въведи",
     "email": "Имейл",
-    "confirmPassword": "Потвърди Парола"
+    "confirmPassword": "Потвърди Парола",
+    "editButton": "Коригирай",
+    "profile": "Коригирай профил",
+    "profileOnEditPage": "Информация на Потребител"
   },
   "linked": {
     "movies": "Към Филми",
@@ -33,6 +41,7 @@
       "bulgarian": "Български",
       "english": "Английски"
     },
+    "logout": "Изход",
     "header": "Уеб-Търсач",
     "movies": "Топ-Филми",
     "serials": "Топ-Сериали",
