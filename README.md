@@ -11,8 +11,8 @@
  - MySQL
  - JavaScript
  - HTML, CSS
- - JWT token
  - Apache Maven
+ - JWT token
   ## Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
