@@ -9,6 +9,7 @@
  - Spring Boot
  - ReactJS
  - MySQL
+ - JWT token
  - Apache Maven
  - JavaScript
  - HTML, CSS
@@ -16,6 +17,37 @@
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
+```
+- MySQL server credentials should be changed from ```application.yaml```:
+
+```yaml 
+spring.datasource.username: ${DB_USERNAME}
+spring.datasource.password: ${DB_PASSWORD}
+```
+- Mail credentials should be changed from ```application.yaml```:
+```yaml
+mail.host: ${MAIL_SERVER}
+mail.username: ${MAIL_USERNAME}
+mail.password: ${MAIL_PASSWORD}
+```
+
+- Cloudinary credentials should be changed from ```application.yaml```:
+```yaml
+cloudinary.cloud-name: ${CLOUD_NAME}
+cloudinary.api-key: ${CLOUD_API_KEY}
+cloudinary.api-secret: ${CLOUD_API_SECRET}
+```
+- JWT token credentials should be changed from ```application.yaml```:
+  
+```yaml
+jwt.token: ${TOKEN}
+```
+
+- ADMIN credentials should be changed from ```application.yaml```:
+  
+```yaml
+best-finder.admin: ${ADMIN_EMAIL}
+best-finder.defaultpass: ${ADMIN_PASS}
 ```
   
    
