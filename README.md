@@ -8,8 +8,7 @@
   # Configuration
  - Datasource location, port and name should be changed from application.yaml:
    <p>
-      spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}? 
-     allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+      spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
    </p>
 
 
