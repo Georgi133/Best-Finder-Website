@@ -9,10 +9,10 @@
  - Spring Boot
  - ReactJS
  - MySQL
- - JWT token
- - Apache Maven
  - JavaScript
  - HTML, CSS
+ - JWT token
+ - Apache Maven
  - Apache Tomcat
  - Hibernate
   ## Configuration
