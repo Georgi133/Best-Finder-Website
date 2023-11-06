@@ -13,6 +13,8 @@
  - Apache Maven
  - JavaScript
  - HTML, CSS
+ - Apache Tomcat
+ - Hibernate
   ## Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
