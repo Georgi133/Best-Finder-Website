@@ -13,8 +13,6 @@
  - HTML, CSS - Without using bootstrap or other sites for helping me visualize the site.
  - Apache Maven
  - JWT token
-  ## View - Home Page
-   <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
  ## Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
