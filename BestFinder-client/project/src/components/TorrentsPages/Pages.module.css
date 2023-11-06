@@ -1,0 +1,108 @@
+
+.container {
+    min-height: 660px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.header {
+    margin: 10px auto;
+    border-bottom: 1px solid bisque;
+}
+
+.innerContainer {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4vh;
+    margin: 10px 20px;
+}
+
+.imgContainer {
+    border-right: 1px solid rgb(35, 31, 44);
+}
+
+.view {
+    padding: 6px;
+    margin: 2px;
+}
+
+.image{
+    max-height: 20vh;
+    max-width: 20vh;
+    background-position: center;
+    object-fit: cover;
+    padding: 6px;
+    margin: 2px;
+}
+
+.movieName {
+    color: rgb(24, 163, 47);
+    text-decoration: underline;
+}
+
+.sm {
+    color: rgb(159, 143, 124);
+    font-weight: 700;
+}
+
+.nameActors {
+    display: inline-block;
+}
+
+.selectCl {
+    background-color: darkgreen;
+    color: wheat;
+    padding: 4px;
+    max-width: 300px;
+    margin-right: 3vh;
+    margin-left: auto;
+}
+
+
+@media screen and (max-width:  703px) {
+    .container {
+        font-size: 14px;
+    }
+    .innerContainer {
+        gap: 1vh; 
+    }
+    .image{
+        max-height: 10vh;
+        max-width: 10vh;
+    }
+
+  }
+
+  @media screen and (max-width:  473px) {
+    .container {
+        font-size: 10px;
+    }
+
+    .image{
+        max-height: 6vh;
+        max-width: 6vh;
+    }
+    .categories {
+        font-size: 8px;
+    }
+
+  }
+
+  @media screen and (max-width:  473px) {
+    .container {
+        font-size: 9px;
+    }
+
+    .image{
+        max-height: 5vh;
+        max-width: 5vh;
+    }
+    .categories {
+        font-size: 6px;
+    }
+
+  }

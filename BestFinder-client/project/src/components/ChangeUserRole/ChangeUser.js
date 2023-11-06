@@ -2,13 +2,16 @@ import style from "./ChangeUserRole.module.css";
 import { useState } from "react";
 import { useAdminContext } from "../AdminContext/AdminContext";
 import { useAuthContext } from "../AuthContext/AuthContext";
+import { useTranslation } from "react-i18next";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 export const ChangeUser = ({ 
     setChangeRole,
     currentUserRole,
 
  }) => {
-  const { onClickChangeRole, foundUserEmail } = useAdminContext();
+  const { t } = useTranslation();
+  const { onClickChangeRole, foundUserEmail, errorMessageAdmin } = useAdminContext();
   const { userRole } = useAuthContext();
 
   const [currentRole, setCurrentRole] = useState("role");
@@ -34,8 +37,9 @@ export const ChangeUser = ({
           <div className={style.content}>
             <div className={style.userDetails}>
               <h1 className={style.regenerationPass}>
-                Change Role
+              {t("changingRole.title")}
               </h1>
+              {errorMessageAdmin && <ErrorMessage message={errorMessageAdmin} />}
 
               <form 
                 className={style.formRegPass} 
@@ -43,7 +47,7 @@ export const ChangeUser = ({
                 <select
                   value={currentRole}
                   onChange={onRoleChange}
-                  className={style.selectContainer + " " + style.changeOpt}
+                  className={style.changeOpt}
                 >
                     <option className={style.opt} hidden value="role">
                     ROLE
@@ -63,7 +67,7 @@ export const ChangeUser = ({
                 <button onClick={() => onClickChangeRole({role : userRole, 
                 changeUserRole : currentRole.toUpperCase(), 
                 email : foundUserEmail, setChangeRole})}  type="button" className={style.editBtn}>
-                  Change
+                  {t("changingRole.btn")}
                 </button>
               </form>
             </div>

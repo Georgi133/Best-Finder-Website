@@ -8,7 +8,11 @@
     text-align: center;
 }
 
-.emailLabel {
+.success {
+    color: green;
+}
+
+.emailLabel, .emailLabel2 {
     font-weight: 500;
     font-size: 18px;
 }
@@ -39,6 +43,7 @@
 }
 
 .login {
+    margin: 4px auto;
     width: 30vh;
 }
 
@@ -62,67 +67,7 @@
     cursor: pointer;
 }
 
-.checkbox:hover {
-    cursor: pointer;
-}
 
-
-
-.overlay {
-    position: sticky;
-    top: 20vh;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-  }
-
-  .backdrop {
-    background-color: rgba(0, 0, 0, 0.75);
-    height: 100vh;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 20;
-  }
-
-  .modal {
-    width: 75%;
-    position: absolute;
-    left: 12.5%;
-    top: 25%;
-    max-height: 90vh;
-    margin: auto;
-    border-radius: 8px;
-    background-color: white;
-    padding: 1rem;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
-    z-index: 30;
-    margin-top: 50px;
-  }
-
-  .detailContainer {
-    width: 100%;
-    height: 40vh;
-  }
-
-  .btn {
-    background: #2a87a5;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    display: flex;
-    font: inherit;
-    font-weight: bold;
-    padding: 1px 6px;
-    margin-left: auto;
-  }
-
-.btn:hover {
-    opacity: 70%;
-}
   .content {
     display: flex;
     align-items: flex-start;
@@ -130,21 +75,46 @@
     margin-top: 6px;
   }
 
+  .conainerForgotten {
+    text-align: center;
+    width: 100%;
+    height: 720px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
 
+
+  .forgottenForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    margin: 10px auto;
+  }
   .userDetails {
     display: flex;
     flex-direction: column;
     text-align: center;
   }
 
-  .regenerationPass {
+  .regenerationPass2 {
+    margin-top: 5vh;
     text-align: center;
     margin-bottom: 5vh;
   }
 
   @media screen and (max-height:  670px) {
     .container {
-        max-height: 670px;
+        height: 670px;
+    }
+
+    .conainerForgotten {
+        height: 670px;
+      }
+
+    .regenerationPass {
+        font-size: 18px;
     }
 
   }
@@ -152,8 +122,12 @@
 
 @media screen and (max-height:  570px) {
     .container {
-        max-height: 600px;
+        height: 600px;
     }
+
+    .conainerForgotten {
+        height: 570px;
+      }
     .formContainer, .remember {
         gap: 2vh;
     }
@@ -167,10 +141,41 @@
 
 }
 
+
+
+
+@media screen and (max-width:  590px) {
+    .regenerationPass {
+        font-size: 18px;
+    }
+
+}
+
+@media screen and (max-height:  550px) {
+
+    .login {
+        padding: 0px;
+    }
+
+    .regenerationPass {
+        margin: 2px 4px;
+        font-size: 18px;
+    }
+
+}
+
 @media screen and (max-height:  454px) {
     .container {
         max-height: 480px;
     } 
+
+    .conainerForgotten {
+        height: 460px;
+      }
+
+    .btn {
+        font-size: 10px;
+    }
 
     .remember {
         height: 7vh;
@@ -179,6 +184,28 @@
         flex-direction: column;
         gap: 4px;
     }
+    .regenerationPass {
+        margin: 2px 4px;
+        font-size: 16px;
+    }
+
+    .emailLabel {
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (max-height:  404px) {
+
+    .formRegPass {
+        gap: 1vh;
+    }
+
+    .regenerationPass {
+        font-size: 16px;
+    }
+
+   
 
 }
 
@@ -197,43 +224,33 @@
     
 }
 
-@media screen and (max-width:  590px) {
+@media screen and (max-height:  363px) {
+    .container {
+        max-height: 480px;
+    } 
+
+    .btn {
+        font-size: 8px;
+    }
+
+    .remember {
+        height: 7vh;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
     .regenerationPass {
-        font-size: 18px;
-    }
-
-}
-
-@media screen and (max-height:  496px) {
-
-    .login {
-        padding: 0px;
-    }
-
-    .regenerationPass {
-        margin: 2px 4px;
-    }
-    .regenerationPass {
-        font-size: 18px;
-    }
-
-}
-
-@media screen and (max-height:  346px) {
-
-    .formRegPass {
-        gap: 1vh;
-    }
-
-    .regenerationPass {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .emailLabel {
-        font-size: 14px;
+        font-size: 10px;
     }
 
 }
+
+
 
 
 

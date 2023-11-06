@@ -42,6 +42,19 @@ cloudinary:
  api-key: "${CLOUD_API_KEY}"
  api-secret: "${CLOUD_API_SECRET}"
 
+mail:
+  host: smtp.gmail.com
+  username: webfinderorigin@gmail.com
+  password: jadl yoij jjmr lnrb
+  port: 587
+
+app:
+  name: "Web-Finder"
+
+jwt:
+  token: ${TOKEN}
+
+
 
 
 

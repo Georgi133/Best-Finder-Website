@@ -1,22 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./AddMovie.module.css";
-import { Anime } from "./Anime";
 import { MenuFinder } from "./MenuFinder";
+import { useTranslation } from "react-i18next";
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 export const AddMenu = () => {
   const [valueCategory, setValueCategory] = useState("category");
-
+  const { addedMessage, setAddedMessage } = useTorrentContext();
+  const { t } = useTranslation();
   const onChangeCategory = (e) => {
     const value = e.target.value;
     setValueCategory(value);
   };
 
+  useEffect(() => {
+    return () => {
+      setAddedMessage(false);
+    }
+  },[])
+
   return (
     <>
       <MyNavBar />
       <div className={style.container}>
-        <h2 className={style.header}>Add Menu</h2>
+        <h2 className={style.header}>{t("addMenu.title")}</h2>
         <form>
           <select
             value={valueCategory}
@@ -24,31 +32,32 @@ export const AddMenu = () => {
             className={style.selectContainer}
           >
             <option hidden value="category">
-              Category
+            {t("addMenu.cat")}
             </option>
             <option className={style.opt} value="movie">
-              Add Movie
+            {t("addMenu.movie")}
             </option>
             <option className={style.opt} value="serial">
-              Add Serial
+            {t("addMenu.serial")}
             </option>
             <option className={style.opt} value="game">
-              Add Game
+            {t("addMenu.game")}
             </option>
             <option className={style.opt} value="anime">
-              Add Anime
+            {t("addMenu.anime")}
             </option>
             <option className={style.opt} value="song">
-              Add Song
+            {t("addMenu.song")}
             </option>
             <option className={style.opt} value="joke">
-              Add Joke
+            {t("addMenu.joke")}
             </option>
           </select>
         </form>
+        {addedMessage && valueCategory === 'category' && <div className={style.success}>Successfully added!</div>}
         {
           valueCategory && 
-          <MenuFinder category={valueCategory}/>
+          <MenuFinder category={valueCategory} setValueCategory={setValueCategory}/>
         }
 
       </div>

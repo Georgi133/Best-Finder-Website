@@ -38,9 +38,11 @@ public class Game extends CataloguesWithCommonCategories {
     @Column(nullable = false, unique = true)
     private String gameName;
 
-    @Column
-    private Integer releasedYear;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String trailer;
 
+    @Column(nullable = false)
+    private Integer releasedYear;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String resume;

@@ -1,0 +1,34 @@
+.container {
+    height: 720px;
+    color: red;
+    text-align: center;
+}
+
+.head {
+    margin: 20px auto;
+}
+
+@media screen and (max-height:  640px) {
+    .container {
+        height: 640px;
+    }
+
+}
+
+@media screen and (max-height:  540px) {
+    .container {
+        height: 540px;
+    }    
+
+}
+@media screen and (max-height:  440px) {
+    .container {
+        height: 440px;
+    }
+}
+
+@media screen and (max-height:  400px) {
+    .container {
+        height: 400px;
+    }
+}

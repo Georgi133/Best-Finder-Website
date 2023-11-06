@@ -4,13 +4,18 @@ import { MyNavBar } from "../Header/MyNavBar";
 import { useForm } from "../useForm/useForm";
 import style from "./ChangePassword.module.css";
 import { ButtonSubmit } from "../Login/ButtonSubmit";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 export const ChangePassword = () => {
-  const { onChangePasswordSubmit, userEmail} = useAuthContext();
+  const { onChangePasswordSubmit, userEmail, serverErrors, errorMessage, changedPasswordSuccess, setChangedPasswordSuccess} = useAuthContext();
+  const { validateChangePassword } = useValidatorContext();
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const { values, changeHandler, onSubmit } = useForm(
+  const { values, changeHandler, onSubmit, formErrors } = useForm(
     {
       currentPassword: "",
       newPassword: "",
@@ -20,12 +25,29 @@ export const ChangePassword = () => {
     onChangePasswordSubmit
   );
 
+  const onChangePass = (e) => {
+    onSubmit(e, validateChangePassword(values));
+  }
+
+  const redirectPage = () => {
+    setTimeout(redirect,3000);
+
+  }
+
+  const redirect = () => {
+    navigate('/');
+    setChangedPasswordSuccess(false);
+  }
+
   return (
     <>
       <MyNavBar />
       <div className={style.container}>
-      <form className={style.formContainer} onSubmit={onSubmit}>
+      <form className={style.formContainer} onSubmit={onChangePass}>
+      {changedPasswordSuccess && <div id="reloadPage" className={style.success}>Successfully changed password!</div>}
+        {changedPasswordSuccess && redirectPage()}
         <div className={style.login + " " + "form-group"}>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
           <label className={style.lyrics} htmlFor="currentPassword">
           {t("changePasswordPage.currentPass")}:
           </label>
@@ -36,10 +58,13 @@ export const ChangePassword = () => {
             className={style.inp + " form-control"}
             id="currentPassword"
             name="currentPassword"
+            autoComplete="true"
             placeholder="Old Password"
             required
-            min={3}
+            min={4}
           />
+          {formErrors.currentPassword ? <ErrorMessage message={formErrors.currentPassword}/> :
+          serverErrors.currentPassword ? <ErrorMessage message={serverErrors.currentPassword}/>: ''}
         </div>
         <div className={style.login + " " + "form-group"}>
           <label className={style.lyrics} htmlFor="newPassword">
@@ -49,13 +74,16 @@ export const ChangePassword = () => {
             value={values.newPassword}
             onChange={changeHandler}
             type="password"
+            autoComplete="true"
             className={style.inp + " form-control"}
             id="newPassword"
             name="newPassword"
             placeholder="New Password"
             required
-            min={3}
+            min={4}
           />
+          {formErrors.password ? <ErrorMessage message={formErrors.password}/> : 
+          serverErrors.currentPassword ? <ErrorMessage message={serverErrors.newPassword}/> : ''}
         </div>
         <div className={style.login + " " + "form-group"}>
           <label className={style.lyrics} htmlFor="confirmPassword">
@@ -65,13 +93,16 @@ export const ChangePassword = () => {
             value={values.confirmPassword}
             onChange={changeHandler}
             type="password"
+            autoComplete="true"
             className={style.inp + " form-control"}
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm Password"
             required
-            min={3}
+            min={4}
           />
+          {formErrors.password ? <ErrorMessage message={formErrors.password}/> : 
+          serverErrors.currentPassword ? <ErrorMessage message={serverErrors.confirmPassword}/> : ''}
         </div>
         <ButtonSubmit/>
       </form>

@@ -68,17 +68,17 @@ export const MyNavBar = ({ url }) => {
           className={style.selectContainer + " " + style.changeOpt + " " + style.adminSelect}
         >
           <option hidden value="admin">
-              Admin
+              {t("adminNav.admin")}
             </option>
           <option className={style.opt} value="add">
-            Add Torrent
+          {t("adminNav.addTorrent")}
           </option>
           <option className={style.opt} value="role">
-            Change User role
+          {t("adminNav.changeRole")}
           </option>
           
         </select>
-                 }
+}
 
       </div>
 
@@ -97,7 +97,7 @@ export const MyNavBar = ({ url }) => {
         <select
           value={i18n.language}
           onChange={onChangeLanguage}
-          className={style.selectContainer + " " + style.changeOpt}
+          className={style.selectContainer + " " + style.changeOpt + " " + style.changeOptLang}
         >
           <option className={style.opt} value="bg">
             {t("language.bulgarian")}

@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    height: 720px;
+    height: 660px;
     color: white;
     text-align: center;
     display: flex;
@@ -82,6 +82,10 @@
     height: 40vh;
   }
 
+  .changeOpt {
+    margin-bottom: 5px;
+  }
+
   .btn2 {
     background: #2a87a5;
     border: none;
@@ -109,6 +113,10 @@
     margin-top: 6px;
   }
 
+  .success {
+    color: green;
+  }
+
 
   .userDetails {
     display: flex;
@@ -117,6 +125,7 @@
   }
 
   .regenerationPass {
+    font-size: 28px;
     text-align: center;
     margin-bottom: 1vh;
   }
@@ -135,3 +144,39 @@
   .editBtn:hover {
     opacity: 87%;
   }
+
+  @media screen and (max-height:  670px) {
+    .container {
+        max-height: 670px;
+    }
+
+  }
+
+
+@media screen and (max-height:  570px) {
+    .container {
+        max-height: 600px;
+    }
+
+}
+
+@media screen and (max-height:  454px) {
+    .container {
+        max-height: 480px;
+    } 
+
+}
+
+@media screen and (max-height:  386px) {
+    .container {
+        max-height: 400px;
+    } 
+    
+}
+
+@media screen and (max-height:  330px) {
+  .found {
+    width: 160px;
+  } 
+  
+}

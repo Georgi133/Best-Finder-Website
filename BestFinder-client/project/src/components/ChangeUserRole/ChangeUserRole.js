@@ -4,33 +4,70 @@ import style from "./ChangeUserRole.module.css";
 import { ButtonSubmit } from "../Login/ButtonSubmit";
 import { useAdminContext } from "../AdminContext/AdminContext";
 import { useAuthContext } from "../AuthContext/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangeUser } from "./ChangeUser";
+import { useTranslation } from "react-i18next";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { NotAllowed } from "../NotAllowed/NotAllowed";
 
 export const ChangeUserRole = () => {
+  const { t } = useTranslation();
+  const { changeRoleValidateEmail } = useValidatorContext();
+  const { serverErrorsAdmin, errorMessageAdmin, isChanged, setIsChanged} = useAdminContext();
+  const {
+    resetPage,
+    onChangeFindUserSubmit,
+    foundUserEmail,
+    foundUserFullName,
+    foundUserRole,
+  } = useAdminContext();
+  const { userRole } = useAuthContext();
+  const [changeRole, setChangeRole] = useState(false);
 
-    const { onChangeFindUserSubmit,foundUserEmail,foundUserFullName,foundUserRole } = useAdminContext();
-    const { userRole } = useAuthContext();
-    const [changeRole, setChangeRole] = useState(false);
- 
-    const { values, changeHandler, onSubmit } = useForm(
-        {
-          email: "",
-          currentUserRole: userRole,
-        },
-        onChangeFindUserSubmit
-      );
+  useEffect(() => {
+    return () => {
+      resetPage();
+      setIsChanged(false)
+    };
+  }, []);
+
+  const { values, changeHandler, onSubmit, formErrors } = useForm(
+    {
+      email: "",
+      currentUserRole: userRole,
+    },
+    onChangeFindUserSubmit
+  );
+
+  const onEmailSearch = (e) => {
+    setIsChanged(false)
+    onSubmit(e, changeRoleValidateEmail(values));
+  }
+
+  const onButtonClick = (e) => {
+    e.preventDefault();
+    setChangeRole(true);
+    setIsChanged(false);
+  }
 
   return (
     <>
       <MyNavBar />
-      {changeRole && <ChangeUser setChangeRole={setChangeRole} currentUserRole={foundUserRole}/>}
+      {changeRole && (
+        <ChangeUser
+          setChangeRole={setChangeRole}
+          currentUserRole={foundUserRole}
+        />
+      )}
       <div className={style.container}>
-        <h2 className={style.header}>Change User Role</h2>
-        {!foundUserEmail &&
-        <form onSubmit={onSubmit} className={style.innerContainer}>
-        <label className={style.lyrics} htmlFor="email">
-              Find user by email:
+        <h2 className={style.header}>{t("changeUserRole.title")}</h2>
+        {isChanged && <div className={style.success}>Successfully changed!</div>}
+        { isChanged ? '' : errorMessageAdmin && <ErrorMessage message={errorMessageAdmin} />}
+        {!foundUserEmail && (
+          <form onSubmit={onEmailSearch} className={style.innerContainer}>
+            <label className={style.lyrics} htmlFor="email">
+            {t("changeUserRole.title2")}
             </label>
             <input
               value={values.email}
@@ -39,24 +76,42 @@ export const ChangeUserRole = () => {
               name="email"
               className={style.inp + " form-control"}
               id="email"
+              min={4}
+              autoComplete="true"
               placeholder="Enter email"
               required
             />
+            {formErrors.email ? <ErrorMessage message={formErrors.email}/> : 
+            serverErrorsAdmin.email ? <ErrorMessage message={serverErrorsAdmin.email}/>:
+            ''}
             <ButtonSubmit />
-        </form>
-         }
-         {foundUserEmail &&
-         <>
-            <div className={style.found}> 
-            <p>User Email: <strong className={style.innerPar}>{foundUserEmail}</strong></p>
-            <p>User First and Last Name:<strong className={style.innerPar}>{foundUserFullName}</strong></p>
-            <p>User Role: <strong className={style.innerPar}>{foundUserRole}</strong></p>
-        </div>
-        <button onClick={() => setChangeRole(true)} type="submit" className={style.loginBtn + " btn btn-primary"}>
-          Change Role
-          </button>
-        </>
-            }
+          </form>
+        )}
+        {foundUserEmail && (
+          <>
+            <div className={style.found}>
+              <p>
+              {t("changeRoleUserFields.email")}:
+                <strong className={style.innerPar}>{foundUserEmail}</strong>
+              </p>
+              <p>
+              {t("changeRoleUserFields.name")}:
+                <strong className={style.innerPar}>{foundUserFullName}</strong>
+              </p>
+              <p>
+              {t("changeRoleUserFields.role")}:
+                <strong className={style.innerPar}>{foundUserRole}</strong>
+              </p>
+            </div>
+            <button
+              onClick={onButtonClick}
+              type="submit"
+              className={style.loginBtn + " btn btn-primary"}
+            >
+              {t("changeRoleUserFields.btn")}
+            </button>
+          </>
+        )}
       </div>
     </>
   );

@@ -36,9 +36,9 @@ export const EditProfile = () => {
         <div className={style.container}>
             <h2 className={style.headerInfo}>{t("userForm.profileOnEditPage")}</h2>
             <div className={style.innerContainer}> 
-                <p>{t("userForm.email")}: {userEmail}</p>
-                <p>{t("userForm.fullName")}: {userFullName}</p>
-                <p>{t("userForm.age")}: {userAge}</p>
+                <p>{t("userForm.email")}: <strong className={style.initials}>{userEmail}</strong></p>
+                <p>{t("userForm.fullName")}: <strong className={style.initials}>{userFullName}</strong></p>
+                <p>{t("userForm.age")}: <strong className={style.initials}>{userAge}</strong></p>
             </div>
             <button className={style.btn + " btn btn-primary"} type="submit" onClick={editProfile}>
             {t("userForm.editButton")}

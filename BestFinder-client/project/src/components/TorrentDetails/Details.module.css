@@ -1,0 +1,168 @@
+@import url("https://use.fontawesome.com/releases/v5.6.3/css/all.css");
+
+p {
+    margin: 0px 0px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 660px;
+    color: white;
+    text-align: center;
+    gap:2vh
+}
+
+.likes {
+    color: rgba(191, 230, 18, 0.926);
+}
+
+.innerContainer {
+    display: flex;
+    margin: 10px auto;
+    flex-direction: column;
+    border: 2px solid gainsboro;
+    border-radius: 4px;
+    padding: 3vh;
+    gap: 2vh;
+}
+
+.image{
+    max-height: 30vh;
+    min-width: 40vh;
+    padding: 6px;
+}
+
+.header {
+    margin: 1vh auto;
+}
+
+.sm {
+    display: block;
+}
+
+.nameHolder, .cat, .releasedYear {
+    border: 3px rgb(80, 62, 30) solid;
+    padding: 1vh;
+}
+
+.likebtn {
+    width: 80px;
+    padding: 6px;
+    background-color: #06042f;
+    color: white;
+    margin: 0 auto;
+}
+
+.likebtn:hover {
+    background-color: #093576;
+}
+
+.commentContainer {
+    gap: 2vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-bottom: 2vh;
+}
+
+.commentInnerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #51505a;
+    padding: 6px 10px;
+}
+
+.email {
+    color: wheat;
+    border-bottom: 1px rgb(80, 62, 30) solid;
+    margin-bottom: 4px;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    min-width: 50vh;
+    margin: 0 auto;
+    margin-bottom: 2vh;
+}
+
+.textArea {
+    min-height: 90px;
+    margin-bottom: 4px;
+}
+
+.editArea{
+    margin: 2px;
+}
+
+.liked {
+    background-color: #0d6efd;
+    width: 80px;
+    padding: 6px;
+    color: white;
+    margin: 0 auto;
+}
+
+.liked:hover {
+    opacity: 91%;
+}
+
+.userBtnOk {
+    min-width: 6vh;
+    max-height: 4vh;
+    font-size: 12px;
+    background-color: #0d6efd;
+    margin: 1px auto;
+    padding: 2px;
+}
+
+
+.userBtnOk:hover {
+    opacity: 80%;
+}
+
+.userBtn  {
+    max-width: 6vh;
+    max-height: 4vh;
+    font-size: 12px;
+    background-color: #0d6efd;
+    margin: 0 1px;
+    padding: 2px;
+}
+
+.userBtn:hover {
+    opacity: 80%;
+}
+
+.frame {
+    width: 330px;
+    height: 320px;
+    padding: 2px;
+    border: 1px solid seashell;
+    border-radius: 2px;
+    /* width: 560px;
+    height: 360px; */
+}
+
+.commentValidate{
+    color: red;
+}
+
+@media screen and (max-width:  528px) {
+    .frame {
+        width: 46vh;
+        height: 30vh;
+    
+    }
+}
+
+@media screen and (max-width:  393px) {
+
+    .formContainer {
+        min-width: 30vh;
+    }
+
+}

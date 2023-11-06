@@ -4,10 +4,68 @@
     "changePass":"Change password",
     "changeProfile": "Edit profile"
   },
+
+  "movieAndSongAdd": {
+    "name": "Movie Name",
+    "year": "Released Year"
+  },
+  "serialAdd": {
+    "name": "Serial Name",
+    "seasons": "Count of seasons"
+  },
+  "gameAndAnimeAdd": {
+    "name": "Game Name",
+    "year": "Released Year"
+  },
+  "torrentCommon": {
+    "fileUpload": "Upload File",
+    "resume": "Resume",
+    "category": "Choose Category"
+  },
+  "jokeAdd": {
+    "name": "Joke Name",
+    "text": "Text"
+  },
+  "songAdd": {
+    "name": "Song Name"
+  },
+  "animeAdd": {
+    "name": "Anime Name"
+  },
+  "changeUserRole": {
+    "title" : "Change user Role",
+    "title2": "Find user by Email",
+    "btn" : "Submit"
+  },
+  "changeRoleUserFields": {
+    "email" : "Email",
+    "name": "First and Last Name",
+    "role" : "User Role",
+    "btn" : "Submit"
+  },
+  "changingRole": {
+    "title": "Change Role",
+    "btn" : "Change"
+  },
   "changePasswordPage": {
     "currentPass": "Current Password",
     "newPass": "New Password",
     "confirmNewPass": "Confirm new Password"
+  },
+  "addMenu": {
+    "cat": "Category",
+    "title": "Add Menu",
+    "movie": "Add Movie",
+    "serial": "Add Serial",
+    "game": "Add Game",
+    "joke": "Add Joke",
+    "song": "Add Song",
+    "anime": "Add Anime"
+  },
+  "adminNav":{
+    "admin": "Admin",
+    "addTorrent": "Add Torrent",
+    "changeRole": "Change User Role"
   },
   "userForm": {
     "fullName":"First and Last name",

@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    min-height: 720px;
+    min-height: 660px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -20,6 +20,12 @@
     background-color: #0b489d;
     cursor: pointer;
 }
+
+.success {
+    color: green;
+}
+
+
 
 
 

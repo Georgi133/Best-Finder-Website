@@ -1,9 +1,6 @@
 package softuni.WebFinderserver.model.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +15,7 @@ import softuni.WebFinderserver.model.entities.categories.CataloguesWithCommonCat
 @Setter
 public class Comment extends BaseEntity {
 
-    public Comment(String text, CataloguesWithCommonCategories category, UserEntity createdBy) {
+    public Comment(String text, BaseCatalogue category, UserEntity createdBy) {
         this.catalogue = category;
         this.createdBy = createdBy;
         this.text = text;

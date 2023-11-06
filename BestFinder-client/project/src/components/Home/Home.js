@@ -1,4 +1,3 @@
-import { Footer } from "../Footer/Footer";
 import { MyNavBar } from "../Header/MyNavBar";
 import { SectionList } from "../Main/SectionList";
 

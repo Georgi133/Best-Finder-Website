@@ -37,6 +37,8 @@
     border: 2px white solid;
 }
 
+
+
 .selectContainer:hover {
     cursor: pointer;
     background-color: #0b489d;
@@ -47,12 +49,18 @@
     max-width: 90px;
 }
 
+.changeOptLang {
+    max-height: 40px;
+    max-width: 106px;
+}
 
-@media screen and (max-width: 812px) {
-    .adminSelect {
-        margin-right: 1vh;
-      }
+
+@media screen and (max-width: 889px) {
+    .changeOptLang {
+        margin-left: 1vh;
+    }
    }
+
 
 @media screen and (max-width: 671px) {
     .innerContainer {
@@ -63,21 +71,20 @@
     }
 }
 
+@media screen and (max-width: 611px) {
+    .innerContainer {
+        gap: 1vh;
+    }
+ }
 
-@media screen and (max-width: 583px) {
-        .innerContainer {
-            gap: 1vh;
-        }
-     }
 
-
-@media screen and (max-width: 506px) {
+@media screen and (max-width: 526px) {
 .changeOpt {
-    max-height: 40px;
+max-height: 40px;
 }
 }
 
-@media screen and (max-width: 452px) {
+@media screen and (max-width: 526px) {
     .innerContainer {
         font-size: 11px;
     }
@@ -86,7 +93,7 @@
     }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 493px) {
     .container {
         padding: 4px 10px;
     }
@@ -95,11 +102,38 @@
     }
 }
 
-@media screen and (max-width: 410px) {
+@media screen and (max-width: 493px) {
     .changeOpt {
         max-width: 68px;
     }
 }
+
+@media screen and (max-width: 424px) {
+   .innerContainer {
+    display: inline-block;
+   }
+   .changeOptLang {
+    margin: 1vh;
+}
+
+.pg {
+    margin-left: auto;
+}
+
+}
+
+@media screen and (max-width: 337px) {
+ 
+ .pg2 {
+    font-size: 9px;
+}
+ 
+ }
+
+
+
+
+
 
 
 

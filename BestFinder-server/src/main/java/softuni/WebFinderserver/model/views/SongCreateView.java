@@ -14,12 +14,22 @@ import java.util.List;
 @Builder
 public class SongCreateView extends BaseView{
 
-    private LocalDate addedDate;
-
+    private String  addedDate;
     private String pictureUrl;
-
     private String songName;
+    private String singers;
+    private Integer releasedYear;
+    private String categories;
+    private String torrent;
 
-    private List<Singer> singers;
+    private boolean isLikedByUser;
+    private Integer countLikes;
+    private List<CommentView> comments;
+    private List<LikeView> likes;
+    private String videoUrl;
 
+    public SongCreateView setLikedByUser(boolean likedByUser) {
+        isLikedByUser = likedByUser;
+        return this;
+    }
 }

@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 export const useMultiPartForm = (initialValues, onSubmitHandler) => {
 
   const [formValues, setFormValues] = useState(initialValues);
   const [selectedFile, setSelectedFile] = useState();
+  const { setServerErrors } = useTorrentContext();
 
   const onChangeHandler = (e) => {
+    setServerErrors({})
     setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
   }
 
@@ -16,14 +19,9 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }
   };
 
-  const onSubmit = (e) => {
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    e.preventDefault();
-    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  const onSubmit = async () => {
+   
+    // setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
 
     const { file, ...dtoValues } = formValues;
 
@@ -42,7 +40,8 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     for (var key of formData.entries()) {
       console.log(key[0] + ", " + key[1]);
     }*/
-    onSubmitHandler(formData);
+   await onSubmitHandler(formData, formValues.torrent);
+
   };
 
   return {

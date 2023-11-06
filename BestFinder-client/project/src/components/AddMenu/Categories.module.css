@@ -43,3 +43,15 @@
 .pictureInput:hover {
    cursor: pointer;
 }
+
+
+
+@media screen and (max-height:  414px) {
+    .categoryContainer {
+        border: none;
+    }
+    .pictureInput {
+        font-size: 12px;
+    }
+
+}

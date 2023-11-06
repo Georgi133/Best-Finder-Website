@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import style from "./SectionList.module.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 export const CategoryDetails = ({
     imageUrl,
@@ -8,6 +10,14 @@ export const CategoryDetails = ({
     categoryName,
 }) => {
     const { t } = useTranslation();
+    const { onCategorySubPageMount, subCategoryPageInfo } = useTorrentContext()
+    
+    useEffect(() => {
+        onCategorySubPageMount(categoryName.slice(0, categoryName.length - 1));
+      },[]);
+
+      const description = subCategoryPageInfo.description;
+      const lastAddedOn = subCategoryPageInfo.lastAddedOn;
 
   return (
     <div className={style.overlay} >
@@ -24,12 +34,9 @@ export const CategoryDetails = ({
                 </div>
                 <div className={style.userDetails}>
                     <p className={style.prg}>
-                    {t("description")}:
+                    <strong className={style.commonFields}>{t("description")}</strong>: {description}
                     </p>
-                    <p className={style.prg}>
-                    {t("category")}:
-                    </p>
-                    <p className={style.prg}>{t("added")}: </p>
+                    <p className={style.prg}><strong className={style.commonFields}>{t("added")}</strong>: {lastAddedOn} </p>
                 </div>
             </div>
             <Link className={style.movies} to={'/' + categoryName}>{t(`linked.${categoryName}`)}</Link>

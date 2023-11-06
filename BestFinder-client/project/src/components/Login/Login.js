@@ -1,63 +1,75 @@
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./Login.module.css";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Forgotten } from "./Forgotten";
 import { ButtonSubmit } from "./ButtonSubmit";
 import { useAuthContext } from "../AuthContext/AuthContext";
-import { useForm } from "../useForm/useForm"; 
+import { useForm } from "../useForm/useForm";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
-  const { onLoginSubmit } = useAuthContext();
+  const { onLoginSubmit, errorMessage, serverErrors } = useAuthContext();
+  const { validateLogin } = useValidatorContext();
 
-  const [forgottenPass, setForgottenPass] = useState(false);
   const { t } = useTranslation();
-  const { values , changeHandler, onSubmit } = useForm({
-    email: '',
-    password: '',
-  }, onLoginSubmit);
+  const { values, changeHandler, onSubmit, formErrors } = useForm(
+    {
+      email: "",
+      password: "",
+    },
+    onLoginSubmit
+  );
 
-  const onClickForgotten = () => {
-    setForgottenPass(true);
+
+  const onSubmitForm = (e) => {
+    onSubmit(e,validateLogin(values));
   };
 
   return (
     <>
       <MyNavBar url={"login"} />
-      {forgottenPass && <Forgotten setForgottenPass={setForgottenPass} />}
       <div className={style.container}>
-        <form className={style.formContainer} onSubmit={onSubmit}>
+        <form className={style.formContainer} onSubmit={onSubmitForm}>
+          {errorMessage && <ErrorMessage message={errorMessage} />}
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="email">
               {t("userForm.email")}:
             </label>
             <input
-            value={values.email}
-            onChange={changeHandler}
+              value={values.email}
+              onChange={changeHandler}
               type="email"
               name="email"
               className={style.inp + " form-control"}
               id="email"
               placeholder="Enter email"
               required
-              min={3}
+              min={4}
             />
+            {formErrors.email ? <ErrorMessage message={formErrors.email}/> : serverErrors.email ?
+            <ErrorMessage message={serverErrors.email}/> : ''}
           </div>
           <div className={style.login + " " + "form-group"}>
             <label className={style.lyrics} htmlFor="password">
               {t("userForm.password")}:
             </label>
             <input
-            value={values.password}
-            onChange={changeHandler}
+              value={values.password}
+              onChange={changeHandler}
               type="password"
               className={style.inp + " form-control"}
               id="password"
               name="password"
               placeholder="Password"
               required
-              min={3}
+              autoComplete="on"
+              min={4}
             />
+            {formErrors.password ? <ErrorMessage message={formErrors.password}/> : serverErrors.password ?
+            <ErrorMessage message={serverErrors.password}/> : ''}
           </div>
 
           <div
@@ -65,25 +77,11 @@ export const Login = () => {
               style.login + " " + style.remember + " form-group" + " form-check"
             }
           >
-            <a className={style.forgotten} onClick={onClickForgotten}>
+            <Link className={style.forgotten} to={'/users/forgotten'}>
               {t("userForm.forgotten")}?
-            </a>
-            <div className={style.check_submit}>
-              <div className={style.remember_check}>
-                <input
-                  type="checkbox"
-                  className={
-                    style.checkbox + " " + style.inp + " form-check-input"
-                  }
-                  id="remember"
-                />
-                <label className="form-check-label" htmlFor="remember">
-                  {t("userForm.remember")}
-                </label>
-              </div>
-            </div>
+            </Link>
 
-            <ButtonSubmit/>
+            <ButtonSubmit />
           </div>
         </form>
       </div>

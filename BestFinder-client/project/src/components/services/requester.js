@@ -1,80 +1,119 @@
+import { NotAllowed } from "../NotAllowed/NotAllowed";
 
 const requester = async (method, url, data) => {
-    const options = {};
+  const options = {};
 
-    // if (method !== 'GET') {
-        options.method = method;
-
-        console.log(data);
-        if (data) {
-            options.headers = {
-                'content-type': 'application/json',
-            };
-            options.body = JSON.stringify(data);
-        }
-    // }
+  // if (method !== 'GET') {
+  options.method = method;
 
 
-    const token = localStorage.getItem('token');
-    if (token) {
-        const auth = JSON.parse(token); // is with ""
-        //when parse removes them
-        
-        if (auth) {
-            options.headers = {
-                ...options.headers,
-                "authorization": `Bearer ${auth}`
-            }
-        }
+  const language = localStorage.getItem("lang");
+  const lang = JSON.parse(language);
 
+  if (data) {
+    options.headers = {
+      "content-type": "application/json",
+      "Accept-Language": lang.lang,
+    };
+    options.body = JSON.stringify(data);
+  }
+  // }
+
+  const token = localStorage.getItem("token");
+  
+  if (token) {
+    const auth = JSON.parse(token); // is with ""
+    //when parse removes them
+
+    if (auth) {
+      options.headers = {
+        ...options.headers,
+        authorization: `Bearer ${auth}`,
+        "Accept-Language": lang.lang,
+      };
     }
+  }
 
+  try {
     const response = await fetch(url, options);
-
-    const result = await response.json();
     
 
-    // if (!response.ok) {
-    //     throw result;
-    // }
-
-    return result;
+    if (response.ok || response.status === 201) {
+     
+      return await response.json();
+    } else {
+      if (response.status === 403) {
+        throw new Error("forbidden");
+      }
+      const result = await response.json();
+      throw new Error(
+        Object.entries(result).map(([key, value]) => key + ":" + value + "!") +
+          " " +
+          response.status
+      );
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
-const uploadImage = async (method, url, formData) => {
+const uploadTorrent = async (method, url, formData) => {
+  const token = localStorage.getItem("token");
+  const auth = JSON.parse(token); // is with ""
+  //when parse removes them
 
 
-    const token = localStorage.getItem('token');
-        const auth = JSON.parse(token); // is with ""
-        //when parse removes them
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        authorization: `Bearer ${auth}`,
+      },
+      body: formData,
+    });
 
-    const response = await fetch(url, 
-        {
-        method: method,
-        headers: {
-            "authorization": `Bearer ${auth}`
-        },
-        body: formData
-    })
+    if (response.ok || response.status === 201) {
+      return await response.json();
+    } else {
+      if (response.status === 403) {
+        throw new Error("forbidden");
+      }
+      const result = await response.json();
+      throw new Error(
+        Object.entries(result).map(([key, value]) => key + ":" + value + "!") +
+          " " +
+          response.status
+      );
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
 
-    const result = await response.json();
-    
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      authorization: `Bearer ${auth}`,
+    },
+    body: formData,
+  });
 
-    // if (!response.ok) {
-    //     throw result;
-    // }
+  const result = await response.json();
 
-    return result;
+  // if (!response.ok) {
+  //     throw result;
+  // }
+
+  return result;
 };
-
 
 export const requestFactory = () => {
-    return {
-        get: requester.bind(null, 'GET'),
-        post: requester.bind(null, 'POST'),
-        put: requester.bind(null, 'PUT'),
-        patch: requester.bind(null, 'PATCH'),
-        delete: requester.bind(null, 'DELETE'),
-        upload: uploadImage.bind(null, 'POST'),
-    }
+  return {
+    get: requester.bind(null, "GET"),
+    post: requester.bind(null, "POST"),
+    put: requester.bind(null, "PUT"),
+    patch: requester.bind(null, "PATCH"),
+    delete: requester.bind(null, "DELETE"),
+    upload: uploadTorrent.bind(null, "POST"),
+  };
 };
+

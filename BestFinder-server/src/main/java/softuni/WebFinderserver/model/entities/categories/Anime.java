@@ -36,19 +36,14 @@ public class Anime extends CataloguesWithCommonCategories {
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String trailer;
+
     @Column(nullable = false, unique = true)
     private String animeName;
 
-    @Column
+    @Column(nullable = false)
     private Integer releasedYear;
-
-
-//    @ManyToMany(cascade = CascadeType.PERSIST)
-//    @JoinTable(
-//            name = "animes_categories",
-//            joinColumns = { @JoinColumn(name = "anime_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-//    private List<CategoryProjection> categories;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String resume;

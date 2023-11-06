@@ -11,6 +11,11 @@
     border-radius: 6px;
 }
 
+.prg {
+  color: rgb(31, 97, 12);
+  font-weight: 700;
+}
+
 .header {
     padding: 6px;
     background-color: black;
@@ -185,8 +190,15 @@ div article header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: 0px;
+    gap: 5vh;
   }
+
+  .commonFields {
+    font-weight: 500;
+    color: black;
+  }
+
+
 
   .image {
     width: 100%;

@@ -5,58 +5,122 @@ import { useNavigate } from "react-router-dom";
 
 export const AdminContext = createContext();
 
+export const AdminProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState({});
+  const adminService = adminServiceFactory();
+  const { userRole } = useAuthContext();
+  const [errorMessageAdmin , setErrorMessageAdmin] = useState('');
+  const [errorNumberAdmin , setErrorNumberAdmin] = useState(0);
+  const [serverErrorsAdmin, setServerErrorsAdmin] = useState({});
+  const [isChanged, setIsChanged] = useState(false);
 
-export const AdminProvider = ({
-    children,
-}) => {
-    const navigate = useNavigate();
-    const [userInfo, setUserInfo] = useState({});
-    const adminService = adminServiceFactory();
-    const { userRole } = useAuthContext();
-
-    const onChangeFindUserSubmit = async (data) => {
-
-        if(!data.currentUserRole) {
-            data.currentUserRole = userRole;
-        }
-        const result = await adminService.findUserByEmail(data);
-        setUserInfo(result);
+  const onChangeFindUserSubmit = async (data) => {
+    if (!data.currentUserRole) {
+      data.currentUserRole = userRole;
     }
-
-    const onTorrentSubmit = async (data) => {
-        adminService.uploadTorrent(data);
-        
-        navigate("/")
-
+    try {
+      const result = await adminService.findUserByEmail(data);
+      setUserInfo(result);
+    } catch (error) {
+      ifServerThrowNavigate(error);
+      setErrorNumberAdmin(convertErrorStringInNumber(error));
+        const rawMessage = convertResponseMessage(error);
+        messageOrFieldChecker(rawMessage);   
     }
+      
+  };
 
-    const onClickChangeRole = async (data) => {
-        const { setChangeRole, ...userInfo } = data;
-        const result = await adminService.changeRole(userInfo);
-        setUserInfo(result);
-        setChangeRole(false);
+  const ifServerThrowNavigate = (error) => {
+    if(error.message === 'forbidden') {
+      navigate('/not-allowed')
+      return;
     }
-
-    const adminContextValues = {
-        onChangeFindUserSubmit,
-        onClickChangeRole,
-        onTorrentSubmit,
-        foundUserEmail: userInfo.email,
-        foundUserFullName: userInfo.fullName,
-        foundUserRole: userInfo.role,
-        foundUserAge: userInfo.age,
+    if(error.message === 'Failed to fetch') {
+      navigate('/server-error');
     }
+  }
 
-    return(
-        <AdminContext.Provider value={adminContextValues}>
-           {children}
-        </AdminContext.Provider>
+  const resetPage = () => {
+    setUserInfo({});
+  }
 
-    )
-}
+  const onClickChangeRole = async (data) => {
+    const { setChangeRole, ...userInfo } = data;
+    try{
+      const result = await adminService.changeRole(userInfo);
+      setUserInfo(result);
+    setChangeRole(false);
+    setIsChanged(result ? true : false);
+    } catch (error) {
+      ifServerThrowNavigate(error);
+      setErrorNumberAdmin(convertErrorStringInNumber(error));
+        const rawMessage = convertResponseMessage(error);
+        messageOrFieldChecker(rawMessage);   
+    }
+    
+    
+  };
+
+  const convertResponseMessage = (message) => {
+    return message.message.substring(0, message.message.length - 4);
+  };
+
+  const convertErrorStringInNumber = (errorString) => {
+    return Number(errorString.message.substring(errorString.message.length - 4))
+  }
+
+  const messageOrFieldChecker = (rawMessage) => {
+    const index = rawMessage.indexOf(':');
+      const nameOfField = rawMessage.substring(0, index); 
+      if(nameOfField === 'message') {
+        const message = rawMessage.substring(index + 1);
+        setErrorMessageAdmin(message);
+      }else {
+        validFieldChecker(rawMessage);
+      }
+  };
+
+  const validFieldChecker = (values) => {
+    let arr = values.split(',');
+
+    const errors = arr.reduce(function(acc, arr) {
+      let newArray = arr.split(':');
+      return{
+        ...acc,
+        [newArray[0]]:newArray[1],
+      };
+    }, {});
+    
+    setErrorMessageAdmin(Object.keys(errors).length !== 0 ? "" : errorMessageAdmin);
+     setServerErrorsAdmin(errors);
+  }
+
+  const adminContextValues = {
+    onChangeFindUserSubmit,
+    onClickChangeRole,
+    resetPage,
+    setErrorMessageAdmin,
+    setServerErrorsAdmin,
+    setIsChanged,
+    isChanged,
+    serverErrorsAdmin,
+    errorMessageAdmin,
+    foundUserEmail: userInfo.email,
+    foundUserFullName: userInfo.fullName,
+    foundUserRole: userInfo.role,
+    foundUserAge: userInfo.age,
+  };
+
+  return (
+    <AdminContext.Provider value={adminContextValues}>
+      {children}
+    </AdminContext.Provider>
+  );
+};
 
 export const useAdminContext = () => {
-    const context = useContext(AdminContext);
+  const context = useContext(AdminContext);
 
-    return context;
+  return context;
 };

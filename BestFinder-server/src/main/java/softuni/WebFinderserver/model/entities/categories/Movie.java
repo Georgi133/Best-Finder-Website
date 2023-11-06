@@ -37,6 +37,9 @@ public class Movie extends CataloguesWithCommonCategories {
     @Column(nullable = false)
     private String pictureUrl;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String trailer;
+
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
@@ -62,9 +65,8 @@ public class Movie extends CataloguesWithCommonCategories {
     )
     private List<Actor> actors;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project")
     private List<Like> likes;
-
 
 
 }

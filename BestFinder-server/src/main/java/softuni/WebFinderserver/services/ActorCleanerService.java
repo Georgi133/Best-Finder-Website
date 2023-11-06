@@ -21,19 +21,23 @@ public class ActorCleanerService {
 
     public List<Actor> getActor (List<String> actors) {
         List<String> actorsAsString =
-                actors.stream().filter(s -> !s.isBlank() || !s.isEmpty()).toList();
+                actors.stream().filter(s -> !s.trim().isBlank() || !s.isEmpty()).toList();
 
-      return actorsAsString
+        List<Actor> actorsCollection = actorsAsString
                 .stream()
                 .map(actorName -> {
-                    if(actorRepository.findFirstByFullName(actorName).isEmpty()) {
+                    if (actorRepository.findFirstByFullName(actorName).isEmpty()) {
                         return new Actor(actorName);
-                    }else {
+                    } else {
                         return actorRepository.findFirstByFullName(actorName).get();
                     }
                 })
-                .collect(Collectors.toList());
+                .toList();
 
+        if(actorsCollection.isEmpty()) {
+            throw new RuntimeException("There should be at least 1 actor");
+        }
+        return actorsCollection;
     }
 
 }

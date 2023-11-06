@@ -1,8 +1,12 @@
+import { useTranslation } from "react-i18next";
+
 export const InnerCategoriesOptions = () => {
+
+  const { t } = useTranslation();
   return (
     <>
       <option hidden value="categ">
-        Choose Category
+        {t("torrentCommon.category")}
       </option>
       <option value="action">ACTION</option>
       <option value="comedy">COMEDY</option>

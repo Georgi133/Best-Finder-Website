@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonSubmit } from "../Login/ButtonSubmit";
 import style from "./Categories.module.css";
 import { InnerCategoriesOptions } from "./InnerCategoriesOptions";
 import { CategoriesOptions } from "./CategoriesOptions";
-import { useAdminContext } from "../AdminContext/AdminContext";
 import { useMultiPartForm } from "../hooks/useMultiPartForm";
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
+import { useTranslation } from "react-i18next";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 export const Game = ({
     torrent,
+    setValueCategory,
 }) => {
-    
+    const { t } = useTranslation();
     const [rowForCategories, setRowForCategories] = useState([1]);
     const [countCategory, setCountCategory] = useState("categories1");
   
-    const { onTorrentSubmit } = useAdminContext();
+    const { onTorrentSubmit, isTorrentAdded, setIsTorrentAdded, setAddedMessage, errorMessage, serverErrors, setErrorMessage } = useTorrentContext();
+    const [valid, isValid] = useState(false);
+    const [torrentValidationInfo, setTorrentValidationInfo] = useState({});
+    const { gameValidate } = useValidatorContext();
   
     const {onFileSelectedHandler, formValues, onChangeHandler, onSubmit } = useMultiPartForm(
       {
@@ -21,6 +28,7 @@ export const Game = ({
         torrentName: "",
         torrentResume: "",
         releasedYear:"",
+        trailer: "",
   
         category1: "",
         category2: "",
@@ -45,28 +53,61 @@ export const Game = ({
       e.target.value = value;
       onChangeHandler(e);
     };
+
+    
+    useEffect(() => {
+      if(valid) {
+        onSubmit();
+        isValid(false);
+       };
+    }, [valid]);
+  
+    useEffect(() => {
+      if(isTorrentAdded) {
+        setValueCategory('category')
+        setAddedMessage(true);
+       };
+    }, [isTorrentAdded]);
+  
+    useEffect(() => {
+      return () => {
+        setIsTorrentAdded(false)
+      };
+    }, []);
+
+    const onSubmitGame = async (e) => {
+      e.preventDefault();
+     const result = await gameValidate(formValues);
+     setTorrentValidationInfo(result);
+     isValid(Object.keys(result).length === 0);
+     setErrorMessage(null);
+    }
+
     return(
         <>
-        <form encType="multipart/form-data" className={style.formContainer} onSubmit={onSubmit}>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
+        <form encType="multipart/form-data" className={style.formContainer} onSubmit={onSubmitGame}>
         <div className={style.innerContainer + " form-group"}>
-          <label className={style.lyrics} htmlFor="movieName">
-            Movie Name:
+          <label className={style.lyrics} htmlFor="torrentName">
+            {t("gameAndAnimeAdd.name")}
           </label>
           <input
             value={formValues.torrentName}
             onChange={onChangeHandler}
             type="text"
-            id="movieName"
+            id="torrentName"
             name="torrentName"
-            placeholder="Movie Name"
+            placeholder="Game Name"
             required
             className={style.inp + " form-control"}
           />
+        {torrentValidationInfo.torrentName ? <ErrorMessage message={torrentValidationInfo.torrentName}/> : serverErrors.torrentName ?
+            <ErrorMessage message={serverErrors.torrentName}/> : ''}
         </div>
 
         <div className={style.innerContainer + " " + "form-group"}>
           <label className={style.lyrics} htmlFor="resume">
-            resume:
+          {t("torrentCommon.resume")}
           </label>
           <textarea
             value={formValues.torrentResume}
@@ -75,14 +116,16 @@ export const Game = ({
             id="resume"
             name="torrentResume"
             required
-            placeholder="Short resume of the movie"
+            placeholder="Short resume of the game"
             className={style.inp + " form-control"}
           />
+          {torrentValidationInfo.torrentResume ? <ErrorMessage message={torrentValidationInfo.torrentResume}/> : serverErrors.torrentResume ?
+            <ErrorMessage message={serverErrors.torrentResume}/> : ''}
         </div>
 
         <div className={style.innerContainer + " form-group"}>
           <label className={style.lyrics} htmlFor="releasedYear">
-            Released Year:
+          {t("gameAndAnimeAdd.year")}
           </label>
           <input
             value={formValues.releasedYear}
@@ -97,6 +140,26 @@ export const Game = ({
             required
             className={style.inp + " form-control"}
           />
+          {torrentValidationInfo.releasedYear ? <ErrorMessage message={torrentValidationInfo.releasedYear}/> : serverErrors.releasedYear ?
+            <ErrorMessage message={serverErrors.releasedYear}/> : ''}
+        </div>
+
+        <div className={style.innerContainer + " form-group"}>
+          <label className={style.lyrics} htmlFor="trailer">
+            Trailer:
+          </label>
+          <input
+            value={formValues.trailer}
+            onChange={onChangeHandler}
+            type="text"
+            id="trailer"
+            name="trailer"
+            placeholder="Link of trailer"
+            required
+            className={style.inp + " form-control"}
+          />
+          {torrentValidationInfo.trailer ? <ErrorMessage message={torrentValidationInfo.trailer}/> : serverErrors.trailer ?
+            <ErrorMessage message={serverErrors.trailer}/> : ''}
         </div>
         
         <div className={style.innerContainer + " " + style.categoryContainer}>
@@ -120,10 +183,12 @@ export const Game = ({
                 </select>
               );
             })}
+            {torrentValidationInfo.category ? <ErrorMessage message={torrentValidationInfo.category}/> : serverErrors.category ?
+            <ErrorMessage message={serverErrors.category}/> : ''}
           </div>
             <div className={style.picture + " form-group"}>
               <label className={style.pictureLabel} htmlFor="pic">
-                Upload picture:
+              {t("torrentCommon.fileUpload")}
               </label>
               <input
                 className={style.pictureInput}
@@ -134,9 +199,11 @@ export const Game = ({
                 type="file"
                 required
               />
+              { torrentValidationInfo && <ErrorMessage message={torrentValidationInfo.file}/>}
             </div>
-          <ButtonSubmit />
         </div>
+        <ButtonSubmit />
+
       </form>
         </>
         )

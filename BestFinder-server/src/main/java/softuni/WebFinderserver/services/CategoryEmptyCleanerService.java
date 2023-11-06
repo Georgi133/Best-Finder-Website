@@ -18,14 +18,18 @@ public class CategoryEmptyCleanerService {
 
     public List<CategoryProjection> clearEmptyProperties (List<String> collect) {
         List<String> categoriesAsStrings =
-                collect.stream().filter(s -> !s.isBlank() || !s.isEmpty()).toList();
+                collect.stream().filter(s -> !s.trim().isBlank() || !s.isEmpty()).toList();
 
-        return categoriesAsStrings
+        List<CategoryProjection> categoryCollection = categoriesAsStrings
                 .stream()
                 .map(categoryAsString ->
                         (categoryProjection.findCategory(CategoryProjectionEnum.valueOf(categoryAsString.toUpperCase()))))
-                .collect(Collectors.toList());
+                .toList();
 
+        if(categoryCollection.isEmpty()) {
+            throw new RuntimeException("There should be at least 1 category");
+        }
+        return categoryCollection;
     }
 
 }

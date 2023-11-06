@@ -7,21 +7,22 @@ import { Song } from "./Song"
 
 export const MenuFinder = ({
     category,
+    setValueCategory,
 }) => {
 
     const getCorrectMenu = (category) => {
         if(category === "anime") {
-            return <Anime torrent={category}/> 
+            return <Anime torrent={category} setValueCategory={setValueCategory}/> 
         } else if(category === "movie") {
-            return <Movie torrent={category}/> 
+            return <Movie torrent={category} setValueCategory={setValueCategory}/> 
         }else if(category === "serial") {
-            return <Serial torrent={category}/>  
+            return <Serial torrent={category} setValueCategory={setValueCategory}/>  
         }else if(category === "joke") {
-            return <Joke torrent={category}/>   
+            return <Joke torrent={category} setValueCategory={setValueCategory}/>   
         }else if(category === "game") {
-            return <Game torrent={category}/>
+            return <Game torrent={category} setValueCategory={setValueCategory}/>
         }else if(category === "song") {
-            return <Song torrent={category}/>
+            return <Song torrent={category} setValueCategory={setValueCategory}/>
         }
     }
 

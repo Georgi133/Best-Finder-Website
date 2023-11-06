@@ -43,6 +43,8 @@ public class Serial extends CataloguesWithCommonCategories {
     @Column(nullable = false)
     private Integer seasons;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String trailer;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

@@ -4,11 +4,74 @@
     "changePass":"Смяна на парола",
     "changeProfile": "Поправи профил"
   },
+
+
+  "movieAndSongAdd": {
+    "name": "Име на Филм",
+    "year": "Година на излъчване"
+  },
+  "serialAdd": {
+    "name": "Име на Сериал",
+    "seasons": "Брой сезони"
+  },
+  "gameAndAnimeAdd": {
+    "name": "Име на Игра",
+    "year": "Година на създаване"
+  },
+  "adminNav":{
+    "admin": "Админ",
+    "addTorrent": "Добави Торент",
+    "changeRole": "Промени Роля на Потребител"
+  },
+  "addMenu": {
+    "cat": "Категория",
+    "title": "Меню",
+    "movie": "Добави Филм",
+    "serial": "Добави Сериал",
+    "game": "Добави Игра",
+    "joke": "Добави Шега",
+    "song": "Добави Песен",
+    "anime": "Добави Аниме"
+  },
+  "torrentCommon": {
+    "fileUpload": "Качи Файл",
+    "name": "Име на Филм",
+    "resume": "Резюме",
+    "category": "Избери Категория"
+  },
+  "jokeAdd": {
+    "name": "Име на Шега",
+    "text": "Текст"
+  },
+  "songAdd": {
+    "name": "Име на Песен"
+  },
+  "animeAdd": {
+    "name": "Име на Аниме"
+  },
+
+
+  "changeUserRole": {
+    "title" : "Смяна роля на Потребител",
+    "title2": "Намери потребител по Имейл",
+    "btn" : "Въведи"
+  },
   "changePasswordPage": {
     "currentPass": "Настояща парола",
     "newPass": "Нова парола",
     "confirmNewPass": "Потвърди нова парола"
   },
+  "changingRole": {
+    "title": "Промени Роля",
+    "btn" : "Промени"
+  },
+  "changeRoleUserFields": {
+    "email" : "Имейл",
+    "name": "Собствено и Фамилно име",
+    "role" : "Роля",
+    "btn": "Промени"
+  },
+ 
   "userForm": {
     "fullName":"Име и Фамилия",
     "age" : "Години",

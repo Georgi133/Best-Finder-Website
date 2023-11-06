@@ -1,7 +1,9 @@
 package softuni.WebFinderserver.services;
 
 import org.springframework.stereotype.Service;
+import softuni.WebFinderserver.model.entities.CategoryProjection;
 import softuni.WebFinderserver.model.entities.SongCategory;
+import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.SongCategoryEnum;
 import softuni.WebFinderserver.repositories.SongCategoryRepository;
 
@@ -30,6 +32,11 @@ public class SongCategoryService {
                     pop,jazz,hipHop,classic,metal,rock));
         }
     }
+
+    public SongCategory findCategory(SongCategoryEnum songCategoryEnum) {
+        return songCategoryRepository.findFirstByCategory(songCategoryEnum);
+    }
+
 
 
 }
