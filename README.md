@@ -5,11 +5,18 @@
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
+   # 🛠 Built with:
+ - Spring Boot
+ - ReactJS
+ - MySQL
+ - Apache Maven 
   # Configuration
- - Datasource location, port and name should be changed from application.yaml:
-   <p>
-      spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
-   </p>
+ - Datasource location, port and name should be changed from application.yaml:   
+   ```yaml 
+spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
+```
+  
+   
 
 
    
