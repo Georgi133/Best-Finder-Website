@@ -9,7 +9,6 @@ import { ChangeUser } from "./ChangeUser";
 import { useTranslation } from "react-i18next";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { NotAllowed } from "../NotAllowed/NotAllowed";
 
 export const ChangeUserRole = () => {
   const { t } = useTranslation();
@@ -62,7 +61,7 @@ export const ChangeUserRole = () => {
       )}
       <div className={style.container}>
         <h2 className={style.header}>{t("changeUserRole.title")}</h2>
-        {isChanged && <div className={style.success}>Successfully changed!</div>}
+        {isChanged && <div className={style.success}>{t("successffully.success")}!</div>}
         { isChanged ? '' : errorMessageAdmin && <ErrorMessage message={errorMessageAdmin} />}
         {!foundUserEmail && (
           <form onSubmit={onEmailSearch} className={style.innerContainer}>

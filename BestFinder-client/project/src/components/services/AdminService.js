@@ -9,5 +9,6 @@ export const adminServiceFactory = () => {
         findUserByEmail: (data) => request.post(`${adminUrl}/find-user`,data),
         changeRole: (data) => request.patch(`${adminUrl}/change`,data),
         uploadTorrent: (data) => request.upload(`${adminUrl}/upload-torrent`,data),
+        banUser: (data) => request.post(`${adminUrl}/ban-user`,data),
     }
 };

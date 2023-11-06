@@ -54,7 +54,7 @@ export const AddMenu = () => {
             </option>
           </select>
         </form>
-        {addedMessage && valueCategory === 'category' && <div className={style.success}>Successfully added!</div>}
+        {addedMessage && valueCategory === 'category' && <div className={style.success}>{t("successffully.success")}!</div>}
         {
           valueCategory && 
           <MenuFinder category={valueCategory} setValueCategory={setValueCategory}/>

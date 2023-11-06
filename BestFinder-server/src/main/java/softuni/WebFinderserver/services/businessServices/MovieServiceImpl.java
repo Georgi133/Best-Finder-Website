@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.services;
+package softuni.WebFinderserver.services.businessServices;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,8 @@ import softuni.WebFinderserver.model.views.LikeView;
 import softuni.WebFinderserver.model.views.MovieCreateView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
 import softuni.WebFinderserver.repositories.MovieRepository;
+import softuni.WebFinderserver.services.*;
+import softuni.WebFinderserver.services.businessServicesInt.MovieService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 import softuni.WebFinderserver.util.CloudUtil;
@@ -28,17 +30,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class MovieService {
+public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final CloudUtil cloudUtil;
     private final CategoryEmptyCleanerService categoryCleaner;
     private final ActorCleanerService actorCleanerService;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final CommentService commentService;
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public MovieService(MovieRepository movieRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserService userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public MovieServiceImpl(MovieRepository movieRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
         this.movieRepository = movieRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -205,10 +207,18 @@ public class MovieService {
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
 
-      return TorrentInfoView
+        LocalDate movieWhichWasLastAdded =
+                movieRepository.getMovieWhichWasLastAdded();
+        String addedOn = "";
+        if(movieWhichWasLastAdded == null) {
+            addedOn = setMessageLang(lang,"notadded");
+        }else {
+            addedOn = movieRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+        return TorrentInfoView
                 .builder()
               .description(setMessageLang(lang,"movies"))
-                .lastAddedOn(movieRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastAddedOn(addedOn)
               .build();
     }
 

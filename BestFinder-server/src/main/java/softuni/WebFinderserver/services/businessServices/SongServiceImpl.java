@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.services;
+package softuni.WebFinderserver.services.businessServices;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,8 @@ import softuni.WebFinderserver.model.views.LikeView;
 import softuni.WebFinderserver.model.views.SongCreateView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
 import softuni.WebFinderserver.repositories.SongRepository;
+import softuni.WebFinderserver.services.*;
+import softuni.WebFinderserver.services.businessServicesInt.SongService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 import softuni.WebFinderserver.util.CloudUtil;
@@ -28,17 +30,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class SongService {
+public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
     private final CloudUtil cloudUtil;
     private final SongCategoryEmptyCleanerService categoryCleaner;
     private final SingerCleanerService singerCleanerService;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final CommentService commentService;
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public SongService(SongRepository songRepository, CloudUtil cloudUtil, SongCategoryEmptyCleanerService categoryCleaner, SingerCleanerService singerCleanerService, UserService userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public SongServiceImpl(SongRepository songRepository, CloudUtil cloudUtil, SongCategoryEmptyCleanerService categoryCleaner, SingerCleanerService singerCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
         this.songRepository = songRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -205,10 +207,19 @@ public class SongService {
     }
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
+        LocalDate movieWhichWasLastAdded =
+                songRepository.getMovieWhichWasLastAdded();
+
+        String addedOn = "";
+        if(movieWhichWasLastAdded == null) {
+            addedOn = setMessageLang(lang,"notadded");
+        }else {
+            addedOn = songRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
         return TorrentInfoView
                 .builder()
                 .description(setMessageLang(lang,"songs"))
-                .lastAddedOn(songRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastAddedOn(addedOn)
                 .build();
 
     }

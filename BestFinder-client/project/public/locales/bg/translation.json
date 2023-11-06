@@ -5,6 +5,38 @@
     "changeProfile": "Поправи профил"
   },
 
+  "sort": {
+    "likes": "Сортитане по харесвания",
+    "year": "Сортиране по година",
+    "seasons": "Сортиране по сезони"
+  },
+
+  "article": {
+    "categories" : "Категории",
+    "year" : "Година",
+    "more" : "Виж още",
+    "actors": "Актьори",
+    "seasons": "Сезони",
+    "text" : "Кратък текст",
+    "singers": "Певци",
+    "resume": "Резюме",
+    "likes": "Харесвания",
+    "like": "Харесай",
+    "liked": "Харесано",
+    "comments": "Коментари",
+    "noComments": "Няма Коментари",
+    "writeComment" : "Напиши Коментар",
+    "innerText": "Текст"
+  },
+
+  "successffully": {
+    "success": "Операцията е успешна"
+  },
+
+  "ban": {
+    "title": "Бан Меню",
+    "banuser": "Бан на потребителя"
+  },
 
   "movieAndSongAdd": {
     "name": "Име на Филм",

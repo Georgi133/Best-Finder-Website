@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.SongService;
+import softuni.WebFinderserver.services.businessServicesInt.SongService;
+import softuni.WebFinderserver.services.businessServices.SongServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
@@ -22,7 +23,7 @@ public class SongController {
 
     private final SongService songService;
 
-    public SongController(SongService songService) {
+    public SongController(SongServiceImpl songService) {
         this.songService = songService;
     }
     @PreAuthorize("hasAuthority('ADMIN')")

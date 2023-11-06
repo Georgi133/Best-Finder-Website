@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.AnimeService;
+import softuni.WebFinderserver.services.businessServicesInt.AnimeService;
+import softuni.WebFinderserver.services.businessServices.AnimeServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
@@ -22,7 +23,7 @@ public class AnimeController {
 
     private final AnimeService animeService;
 
-    public AnimeController(AnimeService animeService) {
+    public AnimeController(AnimeServiceImpl animeService) {
         this.animeService = animeService;
     }
 

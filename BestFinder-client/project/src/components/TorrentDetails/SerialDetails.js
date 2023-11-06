@@ -10,6 +10,7 @@ import  jwt_decode  from 'jwt-decode'
 import { useForm } from "../useForm/useForm";
 import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { useTranslation } from "react-i18next";
 
 export const SerialDetails = () => {
   const { serialId } = useParams();
@@ -54,6 +55,8 @@ export const SerialDetails = () => {
       onSubmit(e);
     }
 
+    const { t } = useTranslation();
+
 
   const videoUrl = torrentDetails.videoUrl;
   const serialName = torrentDetails.serialName;
@@ -71,33 +74,33 @@ export const SerialDetails = () => {
         <h3 className={style.header}>{serialName}</h3>
         <article className={style.innerContainer}>
           <div className={style.likes}>
-            <p>Likes: {countLikes}</p>
+            <p>{t("article.likes")}: {countLikes}</p>
           </div>
           
           <TorrentImage pictureUrl={pictureUrl}/>
 
           <div className={style.nameHolder}>
-            <small className={style.sm}>Resume:</small>
+            <small className={style.sm}>{t("article.resume")}:</small>
             <strong className={style.movieName}>{resume}</strong>
           </div>
           <div className={style.cat}>
-            <small className={style.sm}>Categories:</small>
+            <small className={style.sm}>{t("article.categories")}:</small>
             <strong className={style.categories}>{categories}</strong>
           </div>
           <div className={style.cat}>
-            <small className={style.sm}>Actors:</small>
+            <small className={style.sm}>{t("article.actors")}:</small>
             <strong className={style.categories}>{actors}</strong>
           </div>
           <div className={style.releasedYear}>
-            <small className={style.sm}>Seasons:</small> <strong>{seasons}</strong>
+            <small className={style.sm}>{t("article.seasons")}:</small> <strong>{seasons}</strong>
           </div>
           {!isLiked.liked &&
           <button onClick={() => onLike('like')} className={style.likebtn} type="button">
-            <i className="fas fa-thumbs-up"> Like</i>
+            <i className="fas fa-thumbs-up"> {t("article.like")}:</i>
           </button>}
           {isLiked.liked &&
           <button onClick={() => onLike('unlike')} className={style.liked} type="button">
-          <i className="fas fa-thumbs-up"> Liked</i>
+          <i className="fas fa-thumbs-up"> {t("article.liked")}:</i>
         </button>}
 
         </article>
@@ -118,8 +121,8 @@ export const SerialDetails = () => {
         </article>
 
         <article className={style.commentContainer}>
-          <h4>Comments</h4>
-          {comments.length === 0 && <p>No Comments</p>}
+          <h4>{t("article.comments")}</h4>
+          {comments.length === 0 && <p>{t("article.noComments")}</p>}
            { comments.map(c => {
            return (
            <Comment
@@ -138,7 +141,7 @@ export const SerialDetails = () => {
             
         </article>
         <form className={style.formContainer} onSubmit={onSubmitComment}>
-          <label htmlFor="comment">Write Comment: </label>
+          <label htmlFor="comment">{t("article.writeComment")}: </label>
           <textarea
             className={style.textArea}
             value={values.comment}

@@ -28,6 +28,8 @@ export const MyNavBar = ({ url }) => {
       navigate("/admin/add");
     }else if(value === "role") {
       navigate("/admin/change-role")
+    }else if(value === "ban") {
+      navigate("/admin/ban-menu");
     }
 
   } 
@@ -75,6 +77,9 @@ export const MyNavBar = ({ url }) => {
           </option>
           <option className={style.opt} value="role">
           {t("adminNav.changeRole")}
+          </option>
+          <option className={style.opt} value="ban">
+          Ban Menu
           </option>
           
         </select>

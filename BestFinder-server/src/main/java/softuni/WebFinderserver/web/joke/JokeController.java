@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.JokeService;
+import softuni.WebFinderserver.services.businessServicesInt.JokeService;
+import softuni.WebFinderserver.services.businessServices.JokeServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class JokeController {
     private  final JokeService jokeService;
 
-    public JokeController(JokeService jokeService) {
+    public JokeController(JokeServiceImpl jokeService) {
         this.jokeService = jokeService;
     }
 

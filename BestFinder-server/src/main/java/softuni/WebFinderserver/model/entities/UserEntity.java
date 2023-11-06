@@ -33,6 +33,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Like> likes;
 
+    @Column(nullable = false)
+    private String ipAddress;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

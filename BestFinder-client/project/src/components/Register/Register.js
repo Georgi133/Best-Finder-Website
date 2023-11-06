@@ -45,7 +45,7 @@ export const Register = () => {
       <MyNavBar url={"register"} />
       <div className={style.container}>
         <form onSubmit={onSubmitForm} className={style.formContainer}>
-        {registerSuccess && <div id="reloadPage" className={style.success}>Successfull registration!</div>}
+        {registerSuccess && <div id="reloadPage" className={style.success}>{t("successffully.success")}!</div>}
         {registerSuccess && redirectPage()}
         {errorMessage && <ErrorMessage message={errorMessage} />}
           <div className={style.login + " " + "form-group"}>

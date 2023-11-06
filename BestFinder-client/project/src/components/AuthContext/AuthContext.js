@@ -19,7 +19,6 @@ export const AuthProvider = ({ children, userReload }) => {
   const [registerSuccess , setRegisterSuccess] = useState(false);
   const [changedPasswordSuccess , setChangedPasswordSuccess] = useState(false);
   const [isProfileEdited , setIsProfileEdited] = useState(false);
-   
 
   const navigate = useNavigate();
 
@@ -85,7 +84,8 @@ export const AuthProvider = ({ children, userReload }) => {
   };
 
   const ifServerThrowNavigate = (error) => {
-    if(error.message === 'forbidden') {
+    if(error.message === 'forbidden' || error.message.includes('You are black listed')) {
+      onLogout();
       navigate('/not-allowed')
       return;
     }

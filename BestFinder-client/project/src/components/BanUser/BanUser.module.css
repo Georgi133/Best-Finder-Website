@@ -1,0 +1,83 @@
+.container {
+    width: 100%;
+    height: 660px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+}
+.header {
+    margin-top: 18px;
+}
+.lyrics {
+    margin-bottom: 4px;
+}
+
+.innerContainer{
+    margin: 18px auto;
+ }
+ 
+ .inp {
+     max-width: 240px;
+     margin-bottom: 10px;
+ }
+
+ .found {
+    margin: 10px auto;
+    border: 2px solid white;
+    width: 40vh;
+    padding: 10px;
+}
+
+.innerPar {
+    color: green;
+    border-bottom: 1px gray solid;
+    display: block;
+    text-decoration: none;
+}
+
+.loginBtn {
+    margin: 10px auto;
+   width: 40vh; 
+}
+
+.success {
+    color: green;
+}
+
+@media screen and (max-height:  670px) {
+    .container {
+        max-height: 670px;
+    }
+
+  }
+
+
+@media screen and (max-height:  570px) {
+    .container {
+        max-height: 600px;
+    }
+
+}
+
+@media screen and (max-height:  454px) {
+    .container {
+        max-height: 480px;
+    } 
+
+}
+
+@media screen and (max-height:  386px) {
+    .container {
+        max-height: 400px;
+    } 
+    
+}
+
+@media screen and (max-height:  330px) {
+  .found {
+    width: 160px;
+  } 
+  
+}

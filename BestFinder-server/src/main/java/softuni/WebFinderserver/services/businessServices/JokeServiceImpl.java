@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.services;
+package softuni.WebFinderserver.services.businessServices;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,9 @@ import softuni.WebFinderserver.model.views.JokeCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
 import softuni.WebFinderserver.repositories.JokeRepository;
+import softuni.WebFinderserver.services.CommentService;
+import softuni.WebFinderserver.services.LikeService;
+import softuni.WebFinderserver.services.businessServicesInt.JokeService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 import softuni.WebFinderserver.util.CloudUtil;
@@ -27,16 +30,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class JokeService {
+public class JokeServiceImpl implements JokeService {
 
     private final JokeRepository jokeRepository;
     private final CloudUtil cloudUtil;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final CommentService commentService;
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public JokeService(JokeRepository jokeRepository, CloudUtil cloudUtil, UserService userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public JokeServiceImpl(JokeRepository jokeRepository, CloudUtil cloudUtil, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
         this.jokeRepository = jokeRepository;
         this.cloudUtil = cloudUtil;
         this.userService = userService;
@@ -185,10 +188,20 @@ public class JokeService {
     }
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
+
+        LocalDate movieWhichWasLastAdded =
+                jokeRepository.getMovieWhichWasLastAdded();
+
+        String addedOn = "";
+        if(movieWhichWasLastAdded == null) {
+            addedOn = setMessageLang(lang,"notadded");
+        }else {
+            addedOn = jokeRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
         return TorrentInfoView
                 .builder()
                 .description(setMessageLang(lang, "jokes"))
-                .lastAddedOn(jokeRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastAddedOn(addedOn)
                 .build();
     }
 

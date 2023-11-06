@@ -1,7 +1,6 @@
 package softuni.WebFinderserver.web.movie;
 
 import jakarta.validation.Valid;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,10 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.MovieService;
+import softuni.WebFinderserver.services.businessServicesInt.MovieService;
+import softuni.WebFinderserver.services.businessServices.MovieServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
-import softuni.WebFinderserver.services.exceptions.user.UserException;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +23,7 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieServiceImpl movieService) {
         this.movieService = movieService;
     }
 

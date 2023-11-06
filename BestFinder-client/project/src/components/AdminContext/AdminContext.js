@@ -9,7 +9,7 @@ export const AdminProvider = ({ children }) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const adminService = adminServiceFactory();
-  const { userRole } = useAuthContext();
+  const { userRole, onLogout } = useAuthContext();
   const [errorMessageAdmin , setErrorMessageAdmin] = useState('');
   const [errorNumberAdmin , setErrorNumberAdmin] = useState(0);
   const [serverErrorsAdmin, setServerErrorsAdmin] = useState({});
@@ -32,7 +32,8 @@ export const AdminProvider = ({ children }) => {
   };
 
   const ifServerThrowNavigate = (error) => {
-    if(error.message === 'forbidden') {
+    if(error.message === 'forbidden' || error.message.includes('You are black listed')) {
+      onLogout();
       navigate('/not-allowed')
       return;
     }
@@ -96,6 +97,19 @@ export const AdminProvider = ({ children }) => {
      setServerErrorsAdmin(errors);
   }
 
+  const onClickBanUser = async (data) => {
+    try{
+      const result = await adminService.banUser(data);
+     setIsChanged(result ? true : false);
+    }catch (error) {
+      ifServerThrowNavigate(error);
+      setErrorNumberAdmin(convertErrorStringInNumber(error));
+        const rawMessage = convertResponseMessage(error);
+        messageOrFieldChecker(rawMessage);  
+    }
+    
+  }
+
   const adminContextValues = {
     onChangeFindUserSubmit,
     onClickChangeRole,
@@ -103,6 +117,7 @@ export const AdminProvider = ({ children }) => {
     setErrorMessageAdmin,
     setServerErrorsAdmin,
     setIsChanged,
+    onClickBanUser,
     isChanged,
     serverErrorsAdmin,
     errorMessageAdmin,

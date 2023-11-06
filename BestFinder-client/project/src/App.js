@@ -30,6 +30,7 @@ import { PrivateAdminRoute } from "./components/PrivateRoute/PrivateAdminRoute";
 import { NotAllowed } from "./components/NotAllowed/NotAllowed";
 import { Forgotten } from "./components/Login/Forgotten";
 import { ServerError } from "./components/ServerError/ServerError";
+import { BanUser } from "./components/BanUser/BanUser";
 
 function App() {
   const [user, setUser] = useState({});
@@ -90,6 +91,14 @@ function App() {
                     <PrivateAdminRoute>
                       <ChangeUserRole />
                     </PrivateAdminRoute>
+                  }
+                />
+                 <Route
+                  path="/admin/ban-menu"
+                  element={
+                    <PrivateAdminRoute>
+                      <BanUser />
+                      </PrivateAdminRoute>
                   }
                 />
                 <Route
@@ -201,6 +210,7 @@ function App() {
                       <ServerError />
                   }
                 />
+
               </Routes>
               <Footer />
             </>

@@ -44,7 +44,7 @@ export const ChangePassword = () => {
       <MyNavBar />
       <div className={style.container}>
       <form className={style.formContainer} onSubmit={onChangePass}>
-      {changedPasswordSuccess && <div id="reloadPage" className={style.success}>Successfully changed password!</div>}
+      {changedPasswordSuccess && <div id="reloadPage" className={style.success}>{t("successffully.success")}!</div>}
         {changedPasswordSuccess && redirectPage()}
         <div className={style.login + " " + "form-group"}>
         {errorMessage && <ErrorMessage message={errorMessage} />}

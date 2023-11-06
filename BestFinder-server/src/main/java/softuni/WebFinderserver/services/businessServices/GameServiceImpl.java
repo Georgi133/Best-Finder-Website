@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.services;
+package softuni.WebFinderserver.services.businessServices;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,10 @@ import softuni.WebFinderserver.model.views.GameCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
 import softuni.WebFinderserver.repositories.GameRepository;
+import softuni.WebFinderserver.services.CategoryEmptyCleanerService;
+import softuni.WebFinderserver.services.CommentService;
+import softuni.WebFinderserver.services.LikeService;
+import softuni.WebFinderserver.services.businessServicesInt.GameService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 import softuni.WebFinderserver.util.CloudUtil;
@@ -27,17 +31,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class GameService {
+public class GameServiceImpl implements GameService {
 
     private final GameRepository gameRepository;
     private final CloudUtil cloudUtil;
     private final CategoryEmptyCleanerService categoryCleaner;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final CommentService commentService;
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public GameService(GameRepository gameRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, UserService userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public GameServiceImpl(GameRepository gameRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
         this.gameRepository = gameRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -200,10 +204,19 @@ public class GameService {
     }
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
+        LocalDate movieWhichWasLastAdded =
+                gameRepository.getMovieWhichWasLastAdded();
+
+        String addedOn = "";
+        if(movieWhichWasLastAdded == null) {
+            addedOn = setMessageLang(lang,"notadded");
+        }else {
+            addedOn = gameRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
         return TorrentInfoView
                 .builder()
                 .description(setMessageLang(lang,"games"))
-                .lastAddedOn(gameRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastAddedOn(addedOn)
                 .build();
 
     }

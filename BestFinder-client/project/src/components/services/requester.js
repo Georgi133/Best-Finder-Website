@@ -1,11 +1,16 @@
-import { NotAllowed } from "../NotAllowed/NotAllowed";
 
 const requester = async (method, url, data) => {
+  let ipUser = '';
+
+  await fetch('https://api.ipify.org')
+           .then((res) => res.text())
+            .then(ip => ipUser = ip)
+           .catch(err => console.log('error when getting ip ' + err));
+                           
   const options = {};
 
   // if (method !== 'GET') {
   options.method = method;
-
 
   const language = localStorage.getItem("lang");
   const lang = JSON.parse(language);
@@ -13,14 +18,25 @@ const requester = async (method, url, data) => {
   if (data) {
     options.headers = {
       "content-type": "application/json",
-      "Accept-Language": lang.lang,
     };
     options.body = JSON.stringify(data);
+  };
+
+  if(lang) {
+    options.headers = {
+      ...options.headers,
+      "Accept-Language": lang.lang,
+    }
+  };
+
+  if(ipUser) {
+    options.headers = {
+      ...options.headers,
+      "X-Forwarded-For": ipUser,
+    }
   }
-  // }
 
   const token = localStorage.getItem("token");
-  
   if (token) {
     const auth = JSON.parse(token); // is with ""
     //when parse removes them
@@ -29,10 +45,10 @@ const requester = async (method, url, data) => {
       options.headers = {
         ...options.headers,
         authorization: `Bearer ${auth}`,
-        "Accept-Language": lang.lang,
       };
     }
   }
+
 
   try {
     const response = await fetch(url, options);
@@ -62,12 +78,19 @@ const uploadTorrent = async (method, url, formData) => {
   const auth = JSON.parse(token); // is with ""
   //when parse removes them
 
+  let ipUser = '';
+
+  await fetch('https://api.ipify.org')
+           .then((res) => res.text())
+            .then(ip => ipUser = ip)
+           .catch(console.log(''));
 
   try {
     const response = await fetch(url, {
       method: method,
       headers: {
         authorization: `Bearer ${auth}`,
+        "X-Forwarded-For": ipUser,
       },
       body: formData,
     });

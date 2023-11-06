@@ -36,6 +36,7 @@ public class AdminInit implements CommandLineRunner {
                     .age(999)
                     .role(RoleEnum.ADMIN)
                     .email(email)
+                    .ipAddress("unknown")
                     .fullName("Admin Adminov")
                     .build();
 

@@ -1,8 +1,6 @@
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./Login.module.css";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { Forgotten } from "./Forgotten";
 import { ButtonSubmit } from "./ButtonSubmit";
 import { useAuthContext } from "../AuthContext/AuthContext";
 import { useForm } from "../useForm/useForm";
@@ -28,10 +26,12 @@ export const Login = () => {
     onSubmit(e,validateLogin(values));
   };
 
+
   return (
     <>
       <MyNavBar url={"login"} />
       <div className={style.container}>
+
         <form className={style.formContainer} onSubmit={onSubmitForm}>
           {errorMessage && <ErrorMessage message={errorMessage} />}
           <div className={style.login + " " + "form-group"}>

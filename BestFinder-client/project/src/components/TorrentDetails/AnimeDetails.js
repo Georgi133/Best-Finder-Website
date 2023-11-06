@@ -10,6 +10,7 @@ import { useAuthContext } from "../AuthContext/AuthContext";
 import  jwt_decode  from 'jwt-decode'
 import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { useTranslation } from "react-i18next";
 
 export const AnimeDetails = () => {
   const { animeId } = useParams();
@@ -36,6 +37,8 @@ export const AnimeDetails = () => {
       }
     
     }
+
+    const { t } = useTranslation();
     
     const token = JSON.parse(localStorage.getItem('token'));
 
@@ -72,27 +75,27 @@ export const AnimeDetails = () => {
         <h3 className={style.header}>{animeName}</h3>
         <article className={style.innerContainer}>
           <div className={style.likes}>
-            <p>Likes: {countLikes}</p>
+            <p>{t("article.likes")}: {countLikes}</p>
           </div>
           <TorrentImage pictureUrl={pictureUrl}/>
           <div className={style.nameHolder}>
-            <small className={style.sm}>Resume:</small>
+            <small className={style.sm}>{t("article.resume")}:</small>
             <strong className={style.movieName}>{resume}</strong>
           </div>
           <div className={style.cat}>
-            <small className={style.sm}>Categories:</small>
+            <small className={style.sm}>{t("article.categories")}:</small>
             <strong className={style.categories}>{categories}</strong>
           </div>
           <div className={style.releasedYear}>
-            <small className={style.sm}>Year:</small> <strong>{year}</strong>
+            <small className={style.sm}>{t("article.year")}:</small> <strong>{year}</strong>
           </div>
           {!isLiked.liked &&
           <button onClick={() => onLike('like')} className={style.likebtn} type="button">
-            <i className="fas fa-thumbs-up"> Like</i>
+            <i className="fas fa-thumbs-up"> {t("article.like")}:</i>
           </button>}
           {isLiked.liked &&
           <button onClick={() => onLike('unlike')} className={style.liked} type="button">
-          <i className="fas fa-thumbs-up"> Liked</i>
+          <i className="fas fa-thumbs-up"> {t("article.liked")}:</i>
         </button>}
 
         </article>
@@ -113,8 +116,8 @@ export const AnimeDetails = () => {
         </article>
 
         <article className={style.commentContainer}>
-          <h4>Comments</h4>
-          {comments.length === 0 && <p>No Comments</p>}
+          <h4>{t("article.comments")}:</h4>
+          {comments.length === 0 && <p>{t("article.noComments")}:</p>}
            { comments.map(c => {
            return (
            <Comment
@@ -133,7 +136,7 @@ export const AnimeDetails = () => {
             
         </article>
         <form className={style.formContainer} onSubmit={onSubmitComment}>
-          <label htmlFor="comment">Write Comment: </label>
+          <label htmlFor="comment">{t("article.writeComment")}: </label>
           <textarea
             className={style.textArea}
             value={values.comment}

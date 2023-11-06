@@ -1,6 +1,7 @@
-package softuni.WebFinderserver.services;
+package softuni.WebFinderserver.services.businessServices;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,9 @@ import softuni.WebFinderserver.model.views.UserInfoView;
 import softuni.WebFinderserver.model.views.UserLoginView;
 import softuni.WebFinderserver.model.views.UserRegisterView;
 import softuni.WebFinderserver.repositories.UserRepository;
+import softuni.WebFinderserver.services.EmailService;
+import softuni.WebFinderserver.services.businessServicesInt.BlackListService;
+import softuni.WebFinderserver.services.businessServicesInt.UserService;
 import softuni.WebFinderserver.services.exceptions.user.*;
 
 import java.io.UnsupportedEncodingException;
@@ -24,18 +28,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+    private final BlackListService blackListService;
 
-    public UserRegisterView register(UserRegistrationDto request) {
+    public UserRegisterView register(UserRegistrationDto request, HttpServletRequest requestServlet) {
         if(isUserExist(request.getEmail())) {
             throw new InvalidRegisterException("There is user with such email",  HttpStatus.valueOf(403));
         }
+
+        String ipAddress = getIpAddress(requestServlet);
 
         var user = UserEntity.builder()
 
@@ -44,6 +51,7 @@ public class UserService {
                 .role(RoleEnum.USER)
                 .fullName(request.getFullName())
                 .age(request.getAge())
+                .ipAddress(ipAddress)
                 .build();
 
         userRepository.save(user);
@@ -83,6 +91,18 @@ public class UserService {
                 .age(user.getAge())
                 .role(user.getRole())
                 .build();
+    }
+
+    public String getIpAddress(HttpServletRequest request) {
+        String ipAddress = null;
+        String xForwardedForHeader = request.getHeader("X-Forwarded-For");
+        if(xForwardedForHeader != null && !xForwardedForHeader.equals("unknown")) {
+            ipAddress = xForwardedForHeader;
+        }
+        if(ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+        return ipAddress;
     }
 
     public void changePassword(UserChangePasswordDto dto) {
@@ -208,5 +228,12 @@ public class UserService {
 
         return true;
     }
+
+    @Override
+    public void banUser(UserEmailDto userEmailDto) {
+        UserEntity userByEmail = findUserByEmail(userEmailDto.getUserEmail());
+        blackListService.addToBlackList(userByEmail.getIpAddress());
+    }
+
 
 }

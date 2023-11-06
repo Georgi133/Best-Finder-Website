@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.SerialService;
+import softuni.WebFinderserver.services.businessServicesInt.SerialService;
+import softuni.WebFinderserver.services.businessServices.SerialServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
@@ -22,7 +23,7 @@ public class SerialController {
 
     private final SerialService serialService;
 
-    public SerialController(SerialService serialService) {
+    public SerialController(SerialServiceImpl serialService) {
         this.serialService = serialService;
     }
 

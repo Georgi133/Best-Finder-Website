@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
-import softuni.WebFinderserver.services.GameService;
+import softuni.WebFinderserver.services.businessServicesInt.GameService;
+import softuni.WebFinderserver.services.businessServices.GameServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
-    public GameController(GameService gameService) {
+    public GameController(GameServiceImpl gameService) {
         this.gameService = gameService;
     }
 

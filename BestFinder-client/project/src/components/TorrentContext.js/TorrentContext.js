@@ -27,6 +27,7 @@ export const TorrentProvider = ({ children }) => {
   const [errorNumber , setErrorNumber] = useState(0);
   const [errorMessage , setErrorMessage] = useState('');
   const [serverErrors, setServerErrors] = useState({});
+  const { onLogout } = useAuthContext();
 
   const onTorrentSubmit = async (data, torrent) => {
    
@@ -199,7 +200,8 @@ export const TorrentProvider = ({ children }) => {
   };
 
   const ifServerThrowNavigate = (error) => {
-    if(error.message === 'forbidden') {
+    if(error.message === 'forbidden' || error.message.includes('You are black listed')) {
+      onLogout();
       navigate('/not-allowed')
       return;
     }

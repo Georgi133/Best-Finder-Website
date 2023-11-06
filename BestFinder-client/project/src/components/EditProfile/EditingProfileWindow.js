@@ -54,7 +54,7 @@ export const EditingProfileWindow = ({
                 {errorMessage && <ErrorMessage message={errorMessage} />}
 
                 <form className={style.formRegPass} method="post" onSubmit={onEdit}>
-                {isProfileEdited && <div id="reloadPage" className={style.success}>Successfully edited!</div>}
+                {isProfileEdited && <div id="reloadPage" className={style.success}>{t("successffully.success")}!</div>}
                {isProfileEdited && redirectPage()}
                
                   { !isProfileEdited && <label className={style.emailLabel} htmlFor="fullName">

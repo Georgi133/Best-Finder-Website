@@ -1,18 +1,18 @@
 package softuni.WebFinderserver.web.user;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.UserInfoView;
 import softuni.WebFinderserver.model.views.UserLoginView;
 import softuni.WebFinderserver.model.views.UserRegisterView;
-import softuni.WebFinderserver.services.UserService;
+import softuni.WebFinderserver.services.businessServicesInt.UserService;
 
 import java.io.UnsupportedEncodingException;
 
@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
     @PatchMapping("/change-password")
@@ -52,10 +53,9 @@ public class UserController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> register (
-            @RequestBody @Valid UserRegistrationDto userRegistrationDto) {
+            @RequestBody @Valid UserRegistrationDto userRegistrationDto, HttpServletRequest request) {
 
-
-        UserRegisterView register = userService.register(userRegistrationDto);
+        UserRegisterView register = userService.register(userRegistrationDto,request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(register);
     }
