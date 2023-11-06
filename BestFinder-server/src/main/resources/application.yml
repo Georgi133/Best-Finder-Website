@@ -3,7 +3,7 @@ spring:
     exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/webFinder?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
+    url: "jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   servlet:
@@ -43,9 +43,9 @@ cloudinary:
  api-secret: "${CLOUD_API_SECRET}"
 
 mail:
-  host: smtp.gmail.com
-  username: webfinderorigin@gmail.com
-  password: jadl yoij jjmr lnrb
+  host: "${MAIL_SERVER}"
+  username: "${MAIL_USERNAME}"
+  password: "${MAIL_PASSWORD}"
   port: 587
 
 app:
