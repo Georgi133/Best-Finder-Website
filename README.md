@@ -1,6 +1,6 @@
 # Best-Finder-Website RESTful API
  Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc.
-    ## 🛠 Built with:
+  ## 🛠 Built with:
  - Spring Boot
  - ReactJS
  - MySQL
