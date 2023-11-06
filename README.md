@@ -37,7 +37,7 @@ cloudinary.cloud-name: ${CLOUD_NAME}
 cloudinary.api-key: ${CLOUD_API_KEY}
 cloudinary.api-secret: ${CLOUD_API_SECRET}
 ```
-- JWT token credentials should be changed from ```application.yaml```:
+- JWT toket - SECRET KEY should be changed from ```application.yaml```:
   
 ```yaml
 jwt.token: ${TOKEN}
