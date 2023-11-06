@@ -1,6 +1,6 @@
 # Best-Finder-Website RESTful API
  Best-Finder is website which helps you find out best movie,serial,game,anime,song or even joke when you have no idea what you want to watch,listen,play etc.
- ## Instalation
+ ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
  -  Apache Maven 4.0.0+
