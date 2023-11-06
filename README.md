@@ -13,8 +13,8 @@
  - JavaScript
  - HTML, CSS
   ## Configuration
- - Datasource location, port and name should be changed from ```application.yaml```:   
-   ```yaml 
+  - Datasource location, port and name should be changed from ```application.yaml```:
+```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
 ```
   
