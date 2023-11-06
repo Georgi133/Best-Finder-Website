@@ -13,8 +13,6 @@
  - HTML, CSS
  - JWT token
  - Apache Maven
- - Apache Tomcat
- - Hibernate
   ## Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
