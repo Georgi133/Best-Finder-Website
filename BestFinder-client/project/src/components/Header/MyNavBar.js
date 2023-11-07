@@ -4,12 +4,14 @@ import { useLocalStorage } from "../useLocalStorage/useLocalStorage";
 import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 export const MyNavBar = ({ url }) => {
   const [lang, setLang] = useLocalStorage("lang", {});
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { userEmail, onLogout, userRole } = useAuthContext();
+  const { setIsLangugeChanged,isLangugeChanged } = useTorrentContext();
 
   const emailForLogin = () => {
     let email = userEmail;
@@ -45,6 +47,7 @@ export const MyNavBar = ({ url }) => {
   };
 
   const onChangeLanguage = (e) => {
+    setIsLangugeChanged(!isLangugeChanged);
     const lang = e.target.value;
     // setLanguage({ lang });
     setLang({ lang });

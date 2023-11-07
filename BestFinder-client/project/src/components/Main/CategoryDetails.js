@@ -1,23 +1,17 @@
-import { useEffect } from "react";
 import style from "./SectionList.module.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 export const CategoryDetails = ({
     imageUrl,
     setImageUrl,
     categoryName,
+    torrentInfo,
 }) => {
     const { t } = useTranslation();
-    const { onCategorySubPageMount, subCategoryPageInfo } = useTorrentContext()
     
-    useEffect(() => {
-        onCategorySubPageMount(categoryName.slice(0, categoryName.length - 1));
-      },[]);
-
-      const description = subCategoryPageInfo.description;
-      const lastAddedOn = subCategoryPageInfo.lastAddedOn;
+      const description = torrentInfo.description;
+      const lastAddedOn = torrentInfo.lastAddedOn;
 
   return (
     <div className={style.overlay} >

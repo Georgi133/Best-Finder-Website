@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoryDetails } from "./CategoryDetails";
 import style from "./SectionList.module.css";
 import { useTranslation } from 'react-i18next';
+import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 
 const image = {
   game: "https://lumiere-a.akamaihd.net/v1/images/star-wars-outlaws-key-art-square_b893fc9e.jpeg?region=0%2C0%2C1080%2C1080",
@@ -24,21 +25,46 @@ export const SectionList = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [categoryName, setCategoryName] = useState('');
   const { t } = useTranslation();
+  const [torrentInfo, setTorrentInfo] = useState({})
+
+  const { 
+    onCategorySubPageMount, 
+     movieInfo,
+    serialInfo,
+    animeInfo,
+    jokeInfo,
+    gameInfo,
+    songInfo, isLangugeChanged, setIsLangugeChanged } = useTorrentContext()
+
+  useEffect(() => {
+    onCategorySubPageMount("movie");
+    onCategorySubPageMount("serial");
+    onCategorySubPageMount("joke");
+    onCategorySubPageMount("anime");
+    onCategorySubPageMount("song");
+    onCategorySubPageMount("game");
+  },[isLangugeChanged]);
 
   const onClickArticle = (category) => {
     
     if(category === 'movie') {
       setImageUrl(image.movie);
+      setTorrentInfo(movieInfo);
     } else if(category === 'song') {
       setImageUrl(image.song);
+      setTorrentInfo(songInfo);
     } else if (category === 'joke') {
       setImageUrl(image.joke);
+      setTorrentInfo(jokeInfo);
     } else if(category === 'anime') {
       setImageUrl(image.anime);
+      setTorrentInfo(animeInfo);
     } else if (category === 'serial') {
       setImageUrl(image.serials);
+      setTorrentInfo(serialInfo);
     } else if (category === 'game') {
       setImageUrl(image.game);
+      setTorrentInfo(gameInfo);
     }
 
     const categoryCopy = category[0] + category.slice(1) + 's';
@@ -48,7 +74,7 @@ export const SectionList = () => {
 
   return (
     <>
-      {imageUrl && <CategoryDetails imageUrl={imageUrl} categoryName={categoryName} setImageUrl={setImageUrl}/>}
+      {imageUrl && <CategoryDetails imageUrl={imageUrl} categoryName={categoryName} setImageUrl={setImageUrl} torrentInfo={torrentInfo}/>}
       <section className={style.container}>
         <h1 className={style.header}>{t("header")}</h1>
 

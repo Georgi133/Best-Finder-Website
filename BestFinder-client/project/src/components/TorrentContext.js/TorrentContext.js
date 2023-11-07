@@ -20,7 +20,6 @@ export const TorrentProvider = ({ children }) => {
   const [isLiked , setIsLiked] = useState({});
   const [countLikes, setCountLikes] = useState('');
   const [selectorValue , setSelectorValue] = useState('likes');
-  const [subCategoryPageInfo, setSubCategoryPageInfo] = useState({});
   const prefixOfVideo = "https://www.youtube.com/embed/";
   const [isTorrentAdded , setIsTorrentAdded] = useState(false);
   const [addedMessage, setAddedMessage] = useState(false);
@@ -28,6 +27,13 @@ export const TorrentProvider = ({ children }) => {
   const [errorMessage , setErrorMessage] = useState('');
   const [serverErrors, setServerErrors] = useState({});
   const { onLogout } = useAuthContext();
+  const [movieInfo, setMovieInfo] = useState({});
+  const [serialInfo, setSerialInfo] = useState({});
+  const [animeInfo, setAnimeInfo] = useState({});
+  const [songInfo, setSongInfo] = useState({});
+  const [jokeInfo, setJokeInfo] = useState({});
+  const [gameInfo, setGameInfo] = useState({});
+  const [ isLangugeChanged , setIsLangugeChanged ] = useState(false);
 
   const onTorrentSubmit = async (data, torrent) => {
    
@@ -224,7 +230,6 @@ export const TorrentProvider = ({ children }) => {
 
     if(category === "movies") {
       setMoviesByYear(result);
-      console.log('hre3')
     }else if(category === "animes"){
       setAnimesByYear(result);
     }else if(category === "serials"){
@@ -241,9 +246,24 @@ export const TorrentProvider = ({ children }) => {
   const onCategorySubPageMount = async (category) => {
     try {
       const result = await torrentService.getCategoryInfo(category);
-      setSubCategoryPageInfo(result);
+      if(category === 'movie') {
+        setMovieInfo(result);
+      } else if(category === 'song') {
+        setSongInfo(result);
+      } else if (category === 'joke') {
+        setJokeInfo(result);
+      } else if(category === 'anime') {
+        setAnimeInfo(result);
+      } else if (category === 'serial') {
+        setSerialInfo(result);
+      } else if (category === 'game') {
+        setGameInfo(result);
+      }
     }catch (error) {
       ifServerThrowNavigate(error);
+      setErrorNumber(convertErrorStringInNumber(error));
+      const rawMessage = convertResponseMessage(error);
+      messageOrFieldChecker(rawMessage);  
     }
    
   }
@@ -265,6 +285,14 @@ export const TorrentProvider = ({ children }) => {
     setAddedMessage,
     setErrorMessage,
     setServerErrors,
+    setIsLangugeChanged,
+    isLangugeChanged,
+    movieInfo,
+    serialInfo,
+    animeInfo,
+    jokeInfo,
+    gameInfo,
+    songInfo,
     errorMessage,
     serverErrors,
     addedMessage,
@@ -281,7 +309,6 @@ export const TorrentProvider = ({ children }) => {
     serialsBySeasons,
     songsByYear,
     gamesByYear,
-    subCategoryPageInfo,
   };
 
   return (
