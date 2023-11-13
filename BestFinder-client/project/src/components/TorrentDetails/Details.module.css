@@ -6,7 +6,7 @@ p {
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 660px;
+    min-height: 100vh;
     color: white;
     text-align: center;
     gap:2vh
@@ -17,6 +17,7 @@ p {
 }
 
 .innerContainer {
+    max-width: 70vh;
     display: flex;
     margin: 10px auto;
     flex-direction: column;

@@ -82,7 +82,7 @@ export const SerialPage = () => {
             </form>
           </div>
 
-          <div>
+          <div className={style.sortContainer}>
             <select
               value={selectorValue}
               className={style.selectCl}

@@ -7,7 +7,7 @@ import { ButtonSubmit } from '../Login/ButtonSubmit'
 import { useAdminContext } from '../AdminContext/AdminContext'
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage'
 import { useValidatorContext } from '../ValidatorContext/ValidatorContext'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export const BanUser = () => {
     const { t } = useTranslation();

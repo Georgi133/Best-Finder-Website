@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    min-height: 660px;
+    min-height: 100vh;
     color: white;
     display: flex;
     flex-direction: row;
@@ -28,18 +28,7 @@
     margin-bottom: 6px;
 }
 
-@media screen and (max-height:  670px) {
-    .container {
-        min-height: 660px;
-    }
 
-  }
-
-@media screen and (max-height:  555px) {
-    .container {
-        min-height: 560px;
-    } 
-}
 
 @media screen and (max-height:  520px) {
     .formContainer {
@@ -48,9 +37,7 @@
 }
 
 @media screen and (max-height:  454px) {
-    .container {
-        min-height: 480px;
-    } 
+
     .formContainer {
         font-size: 14px;
         margin-top: 1vh;
@@ -62,9 +49,6 @@
 
 
 @media screen and (max-height:  386px) {
-    .container {
-        min-height: 400px;
-    } 
     
     .inp {
         padding: 2px 2px;

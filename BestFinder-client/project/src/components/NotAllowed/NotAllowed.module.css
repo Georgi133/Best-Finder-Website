@@ -1,7 +1,7 @@
 .container {
     color: red;
     text-align: center;
-    height: 700px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,27 +28,3 @@
     }
 }
 
-@media screen and (max-height:  640px) {
-    .container {
-        height: 640px;
-    }
-
-}
-
-@media screen and (max-height:  540px) {
-    .container {
-        height: 540px;
-    }    
-
-}
-@media screen and (max-height:  440px) {
-    .container {
-        height: 440px;
-    }
-}
-
-@media screen and (max-height:  400px) {
-    .container {
-        height: 400px;
-    }
-}

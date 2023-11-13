@@ -95,11 +95,11 @@ export const GameDetails = () => {
           </div>
           {!isLiked.liked &&
           <button onClick={() => onLike('like')} className={style.likebtn} type="button">
-            <i className="fas fa-thumbs-up"> {t("article.like")}:</i>
+            <i className="fas fa-thumbs-up"> {t("article.like")}</i>
           </button>}
           {isLiked.liked &&
           <button onClick={() => onLike('unlike')} className={style.liked} type="button">
-          <i className="fas fa-thumbs-up"> {t("article.liked")}:</i>
+          <i className="fas fa-thumbs-up"> {t("article.liked")}</i>
         </button>}
 
         </article>
