@@ -8,6 +8,15 @@
  - HTML, CSS - Without using bootstrap or other sites for helping me visualize the site.
  - Apache Maven
  - JWT token
+ - Spring Security
+ ## What is in Backend?
+ - Filter - to check for valid jwt token and provide token when user is registered and logged
+ - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
+ - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
+ - Schedule - checking every hour if 24 hours from ban of the user is expired and if it's remove the restriction of the user
+ - Custom exceptions , Exception handling
+ - JavaMailSender, Cloudinary
+ - JUnit and Integration tests
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
@@ -49,8 +58,17 @@ jwt.token: ${TOKEN}
 best-finder.admin: ${ADMIN_EMAIL}
 best-finder.defaultpass: ${ADMIN_PASS}
 ```
- ## View - Home Page
+ ## Features
+ - Users - Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
+  can sort by likes descending, search bar combined with sorting operations. Users could change their given 
+ information and change password.Could edit or delete only its own comments and unlike if torrent is liked earlier.
+ - Admin - Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user 
+ roles. Can search by email to see user information.
+ ## View - Home Page, Movies Page, and Movie Details
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/2391c93f-db73-4a0d-92be-9d98e08d66fb" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/fb1eb17e-2199-4af2-8bf7-9659c661f46d" />
   
    
 
