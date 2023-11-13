@@ -34,6 +34,7 @@ export const Joke = ({
       }, [valid]);
     
       useEffect(() => {
+        setErrorMessage(null);
         if(isTorrentAdded) {
           setValueCategory('category')
           setAddedMessage(true);

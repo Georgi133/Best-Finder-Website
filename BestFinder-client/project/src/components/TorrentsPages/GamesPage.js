@@ -3,25 +3,114 @@ import style from "./Pages.module.css";
 import { GameArticle } from "./GameArticle";
 import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
 import { useEffect } from "react";
-import { SortingMenu } from "./SortingMenu";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
+import { useForm } from "../useForm/useForm";
+import { useTranslation } from "react-i18next";
 
 export const GamesPage = () => {
 
-    const { onPageMount, torrentInfo, selectorValue, gamesByYear } = useTorrentContext();
-    useEffect(() => {
-      async function fetchData() {
-        return await onPageMount("game");
+  const { t } = useTranslation();
+  const { onSearchInTorrentValidator, valid } = useValidatorContext();
+  const {
+    onSortChange,
+    setSelectorValue,
+    onSortAndSearchLikes,
+    onSortAndSearchYear,
+    torrentInfo,
+    gamesByYear,
+    selectorValue,
+    setTorrentInfo,
+    setGamesByYear,
+  
+  } = useTorrentContext();
+
+  useEffect(() => {
+    if (valid) {
+      if (selectorValue === "likes") {
+        onSortAndSearchLikes("games", values.searchBar);
+      } else if (selectorValue === "year") {
+        onSortAndSearchYear("games", values.searchBar);
       }
-      fetchData();
-    },[]);
+    }
+  }, [valid, selectorValue]);
+
+  useEffect(() => {
+    if (selectorValue === "year" && Object.keys(gamesByYear).length === 0) {
+      onSortChange("games", "year");
+    } else if (
+      selectorValue === "likes" &&
+      Object.keys(torrentInfo).length === 0
+    ) {
+      onSortChange("games", "likes");
+    }
+  }, [selectorValue]);
+
+  const onSort = (e) => {
+    const value = e.target.value;
+    setSelectorValue(value);
+  };
+
+
+  const { values, changeHandler } = useForm({
+    searchBar: "",
+  });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await onSearchInTorrentValidator();
+  };
+
+  useEffect(() => {
+    return () => {
+        setTorrentInfo([]);
+        setGamesByYear([])
+    };
+  }, []);
 
     return(
     <>
       <MyNavBar />
       <section className={style.container}>
-        <h2 className={style.header}>Games</h2>
+        <h2 className={style.header}>{t("categ.games")}</h2>
 
-        <SortingMenu category="games" torrentInfoSortByYear={gamesByYear}/>
+        <div className={style.searchContainer}>
+          <div className={style.formConainer}>
+            <form className={style.formSearch} onSubmit={onSubmit}>
+              <label className={style.lyrics} htmlFor="searchBar">
+              {t("searchBar.search")}:
+              </label>
+              <input
+                onChange={changeHandler}
+                value={values.searchBar}
+                type="text"
+                className={style.inputSearchForm}
+                id="searchBar"
+                name="searchBar"
+                placeholder="Search"
+                autoComplete="on"
+              />
+              <button type="submit" className={style.btnSearchForm}>
+              {t("searchBar.search")}
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <select
+              value={selectorValue}
+              className={style.selectCl}
+              onChange={onSort}
+            >
+              <option className={style.opt} value="likes">
+              {t("sort.likes")}
+              </option>
+
+              <option className={style.opt} value="year">
+              {t("sort.year")}
+              </option>
+            </select>
+          </div>
+        </div>
 
 
         {selectorValue === 'likes' && torrentInfo.map(game => 

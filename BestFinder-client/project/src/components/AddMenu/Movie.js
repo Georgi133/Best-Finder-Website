@@ -90,6 +90,7 @@ export const Movie = ({
   }, [valid]);
 
   useEffect(() => {
+    setErrorMessage(null);
     if(isTorrentAdded) {
       setValueCategory('category')
       setAddedMessage(true);
@@ -98,7 +99,7 @@ export const Movie = ({
 
   useEffect(() => {
     return () => {
-      setIsTorrentAdded(false)
+      setIsTorrentAdded(false);
     };
   }, []);
 
@@ -107,7 +108,7 @@ export const Movie = ({
    const result = await movieValidate(formValues);
    setTorrentValidationInfo(result);
    isValid(Object.keys(result).length === 0);
-   setErrorMessage(null)
+   setErrorMessage(null);
   }
 
  

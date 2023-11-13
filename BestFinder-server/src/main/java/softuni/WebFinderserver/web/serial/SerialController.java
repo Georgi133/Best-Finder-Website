@@ -47,14 +47,23 @@ public class SerialController {
                 status(HttpStatus.OK).body(serials);
     }
 
-    @GetMapping(value = "/serials/sort-by-seasons")
-    public ResponseEntity<?> sortByYear() {
+    @PostMapping(value = "/get-all/serials/filtered-by-likes")
+    public ResponseEntity<?> getAllFilteredByLikes(@RequestBody TorrentSearchBarDto dto) {
 
-        List<BaseView> serials = serialService.sortBySeasons();
+        List<BaseView> movies = serialService.getAllByCriteriaSortedByLikes(dto.getSearchBar());
 
         return ResponseEntity.
-                status(HttpStatus.OK).body(serials);
+                status(HttpStatus.OK).body(movies);
     }
+
+//    @GetMapping(value = "/serials/sort-by-seasons")
+//    public ResponseEntity<?> sortByYear() {
+//
+//        List<BaseView> serials = serialService.sortBySeasons();
+//
+//        return ResponseEntity.
+//                status(HttpStatus.OK).body(serials);
+//    }
 
     @PostMapping(value = "/get/serial/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id, @RequestBody UserEmailDto dto) {
@@ -75,7 +84,7 @@ public class SerialController {
     }
 
     @DeleteMapping(value = "/delete/serial/{serialId}/comment/{commentId}")
-    public ResponseEntity<?> deleteCommentFromAnimeById(@PathVariable Long serialId,
+    public ResponseEntity<?> deleteComment(@PathVariable Long serialId,
                                                         @PathVariable Long commentId,
                                                         @RequestBody UserEmailDto dto) {
 
@@ -130,5 +139,6 @@ public class SerialController {
                 .body(ErrorDto.builder().message(ex.getMessage())
                         .build());
     }
+
 
 }

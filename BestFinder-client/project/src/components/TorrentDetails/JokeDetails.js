@@ -11,11 +11,12 @@ import { useForm } from "../useForm/useForm";
 import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useTranslation } from "react-i18next";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 export const JokeDetails = () => {
   const { jokeId } = useParams();
   const { userEmail } = useAuthContext();
-  const { setValid } = useValidatorContext();
+  const { validateComment } = useValidatorContext();
 
   const { onTorrentDetails, 
     torrentDetails, onCommentSubmit, 
@@ -24,6 +25,8 @@ export const JokeDetails = () => {
     isLiked ,
     setLiked, 
     countLikes,
+    serverErrors,
+    setServerErrors
    } =
     useTorrentContext();
 
@@ -44,18 +47,19 @@ export const JokeDetails = () => {
     useEffect(() => {
       const decoded = jwt_decode(token);
       onTorrentDetails(jokeId, "joke", userEmail === undefined ? decoded.sub : userEmail);
+      window.scrollTo(0, 0);
     },[]);
 
-    const { values, changeHandler, onSubmit } = useForm({
+    const { values, changeHandler, onSubmit, formErrors } = useForm({
       comment: '',
       category:'joke',
     }, onCommentSubmit);
 
     const onSubmitComment = (e) => {
-      setValid(true);
-      onSubmit(e);
+      setServerErrors({});
+      e.preventDefault();
+      onSubmit(e,validateComment(values));
     }
-
 
   const jokeName = torrentDetails.jokeName;
   const pictureUrl = torrentDetails.pictureUrl;
@@ -109,6 +113,8 @@ export const JokeDetails = () => {
            }
             
         </article>
+        {formErrors.comment ? <ErrorMessage message={formErrors.comment}/> : 
+     serverErrors.comment ? <ErrorMessage message={serverErrors.comment}/> : ''}
         <form className={style.formContainer} onSubmit={onSubmitComment}>
           <label htmlFor="comment">{t("article.writeComment")} </label>
           <textarea

@@ -16,7 +16,7 @@ public class JokeUploadDto {
     private String torrent;
 
     @NotNull
-    @Size(min = 8, message = "Name must be more or equal to 4 characters!")
+    @Size(min = 4, message = "Name must be more or equal to 4 characters!")
     private String torrentName;
 
     @NotNull

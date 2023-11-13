@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.Actor;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -35,7 +36,6 @@ public class SerialServiceImpl implements SerialService {
     private final CloudUtil cloudUtil;
     private final CategoryEmptyCleanerService categoryCleaner;
     private final ActorCleanerService actorCleanerService;
-
     private final UserServiceImpl userService;
     private final CommentService commentService;
     private final LikeService likeService;
@@ -58,7 +58,6 @@ public class SerialServiceImpl implements SerialService {
         if (movie.isPresent()) {
             throw new UploadTorrentException("Serial with such name already exist", HttpStatus.BAD_REQUEST);
         }
-
         if(file == null) {
             throw new UploadTorrentException("Must have file attached", HttpStatus.BAD_REQUEST);
         }
@@ -119,6 +118,12 @@ public class SerialServiceImpl implements SerialService {
         return serials.stream().map(this::mapToView).collect(Collectors.toList());
     }
 
+    @Override
+    public List<BaseView> getAllByCriteriaSortedByLikes(String searchBar) {
+        Set<Serial> serialsByCriteria = serialRepository.getSerialsByCriteria(searchBar);
+        List<Serial> list = serialsByCriteria.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+        return list.stream().map(this::mapToView).collect(Collectors.toList());
+    }
 
     public List<BaseView> sortBySeasons() {
         return serialRepository.getAllBySeasonsDesc().stream().map(this::mapToView).collect(Collectors.toList());
@@ -150,11 +155,10 @@ public class SerialServiceImpl implements SerialService {
         return mapToView(savedSerial);
     }
 
-
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
         Serial serial = serialRepository
                 .findById(animeId)
-                .orElseThrow(() -> new TorrentException("No such serial when deleting comment",HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new TorrentException("No such serial when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> collect = serial.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
@@ -163,12 +167,11 @@ public class SerialServiceImpl implements SerialService {
         commentService.deleteCommentById(commentId);
         serialRepository.saveAndFlush(serial);
         return this.getById(serial.getId(), userEmail);
-
     }
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
 
-        Serial serial = serialRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such serial when editing a comment",HttpStatus.BAD_REQUEST));
+        Serial serial = serialRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such serial when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> newCommentList = serial.getComments().stream().map(comment -> {
             if (comment.getId() == commentId) {

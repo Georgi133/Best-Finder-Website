@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Joke;
+import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.JokeCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -98,11 +99,19 @@ public class JokeServiceImpl implements JokeService {
         return joke;
     }
 
-
     public List<BaseView> getAll() {
         List<Joke> jokes = jokeRepository.getAll();
-
         return jokes.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+    public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
+        if(criteria.trim().isEmpty() || criteria.isEmpty()) {
+            List<Joke> jokes = jokeRepository.getAll();
+            List<Joke> list = jokes.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+            return list.stream().map(this::mapToView).collect(Collectors.toList());
+        }
+        List<Joke> allJokes = jokeRepository.getJokeByCriteria(criteria);
+        List<Joke> list = allJokes.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+        return list.stream().map(this::mapToView).collect(Collectors.toList());
     }
 
     public BaseView getById(Long id, String userEmail) {
@@ -134,7 +143,7 @@ public class JokeServiceImpl implements JokeService {
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
         Joke joke = jokeRepository
                 .findById(animeId)
-                .orElseThrow(() -> new TorrentException("No such joke when deleting comment",HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new TorrentException("No such joke when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> collect = joke.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
@@ -148,7 +157,7 @@ public class JokeServiceImpl implements JokeService {
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
 
-        Joke joke = jokeRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such joke when editing a comment",HttpStatus.BAD_REQUEST));
+        Joke joke = jokeRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such joke when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> newCommentList = joke.getComments().stream().map(comment -> {
             if (comment.getId() == commentId) {

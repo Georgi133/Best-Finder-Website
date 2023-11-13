@@ -32,6 +32,7 @@ export const MovieDetails = () => {
    } =
     useTorrentContext();
 
+
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
@@ -39,7 +40,6 @@ export const MovieDetails = () => {
       }else {
         onLikeTorrent({userEmail}, "movie", movieId);
       }
-    
     }
 
     const { t } = useTranslation();
@@ -49,6 +49,7 @@ export const MovieDetails = () => {
     useEffect(() => {
       const decoded = jwt_decode(token);
       onTorrentDetails(movieId, "movie", userEmail === undefined ? decoded.sub : userEmail);
+      window.scrollTo(0, 0);
     },[]);
 
     const { values, changeHandler, onSubmit, formErrors } = useForm({
@@ -60,7 +61,6 @@ export const MovieDetails = () => {
     const onSubmitComment = (e) => {
       setServerErrors({});
       e.preventDefault();
-      console.log('here')
       onSubmit(e,validateComment(values));
     }
 
@@ -143,7 +143,6 @@ export const MovieDetails = () => {
              />
              )
            })
-              
            }
             
         </article>

@@ -82,7 +82,7 @@ export const MyNavBar = ({ url }) => {
           {t("adminNav.changeRole")}
           </option>
           <option className={style.opt} value="ban">
-          Ban Menu
+          {t("ban.title")}
           </option>
           
         </select>

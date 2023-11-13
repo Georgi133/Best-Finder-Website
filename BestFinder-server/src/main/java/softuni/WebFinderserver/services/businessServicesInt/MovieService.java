@@ -32,4 +32,8 @@ public interface MovieService {
     public TorrentInfoView getCategoryInfo(Locale lang) ;
 
     public List<BaseView> getAll();
+
+    public List<BaseView> getAllByCriteriaSortedByLikes(String criteria);
+
+    public List<BaseView> getAllByCriteriaSortedByYear(String criteria);
 }

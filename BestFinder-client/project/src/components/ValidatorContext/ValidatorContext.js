@@ -8,6 +8,10 @@ export const ValidatorProvider = ({ children }) => {
 
   const [valid, setValid] = useState(false);
 
+  const onSearchInTorrentValidator = () => {
+    setValid(true);
+  }
+
   const validateLogin = (values) => {
     const errors = emailAndPasswordValidation(values);
 
@@ -316,6 +320,7 @@ export const ValidatorProvider = ({ children }) => {
     songValidate,
     jokeValidate,
     validateComment,
+    onSearchInTorrentValidator,
     valid,
   };
 

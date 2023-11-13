@@ -10,9 +10,8 @@ export const TorrentProvider = ({ children }) => {
   const [torrentInfo, setTorrentInfo] = useState([]);
   const [animesByYear, setAnimesByYear] = useState([]);
   const [moviesByYear, setMoviesByYear] = useState([]);
-  const [serialsBySeasons, setSerialsBySeasons] = useState([]);
   const [songsByYear, setSongsByYear] = useState([]);
-  const [gamesByYear, setGamesByYear] = useState([]);
+  const [gamesByYear, setGamesByYear] = useState([]);  
   const torrentService = torrentServiceFactory();
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
@@ -33,6 +32,8 @@ export const TorrentProvider = ({ children }) => {
   const [songInfo, setSongInfo] = useState({});
   const [jokeInfo, setJokeInfo] = useState({});
   const [gameInfo, setGameInfo] = useState({});
+  const [torentDetailsInfo, setTorrentDetailsInfo] = useState([]);
+
   const [ isLangugeChanged , setIsLangugeChanged ] = useState(false);
 
   const onTorrentSubmit = async (data, torrent) => {
@@ -48,6 +49,29 @@ export const TorrentProvider = ({ children }) => {
     }
     
   };
+
+  const onSortAndSearchLikes =  async(category,data) => {
+    const result = await torrentService.sortAndSearchByLikes(category, data ? {searchBar : data} : {searchBar : ' '});
+    setTorrentInfo(result);
+  }
+
+  const onSortAndSearchYear = async (category,data) => {
+    try{
+      const result = await torrentService.sortAndSearchByYear(category, data ? {searchBar : data} : {searchBar : ' '});
+      if(category === "movies") {
+        setMoviesByYear(result);
+      }else if(category === "animes"){
+        setAnimesByYear(result);
+      }else if(category === "songs"){
+        setSongsByYear(result);
+      }else if(category === "games"){
+        setGamesByYear(result);
+      }
+    }catch (error) {
+      ifServerThrowNavigate(error);
+    }
+   
+  }
 
   const messageOrFieldChecker = (rawMessage) => {
     const index = rawMessage.indexOf(':');
@@ -149,12 +173,19 @@ export const TorrentProvider = ({ children }) => {
       const rawMessage = convertResponseMessage(error);
       messageOrFieldChecker(rawMessage);  
     }
-    
-    
   };
 
 
   const onTorrentDetails = async (id, category, userEmail) => {
+
+    const res = torentDetailsInfo.find(torrent => Number(torrent.id) === Number(id));
+    if(res) {
+      setCountLikes(res.countLikes);
+      setComments(res.comments);
+      setTorrentDetails(res);
+      const isLiked = res.likes.find(like => like.userEmail === userEmail);
+      setIsLiked({liked : isLiked ? isLiked.userEmail === userEmail : false});
+    }else {
     try {
       const result = await torrentService.getById(id, category, {userEmail});
       setComments(result.comments);
@@ -162,9 +193,13 @@ export const TorrentProvider = ({ children }) => {
       setTorrentDetails(result);
       setCountLikes(result.countLikes);
     }catch (error) {
+      if(error.message.includes('not exist')) {
+        navigate('/not-exist')
+      }
       ifServerThrowNavigate(error);
     }
- 
+  }
+
   };
 
   const onLikeTorrent = async (data, category, id) => {
@@ -207,7 +242,9 @@ export const TorrentProvider = ({ children }) => {
 
   const ifServerThrowNavigate = (error) => {
     if(error.message === 'forbidden' || error.message.includes('You are black listed')) {
-      onLogout();
+      if(error.message.includes('You are black listed')){
+        onLogout();
+      }
       navigate('/not-allowed')
       return;
     }
@@ -220,24 +257,36 @@ export const TorrentProvider = ({ children }) => {
     setIsLiked({liked : isLiked})
   }
 
-  const onSortChange = async (category, seasons)  => {
+  const onSortChange = async (category, criteria)  => {
     let result = '';
-    if(seasons) {
-       result = await torrentService.sortBySeasons(category);
-    }else {
-      result = await torrentService.sortByYear(category);
+    if(criteria === 'year') {
+      try{
+        result = await torrentService.sortByYear(category);
+        setTorrentDetailsInfo(result);
+
+      }catch (error) {
+        ifServerThrowNavigate(error);
+      }
+    }else if (criteria === 'likes') {
+      try {
+        result = await torrentService.getTorrent(category);
+      setTorrentInfo(result);
+      setTorrentDetailsInfo(result);
+      return;
+
+      }catch (error) {
+        ifServerThrowNavigate(error);
+      }
+      
     }
 
-    if(category === "movies") {
+    if(category === "movies" && criteria === 'year') {
       setMoviesByYear(result);
-    }else if(category === "animes"){
+    }else if(category === "animes" && criteria === 'year'){
       setAnimesByYear(result);
-    }else if(category === "serials"){
-      setSerialsBySeasons(result);
-      console.log('rer'  + result)
-    }else if(category === "songs"){
+    }else if(category === "songs" && criteria === 'year'){
       setSongsByYear(result);
-    }else if(category === "games"){
+    }else if(category === "games" && criteria === 'year'){
       setGamesByYear(result);
     }
     
@@ -286,6 +335,14 @@ export const TorrentProvider = ({ children }) => {
     setErrorMessage,
     setServerErrors,
     setIsLangugeChanged,
+    onSortAndSearchLikes,
+    onSortAndSearchYear,
+    setTorrentInfo,
+    setTorrentDetailsInfo,
+    setMoviesByYear,
+    setGamesByYear,
+    setSongsByYear,
+    setAnimesByYear,
     isLangugeChanged,
     movieInfo,
     serialInfo,
@@ -306,7 +363,6 @@ export const TorrentProvider = ({ children }) => {
     prefixOfVideo,
     animesByYear,
     moviesByYear,
-    serialsBySeasons,
     songsByYear,
     gamesByYear,
   };

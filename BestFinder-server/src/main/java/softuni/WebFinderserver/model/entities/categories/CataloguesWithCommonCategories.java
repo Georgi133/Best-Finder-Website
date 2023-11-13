@@ -15,7 +15,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class CataloguesWithCommonCategories extends BaseCatalogue {
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "catalogues_common_categories",
             joinColumns = { @JoinColumn(name = "base_id")},

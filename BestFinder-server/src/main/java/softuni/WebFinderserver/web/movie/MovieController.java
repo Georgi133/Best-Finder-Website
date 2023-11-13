@@ -29,7 +29,7 @@ public class MovieController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-movie", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> register(
+    public ResponseEntity<?> uploadMovie(
             @RequestPart(value = "file") MultipartFile file,
             @RequestPart(value = "dto", required = false) @Valid MovieUploadDto dto) throws IOException {
 
@@ -41,6 +41,23 @@ public class MovieController {
     public ResponseEntity<?> getAll() {
 
         List<BaseView> movies = movieService.getAll();
+
+        return ResponseEntity.
+                status(HttpStatus.OK).body(movies);
+    }
+
+    @PostMapping(value = "/get-all/movies/filtered-by-year")
+    public ResponseEntity<?> getAllFilteredByYear(@RequestBody TorrentSearchBarDto dto) {
+        List<BaseView> movies = movieService.getAllByCriteriaSortedByYear(dto.getSearchBar());
+
+        return ResponseEntity.
+                status(HttpStatus.OK).body(movies);
+    }
+
+    @PostMapping(value = "/get-all/movies/filtered-by-likes")
+    public ResponseEntity<?> getAllFilteredByLikes(@RequestBody TorrentSearchBarDto dto) {
+
+        List<BaseView> movies = movieService.getAllByCriteriaSortedByLikes(dto.getSearchBar());
 
         return ResponseEntity.
                 status(HttpStatus.OK).body(movies);
@@ -74,7 +91,7 @@ public class MovieController {
     }
 
     @DeleteMapping(value = "/delete/movie/{movieId}/comment/{commentId}")
-    public ResponseEntity<?> deleteCommentFromAnimeById(@PathVariable Long movieId,
+    public ResponseEntity<?> deleteComment(@PathVariable Long movieId,
                                                         @PathVariable Long commentId,
                                                         @RequestBody UserEmailDto dto) {
 
@@ -129,6 +146,8 @@ public class MovieController {
                 .body(ErrorDto.builder().message(ex.getMessage())
                         .build());
     }
+
+
 
 
 }

@@ -9,7 +9,7 @@ export const torrentServiceFactory = () => {
 
     return {
         uploadTorrent: (data, torrent) => request.upload(`${upload}-${torrent}`,data),
-        getTorrent: (torrent) => request.get(`${getUrl}-all/${torrent}s`),
+        getTorrent: (torrent) => request.get(`${getUrl}-all/${torrent}`),
         getById: (id, category, data) => request.post(`${getUrl}/${category}/${id}`,data),
         uploadComment: (data, id, category) => request.post(`${upload}/${category}/${id}/comment`,data),
         deleteComment: (torrentId, commentId, category, data) => request.delete(`${baseUrl}/delete/${category}/${torrentId}/comment/${commentId}`, data),
@@ -18,6 +18,8 @@ export const torrentServiceFactory = () => {
         unLikeTorrent: (data, category,id) => request.post(`${baseUrl}/${category}/${id}/unlike`,data),
         sortByYear: (category) => request.get(`${baseUrl}/${category}/sort-by-year`),
         sortBySeasons: (category) => request.get(`${baseUrl}/${category}/sort-by-seasons`),
-        getCategoryInfo: (category) => request.get(`${baseUrl}/${category}-info`),
+        getCategoryInfo: (category) => request.get(`${baseUrl}/${category}-info`, '', 'dont take ip on home page'),
+        sortAndSearchByYear: (category,data) => request.post(`${getUrl}-all/${category}/filtered-by-year`, data),
+        sortAndSearchByLikes:(category,data) => request.post(`${getUrl}-all/${category}/filtered-by-likes`, data),
     }
 };

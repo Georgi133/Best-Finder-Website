@@ -8,6 +8,14 @@
     margin: 20px auto;
 }
 
+.picture {
+    height: 40vh;
+    width: 50vh;
+    border-radius: 6px;
+    border: 1px solid wheat;
+    padding: 1px;
+}
+
 @media screen and (max-height:  640px) {
     .container {
         height: 640px;
@@ -30,5 +38,12 @@
 @media screen and (max-height:  400px) {
     .container {
         height: 400px;
+    }
+}
+
+@media screen and (max-width:  352px) {
+    .picture {
+        height: 40vh;
+       width: 50vh;
     }
 }

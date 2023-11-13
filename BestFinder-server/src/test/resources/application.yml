@@ -1,0 +1,71 @@
+#spring:
+#  #  sql:
+#  #    init:
+#  #      mode: always
+#  jpa:
+#    # Choose either MySQL 8 or MySQL 5 below
+#    # For MySQL 8
+#    #For MySQL 5
+#    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: create-drop
+#    defer-datasource-initialization: false
+#
+#best-finder:
+#    admin: ${ADMIN_EMAIL}
+#    defaultpass: ${ADMIN_PASS}
+#
+#cloudinary:
+#    cloud-name: "${CLOUD_NAME}"
+#    api-key: "${CLOUD_API_KEY}"
+#    api-secret: "${CLOUD_API_SECRET}"
+#
+#mail:
+#    host: "${MAIL_SERVER}"
+#    username: "${MAIL_USERNAME}"
+#    password: "${MAIL_PASSWORD}"
+#    port: 587
+#
+#app:
+#    name: "Web-Finder"
+#
+#jwt:
+#    token: ${TOKEN}
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+best-finder:
+        admin: ${ADMIN_EMAIL:Admin@abv.bg}
+        defaultpass: ${ADMIN_PASS:123}
+
+cloudinary:
+      cloud-name: "devfl8421"
+      api-key: "555939831914416"
+      api-secret: "ZFmb_Usp5Q_tAP0FKTJWJPad2u0"
+mail:
+      host: "localhost"
+      username: "webfinderorigin@gmail.com"
+      password: "123"
+      port: 1025
+
+app:
+     name: "Web-Finder"
+
+jwt:
+     token: ${TOKEN:405E635266556A586E3272357538782F413F4428472B4B6250645367566B5971}
+
+
+
+
+

@@ -33,4 +33,7 @@ public interface SongService {
 
     public List<BaseView> getAll();
 
+    List<BaseView> getAllByCriteriaSortedByYear(String searchBar);
+
+    List<BaseView> getAllByCriteriaSortedByLikes(String searchBar);
 }

@@ -33,7 +33,9 @@ export const AdminProvider = ({ children }) => {
 
   const ifServerThrowNavigate = (error) => {
     if(error.message === 'forbidden' || error.message.includes('You are black listed')) {
-      onLogout();
+        if(error.message.includes('You are black listed')){
+          onLogout();
+        }
       navigate('/not-allowed')
       return;
     }

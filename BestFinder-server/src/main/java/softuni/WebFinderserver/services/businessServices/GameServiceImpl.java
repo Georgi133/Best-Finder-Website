@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Game;
+import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.GameCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -116,6 +117,20 @@ public class GameServiceImpl implements GameService {
                 .collect(Collectors.toList());
     }
 
+    public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
+        List<Game> allMovies = gameRepository.getAllByCriteria(criteria);
+
+        List<Game> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+
+        return list.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+
+    public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
+        List<Game> allMovies = gameRepository.getAllByCriteriaOrderedByYearDesc(criteria);
+
+        return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+
     public List<BaseView> sortByYear() {
         return gameRepository.getAllByYearDesc().stream().map(this::mapToView).collect(Collectors.toList());
     }
@@ -150,7 +165,7 @@ public class GameServiceImpl implements GameService {
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
         Game game = gameRepository
                 .findById(animeId)
-                .orElseThrow(() -> new TorrentException("No such game when deleting comment",HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new TorrentException("No such game when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> collect = game.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
@@ -164,7 +179,7 @@ public class GameServiceImpl implements GameService {
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
 
-        Game game = gameRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such game when editing a comment",HttpStatus.BAD_REQUEST));
+        Game game = gameRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such game when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> newCommentList = game.getComments().stream().map(comment -> {
             if (comment.getId() == commentId) {

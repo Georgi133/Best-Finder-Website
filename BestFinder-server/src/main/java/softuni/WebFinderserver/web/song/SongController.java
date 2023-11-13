@@ -45,6 +45,25 @@ public class SongController {
                 status(HttpStatus.OK).body(songs);
     }
 
+    @PostMapping(value = "/get-all/songs/filtered-by-year")
+    public ResponseEntity<?> getAllFilteredByYear(@RequestBody TorrentSearchBarDto dto) {
+
+        List<BaseView> movies = songService.getAllByCriteriaSortedByYear(dto.getSearchBar());
+
+        return ResponseEntity.
+                status(HttpStatus.OK).body(movies);
+    }
+
+    @PostMapping(value = "/get-all/songs/filtered-by-likes")
+    public ResponseEntity<?> getAllFilteredByLikes(@RequestBody TorrentSearchBarDto dto) {
+
+        List<BaseView> movies = songService.getAllByCriteriaSortedByLikes(dto.getSearchBar());
+
+        return ResponseEntity.
+                status(HttpStatus.OK).body(movies);
+    }
+
+
     @GetMapping(value = "/songs/sort-by-year")
     public ResponseEntity<?> sortByYear() {
 
@@ -73,7 +92,7 @@ public class SongController {
     }
 
     @DeleteMapping(value = "/delete/song/{songId}/comment/{commentId}")
-    public ResponseEntity<?> deleteCommentFromAnimeById(@PathVariable Long songId,
+    public ResponseEntity<?> deleteComment(@PathVariable Long songId,
                                                         @PathVariable Long commentId,
                                                         @RequestBody UserEmailDto dto) {
 

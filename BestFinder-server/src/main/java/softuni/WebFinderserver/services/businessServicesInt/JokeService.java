@@ -32,4 +32,6 @@ public interface JokeService {
     public TorrentInfoView getCategoryInfo(Locale lang) ;
 
     public List<BaseView> getAll();
+
+    List<BaseView> getAllByCriteriaSortedByLikes(String searchBar);
 }

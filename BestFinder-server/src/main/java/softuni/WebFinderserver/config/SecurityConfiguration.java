@@ -3,6 +3,7 @@ package softuni.WebFinderserver.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,7 +15,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import softuni.WebFinderserver.jwt.JwtAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -31,15 +33,25 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/users/register",
-                                        "/users/login", "movie-info", "serial-info",
-                                        "game-info", "song-info", "anime-info", "joke-info",
-                                        "/users/forgotten/*")
-                                .permitAll()
+//                        auth.requestMatchers("/users/register",
+//                                        "/users/login", "movie-info", "serial-info",
+//                                        "game-info", "song-info", "anime-info", "joke-info",
+//                                        "/users/forgotten/*", "/h2-console/**")
+//                                .permitAll()
+                        auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/users/register")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/users/login")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/movie-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/song-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/anime-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/joke-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/game-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/serial-info")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/users/forgotten/password")).permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return httpSecurity.build();
     }

@@ -45,6 +45,15 @@ public class JokeController {
                 status(HttpStatus.OK).body(jokes);
     }
 
+    @PostMapping(value = "/get-all/jokes/filtered-by-likes")
+    public ResponseEntity<?> getAllFilteredByLikes(@RequestBody TorrentSearchBarDto dto) {
+
+        List<BaseView> movies = jokeService.getAllByCriteriaSortedByLikes(dto.getSearchBar());
+
+        return ResponseEntity.
+                status(HttpStatus.OK).body(movies);
+    }
+
     @PostMapping(value = "/get/joke/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id, @RequestBody UserEmailDto dto) {
 
@@ -64,7 +73,7 @@ public class JokeController {
     }
 
     @DeleteMapping(value = "/delete/joke/{jokeId}/comment/{commentId}")
-    public ResponseEntity<?> deleteCommentFromAnimeById(@PathVariable Long jokeId,
+    public ResponseEntity<?> deleteComment(@PathVariable Long jokeId,
                                                         @PathVariable Long commentId,
                                                         @RequestBody UserEmailDto dto) {
 

@@ -34,7 +34,7 @@ export const SectionList = () => {
     animeInfo,
     jokeInfo,
     gameInfo,
-    songInfo, isLangugeChanged, setIsLangugeChanged } = useTorrentContext()
+    songInfo, isLangugeChanged } = useTorrentContext()
 
   useEffect(() => {
     onCategorySubPageMount("movie");

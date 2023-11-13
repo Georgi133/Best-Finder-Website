@@ -10,7 +10,12 @@ import softuni.WebFinderserver.services.exceptions.user.*;
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler({InvalidLoginException.class, InvalidRegisterException.class, InvalidPasswordException.class, UserException.class, UnAuthorizedException.class})
+    @ExceptionHandler({InvalidLoginException.class,
+            InvalidRegisterException.class,
+            InvalidPasswordException.class,
+            UserException.class,
+            UnAuthorizedException.class,
+            InvalidEmailDataException.class})
     @ResponseBody
     public ResponseEntity<ErrorDto> handleException (UserException ex) {
 

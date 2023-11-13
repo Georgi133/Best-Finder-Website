@@ -7,10 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
-import softuni.WebFinderserver.model.entities.Actor;
-import softuni.WebFinderserver.model.entities.Comment;
-import softuni.WebFinderserver.model.entities.Like;
-import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.*;
+import softuni.WebFinderserver.model.entities.categories.CataloguesWithCommonCategories;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -28,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -67,6 +66,7 @@ public class MovieServiceImpl implements MovieService {
 
         return mapToView(savedMovie);
     }
+
     private MovieCreateView mapToView(Movie savedMovie) {
         int startIndex = savedMovie.getTrailer().length() - 11;
         MovieCreateView build = MovieCreateView.builder()
@@ -110,9 +110,21 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
-
     public List<BaseView> getAll() {
         List<Movie> allMovies = movieRepository.getAll();
+
+        return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+    public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
+        List<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByLikesDesc(criteria);
+
+        List<Movie> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+
+        return list.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+
+    public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
+        List<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByYearDesc(criteria);
 
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }
@@ -148,10 +160,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
 
-    public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
+    public BaseView deleteCommentById(Long movieId, Long commentId, String userEmail) {
         Movie movie = movieRepository
-                .findById(animeId)
-                .orElseThrow(() -> new TorrentException("No such movie when deleting comment",HttpStatus.BAD_REQUEST));
+                .findById(movieId)
+                .orElseThrow(() -> new TorrentException("No such movie when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> collect = movie.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
@@ -160,12 +172,12 @@ public class MovieServiceImpl implements MovieService {
         commentService.deleteCommentById(commentId);
         movieRepository.saveAndFlush(movie);
         return this.getById(movie.getId(), userEmail);
-
     }
 
-    public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
+    public BaseView editCommentById(Long movieId, Long commentId, CommentEditDto dto) {
 
-        Movie movie = movieRepository.findById(animeId).orElseThrow(() -> new RuntimeException("No such movie when editing a comment"));
+        Movie movie = movieRepository.
+                findById(movieId).orElseThrow(() -> new TorrentException("No such movie when editing a comment",HttpStatus.valueOf(403)));
 
         List<Comment> newCommentList = movie.getComments().stream().map(comment -> {
             if (comment.getId() == commentId) {
@@ -174,6 +186,7 @@ public class MovieServiceImpl implements MovieService {
             }
             return comment;
         }).toList();
+
         commentService.editCommentById(commentId, dto.getComment());
         movie.setComments(newCommentList);
         return mapToView(movie);
@@ -181,7 +194,7 @@ public class MovieServiceImpl implements MovieService {
 
 
     public BaseView like(Long id, String userEmail) {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("No such movie on add like"));
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
 
         UserEntity userByEmail = userService.findUserByEmail(userEmail);
         Like like = new Like(movie,userByEmail);
@@ -196,7 +209,6 @@ public class MovieServiceImpl implements MovieService {
 
         UserEntity userByEmail = userService.findUserByEmail(userEmail);
         userByEmail.getLikes().removeIf(like -> like.getProject().getId() == id);
-
 
         userService.unlike(userByEmail);
 

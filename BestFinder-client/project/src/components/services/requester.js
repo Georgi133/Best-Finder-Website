@@ -1,12 +1,13 @@
+const requester = async (method, url, data, shouldITakeIp) => {
+  let ipUser = "";
 
-const requester = async (method, url, data) => {
-  let ipUser = '';
+  if (!shouldITakeIp) {
+    await fetch("https://api.ipify.org")
+      .then((res) => res.text())
+      .then((ip) => (ipUser = ip))
+      .catch(err => console.log(''));
+  }
 
-  await fetch('https://api.ipify.org')
-           .then((res) => res.text())
-            .then(ip => ipUser = ip)
-           .catch(err => console.log('error when getting ip ' + err));
-                           
   const options = {};
 
   // if (method !== 'GET') {
@@ -20,20 +21,20 @@ const requester = async (method, url, data) => {
       "content-type": "application/json",
     };
     options.body = JSON.stringify(data);
-  };
+  }
 
-  if(lang) {
+  if (lang) {
     options.headers = {
       ...options.headers,
       "Accept-Language": lang.lang,
-    }
-  };
+    };
+  }
 
-  if(ipUser) {
+  if (ipUser) {
     options.headers = {
       ...options.headers,
       "X-Forwarded-For": ipUser,
-    }
+    };
   }
 
   const token = localStorage.getItem("token");
@@ -49,14 +50,12 @@ const requester = async (method, url, data) => {
     }
   }
 
-
   try {
     const response = await fetch(url, options);
-    
 
     if (response.ok || response.status === 201) {
-     
-      return await response.json();
+      let result = await response.json();
+      return result;
     } else {
       if (response.status === 403) {
         throw new Error("forbidden");
@@ -78,12 +77,12 @@ const uploadTorrent = async (method, url, formData) => {
   const auth = JSON.parse(token); // is with ""
   //when parse removes them
 
-  let ipUser = '';
+  let ipUser = "";
 
-  await fetch('https://api.ipify.org')
-           .then((res) => res.text())
-            .then(ip => ipUser = ip)
-           .catch(console.log(''));
+  await fetch("https://api.ipify.org")
+    .then((res) => res.text())
+    .then((ip) => (ipUser = ip))
+    .catch(err => console.log(''));
 
   try {
     const response = await fetch(url, {
@@ -139,4 +138,3 @@ export const requestFactory = () => {
     upload: uploadTorrent.bind(null, "POST"),
   };
 };
-

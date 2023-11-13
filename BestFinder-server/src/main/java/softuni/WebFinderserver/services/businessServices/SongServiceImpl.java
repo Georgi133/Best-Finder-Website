@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.Singer;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Song;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -110,13 +111,25 @@ public class SongServiceImpl implements SongService {
         return song;
     }
 
-
     public List<BaseView> getAll() {
         List<Song> songs = songRepository.getAll();
 
         return songs.stream().map(this::mapToView)
                 .collect(Collectors.toList());
+    }
 
+    public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
+        List<Song> allMovies = songRepository.getSongsByCriteria(criteria);
+
+        List<Song> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+
+        return list.stream().map(this::mapToView).collect(Collectors.toList());
+    }
+
+    public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
+        List<Song> allMovies = songRepository.getSongsByCriteriaAndOrderedByYearDesc(criteria);
+
+        return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }
 
     public List<BaseView> sortByYear() {
@@ -149,11 +162,10 @@ public class SongServiceImpl implements SongService {
         return mapToView(savedSong);
     }
 
-
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
         Song movie = songRepository
                 .findById(animeId)
-                .orElseThrow(() -> new TorrentException("No such movie when deleting comment",HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new TorrentException("No such song when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> collect = movie.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
@@ -167,7 +179,7 @@ public class SongServiceImpl implements SongService {
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
 
-        Song movie = songRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such movie when editing a comment",HttpStatus.BAD_REQUEST));
+        Song movie = songRepository.findById(animeId).orElseThrow(() -> new TorrentException("No such song when deleting comment",HttpStatus.valueOf(403)));
 
         List<Comment> newCommentList = movie.getComments().stream().map(comment -> {
             if (comment.getId() == commentId) {

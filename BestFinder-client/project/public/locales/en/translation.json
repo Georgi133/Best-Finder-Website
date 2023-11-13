@@ -10,10 +10,22 @@
     "banuser": "Ban Users"
   },
 
+  "searchBar": {
+    "search": "Search"
+  },
+
+  "categ": {
+    "movies": "Movies",
+    "animes": "Animes",
+    "games": "Games",
+    "jokes": "Jokes",
+    "songs": "Songs",
+    "serials": "Serials"
+  }, 
+
   "sort": {
     "likes": "Sorted by likes",
-    "year": "Sorted by year",
-    "seasons": "Sorted by seasons"
+    "year": "Sorted by year"
   },
 
   "article": {

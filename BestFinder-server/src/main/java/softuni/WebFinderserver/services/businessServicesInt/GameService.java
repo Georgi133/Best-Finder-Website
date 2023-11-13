@@ -32,4 +32,8 @@ public interface GameService {
     public TorrentInfoView getCategoryInfo(Locale lang) ;
 
     public List<BaseView> getAll();
+
+    List<BaseView> getAllByCriteriaSortedByYear(String searchBar);
+
+    List<BaseView> getAllByCriteriaSortedByLikes(String searchBar);
 }

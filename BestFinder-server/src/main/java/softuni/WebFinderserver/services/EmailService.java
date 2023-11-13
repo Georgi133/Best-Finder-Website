@@ -25,32 +25,19 @@ public class EmailService {
         this.messageSource = messageSource;
     }
 
-    public void sendEmail(String userEmail, String newPassword, Locale language)  {
+    public void sendEmail(String userEmail, String newPassword, Locale language) throws MessagingException, UnsupportedEncodingException {
 
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom(fromMail);
-//        message.setTo(userEmail);
-//        message.setSubject("Forgotten Password");
-//        message.setText("Your new password is :" + newPassword);
-//        javaMailSender.send(message);
         MimeMessage message = javaMailSender.createMimeMessage();
         Locale locale = Locale.ENGLISH;
         if (language.getLanguage().equals("bg")) {
             locale = Locale.forLanguageTag("bg");
         }
-        try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
             mimeMessageHelper.setFrom(fromMail, setMessageLang(locale, "app_name"));
             mimeMessageHelper.setTo(userEmail);
             mimeMessageHelper.setSubject(setMessageLang(locale, "app_subject"));
             mimeMessageHelper.setText(generateMessageContent(locale, newPassword), true);
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     private String generateMessageContent(Locale locale, String password) {
@@ -62,6 +49,7 @@ public class EmailService {
 
         return mailContent.toString();
     }
+
     private String setMessageLang(Locale locale, String code) {
         return messageSource.getMessage(
                 code,

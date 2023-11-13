@@ -12,17 +12,13 @@ public class DBInit implements CommandLineRunner {
     private final CategoryProjectionService categoryProjectionService;
     private final SongCategoryService songCategoryService;
 
-    private final BlackListService blackListService;
-    public DBInit(CategoryProjectionService categoryProjectionService, SongCategoryService songCategoryService, BlackListService blackListService) {
+    public DBInit(CategoryProjectionService categoryProjectionService, SongCategoryService songCategoryService) {
         this.categoryProjectionService = categoryProjectionService;
         this.songCategoryService = songCategoryService;
-        this.blackListService = blackListService;
     }
 
     @Override
     public void run(String... args)  {
-
-        System.out.println(blackListService.removeIpAddressFromBlackList("85.91.145.148"));
         categoryProjectionService.initializeCategoryProjectionService();
         songCategoryService.initializeSongCategories();
     }

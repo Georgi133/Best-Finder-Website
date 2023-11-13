@@ -63,6 +63,7 @@ export const Game = ({
     }, [valid]);
   
     useEffect(() => {
+      setErrorMessage(null);
       if(isTorrentAdded) {
         setValueCategory('category')
         setAddedMessage(true);

@@ -11,11 +11,12 @@ import { useForm } from "../useForm/useForm";
 import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useTranslation } from "react-i18next";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 export const SerialDetails = () => {
   const { serialId } = useParams();
   const { userEmail } = useAuthContext();
-  const { setValid,valid } = useValidatorContext();
+  const { validateComment } = useValidatorContext();
 
   const { onTorrentDetails, 
     torrentDetails, onCommentSubmit, 
@@ -25,6 +26,8 @@ export const SerialDetails = () => {
     setLiked, 
     countLikes,
     prefixOfVideo,
+    serverErrors,
+    setServerErrors,
    } =
     useTorrentContext();
 
@@ -43,16 +46,18 @@ export const SerialDetails = () => {
     useEffect(() => {
       const decoded = jwt_decode(token);
       onTorrentDetails(serialId, "serial", userEmail === undefined ? decoded.sub : userEmail);
+      window.scrollTo(0, 0);
     },[]);
 
-    const { values, changeHandler, onSubmit } = useForm({
+    const { values, changeHandler, onSubmit, formErrors } = useForm({
       comment: '',
       category:'serial',
     }, onCommentSubmit);
 
     const onSubmitComment = (e) => {
-      setValid(true);
-      onSubmit(e);
+      setServerErrors({});
+      e.preventDefault();
+      onSubmit(e,validateComment(values));
     }
 
     const { t } = useTranslation();
@@ -65,6 +70,7 @@ export const SerialDetails = () => {
   const resume = torrentDetails.resume;
   const pictureUrl = torrentDetails.pictureUrl;
   const actors = torrentDetails.actors;
+
 
   return (
     <>
@@ -140,6 +146,8 @@ export const SerialDetails = () => {
            }
             
         </article>
+        {formErrors.comment ? <ErrorMessage message={formErrors.comment}/> : 
+     serverErrors.comment ? <ErrorMessage message={serverErrors.comment}/> : ''}
         <form className={style.formContainer} onSubmit={onSubmitComment}>
           <label htmlFor="comment">{t("article.writeComment")}: </label>
           <textarea

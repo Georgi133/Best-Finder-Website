@@ -2,13 +2,25 @@
   "profileChange": {
     "profile": "Профил",
     "changePass":"Смяна на парола",
-    "changeProfile": "Поправи профил"
+    "changeProfile": "Редактирай профил"
+  },
+
+  "searchBar": {
+    "search": "Търси"
+  },
+
+  "categ": {
+    "movies": "Филми",
+    "animes": "Аниме",
+    "games": "Игри",
+    "jokes": "Шеги",
+    "songs": "Песни",
+    "serials": "Сериали"
   },
 
   "sort": {
     "likes": "Сортитане по харесвания",
-    "year": "Сортиране по година",
-    "seasons": "Сортиране по сезони"
+    "year": "Сортиране по година"
   },
 
   "article": {

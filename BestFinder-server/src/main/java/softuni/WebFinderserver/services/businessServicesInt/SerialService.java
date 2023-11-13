@@ -10,6 +10,7 @@ import softuni.WebFinderserver.model.views.TorrentInfoView;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public interface SerialService {
 
@@ -33,4 +34,7 @@ public interface SerialService {
     public TorrentInfoView getCategoryInfo(Locale lang) ;
 
     public List<BaseView> getAll();
+
+    List<BaseView> getAllByCriteriaSortedByLikes(String searchBar);
+
 }

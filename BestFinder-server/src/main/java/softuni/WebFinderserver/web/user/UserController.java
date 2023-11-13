@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/get-user")
-    public ResponseEntity<UserInfoView>getUser(@RequestBody UserChangeProfileDto userDto) {
+    public ResponseEntity<?>getUser(@RequestBody UserChangeProfileDto userDto) {
        UserInfoView view =  userService.getUserByEmail(userDto.getEmail());
         return ResponseEntity.ok(view);
     }

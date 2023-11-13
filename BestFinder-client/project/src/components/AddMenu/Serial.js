@@ -91,6 +91,7 @@ export const Serial = ({
     }, [valid]);
   
     useEffect(() => {
+      setErrorMessage(null);
       if(isTorrentAdded) {
         setValueCategory('category')
         setAddedMessage(true);
@@ -99,7 +100,7 @@ export const Serial = ({
   
     useEffect(() => {
       return () => {
-        setIsTorrentAdded(false)
+        setIsTorrentAdded(false);
       };
     }, []);
 

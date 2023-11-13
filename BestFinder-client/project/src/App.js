@@ -31,6 +31,8 @@ import { NotAllowed } from "./components/NotAllowed/NotAllowed";
 import { Forgotten } from "./components/Login/Forgotten";
 import { ServerError } from "./components/ServerError/ServerError";
 import { BanUser } from "./components/BanUser/BanUser";
+import { TorrentNotExist } from "./components/TorrentNotExistError/TorrentNotExist";
+import { NotFound } from "./components/NotAllowed/NotFound";
 
 function App() {
   const [user, setUser] = useState({});
@@ -93,12 +95,12 @@ function App() {
                     </PrivateAdminRoute>
                   }
                 />
-                 <Route
+                <Route
                   path="/admin/ban-menu"
                   element={
                     <PrivateAdminRoute>
                       <BanUser />
-                      </PrivateAdminRoute>
+                    </PrivateAdminRoute>
                   }
                 />
                 <Route
@@ -197,20 +199,12 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route
-                  path="/not-allowed"
-                  element={
-                      <NotAllowed />
-                  }
-                />
+                <Route path="/not-allowed" element={<NotAllowed />} />
 
-                  <Route
-                  path="/server-error"
-                  element={
-                      <ServerError />
-                  }
-                />
+                <Route path="/server-error" element={<ServerError />} />
+                <Route path="/not-exist" element={<TorrentNotExist />} />
 
+                <Route path="*" element={<NotFound />} />
               </Routes>
               <Footer />
             </>
