@@ -126,7 +126,7 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
-        List<Anime> allMovies = animeRepository.getAllByCriteria(criteria);
+        Set<Anime> allMovies = animeRepository.getAllByCriteria(criteria);
 
         List<Anime> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
 
@@ -134,7 +134,7 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
-        List<Anime> allMovies = animeRepository.getAllByCriteriaOrderedByYearDesc(criteria);
+        Set<Anime> allMovies = animeRepository.getAllByCriteriaOrderedByYearDesc(criteria);
 
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }

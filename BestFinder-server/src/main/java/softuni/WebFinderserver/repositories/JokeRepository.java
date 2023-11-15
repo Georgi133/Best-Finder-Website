@@ -10,6 +10,7 @@ import softuni.WebFinderserver.model.entities.categories.Joke;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface JokeRepository extends JpaRepository<Joke,Long> {
@@ -22,7 +23,7 @@ public interface JokeRepository extends JpaRepository<Joke,Long> {
 
     @Query(value = "select * from jokes as j " +
             "where lower(j.joke_name) regexp lower(:word)", nativeQuery = true)
-    List<Joke> getJokeByCriteria(@Param("word") String word);
+    Set<Joke> getJokeByCriteria(@Param("word") String word);
 
     @Query("select j.addedDate from Joke j order by j.addedDate desc limit 1")
     LocalDate getMovieWhichWasLastAdded();

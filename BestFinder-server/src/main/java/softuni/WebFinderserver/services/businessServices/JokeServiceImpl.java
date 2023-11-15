@@ -110,7 +110,7 @@ public class JokeServiceImpl implements JokeService {
             List<Joke> list = jokes.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
             return list.stream().map(this::mapToView).collect(Collectors.toList());
         }
-        List<Joke> allJokes = jokeRepository.getJokeByCriteria(criteria);
+        Set<Joke> allJokes = jokeRepository.getJokeByCriteria(criteria);
         List<Joke> list = allJokes.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
         return list.stream().map(this::mapToView).collect(Collectors.toList());
     }

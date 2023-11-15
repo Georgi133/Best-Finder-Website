@@ -120,7 +120,7 @@ public class SongServiceImpl implements SongService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
-        List<Song> allMovies = songRepository.getSongsByCriteria(criteria);
+        Set<Song> allMovies = songRepository.getSongsByCriteria(criteria);
 
         List<Song> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
 
@@ -128,7 +128,7 @@ public class SongServiceImpl implements SongService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
-        List<Song> allMovies = songRepository.getSongsByCriteriaAndOrderedByYearDesc(criteria);
+        Set<Song> allMovies = songRepository.getSongsByCriteriaAndOrderedByYearDesc(criteria);
 
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }

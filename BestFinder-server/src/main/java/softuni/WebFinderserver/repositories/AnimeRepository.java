@@ -10,6 +10,7 @@ import softuni.WebFinderserver.model.entities.categories.Anime;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface AnimeRepository extends JpaRepository<Anime,Long> {
@@ -26,7 +27,7 @@ public interface AnimeRepository extends JpaRepository<Anime,Long> {
             "on cp.id = cmc.category_id " +
             "where lower(a.anime_name) regexp lower(:word) or lower(cp.category) regexp lower(:word) " +
             "order by a.released_year desc", nativeQuery = true)
-    List<Anime> getAllByCriteriaOrderedByYearDesc(@Param("word") String word);
+    Set<Anime> getAllByCriteriaOrderedByYearDesc(@Param("word") String word);
 
     @Query(value = "select * from animes as a " +
             "join catalogues_common_categories as cmc " +
@@ -34,7 +35,7 @@ public interface AnimeRepository extends JpaRepository<Anime,Long> {
             "join categories_projections as cp " +
             "on cp.id = cmc.category_id " +
             "where lower(a.anime_name) regexp lower(:word) or lower(cp.category) regexp lower(:word)", nativeQuery = true)
-    List<Anime> getAllByCriteria(@Param("word") String word);
+    Set<Anime> getAllByCriteria(@Param("word") String word);
 
 
     @Query("select a from Anime a order by a.releasedYear desc")

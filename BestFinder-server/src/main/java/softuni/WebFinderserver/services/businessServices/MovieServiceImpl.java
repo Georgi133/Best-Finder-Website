@@ -117,7 +117,7 @@ public class MovieServiceImpl implements MovieService {
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }
     public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
-        List<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByLikesDesc(criteria);
+        Set<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByLikesDesc(criteria);
 
         List<Movie> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
 
@@ -125,7 +125,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
-        List<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByYearDesc(criteria);
+        Set<Movie> allMovies = movieRepository.getMoviesByCriteriaOrderedByYearDesc(criteria);
 
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }

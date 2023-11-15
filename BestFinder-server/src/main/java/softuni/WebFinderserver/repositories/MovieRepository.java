@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.categories.Movie;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
@@ -33,7 +34,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             "join categories_projections as cp on cp.id = ccc.category_id " +
             "where lower(cp.category) regexp lower(:word) or lower(m.movie_name) regexp lower(:word) or lower(a.full_name) regexp (:word) " +
             "order by m.released_year desc ",nativeQuery = true)
-    List<Movie> getMoviesByCriteriaOrderedByYearDesc(@Param("word") String word);
+    Set<Movie> getMoviesByCriteriaOrderedByYearDesc(@Param("word") String word);
 
 
     @Query(value = "select * from movies as m " +
@@ -42,7 +43,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             "join catalogues_common_categories as ccc on ccc.base_id = m.id " +
             "join categories_projections as cp on cp.id = ccc.category_id " +
             "where lower(cp.category) regexp lower(:word) or lower(m.movie_name) regexp lower(:word) or lower(a.full_name) regexp (:word) ",nativeQuery = true)
-    List<Movie> getMoviesByCriteriaOrderedByLikesDesc(@Param("word") String word);
+    Set<Movie> getMoviesByCriteriaOrderedByLikesDesc(@Param("word") String word);
 
 
 

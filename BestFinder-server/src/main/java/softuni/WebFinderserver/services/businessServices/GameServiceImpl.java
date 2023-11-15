@@ -119,7 +119,7 @@ public class GameServiceImpl implements GameService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
-        List<Game> allMovies = gameRepository.getAllByCriteria(criteria);
+        Set<Game> allMovies = gameRepository.getAllByCriteria(criteria);
 
         List<Game> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
 
@@ -127,7 +127,7 @@ public class GameServiceImpl implements GameService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByYear(String criteria) {
-        List<Game> allMovies = gameRepository.getAllByCriteriaOrderedByYearDesc(criteria);
+        Set<Game> allMovies = gameRepository.getAllByCriteriaOrderedByYearDesc(criteria);
 
         return allMovies.stream().map(this::mapToView).collect(Collectors.toList());
     }

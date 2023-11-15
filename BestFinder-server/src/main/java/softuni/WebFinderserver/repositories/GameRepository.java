@@ -10,6 +10,7 @@ import softuni.WebFinderserver.model.entities.categories.Game;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game,Long> {
@@ -27,7 +28,7 @@ public interface GameRepository extends JpaRepository<Game,Long> {
             "on cp.id = cmc.category_id " +
             "where lower(g.game_name) regexp lower(:word) or lower(cp.category) regexp lower(:word) " +
             "order by g.released_year desc",nativeQuery = true)
-    List<Game> getAllByCriteriaOrderedByYearDesc(@Param("word") String word);
+    Set<Game> getAllByCriteriaOrderedByYearDesc(@Param("word") String word);
 
     @Query(value = "select * from games as g " +
             "join catalogues_common_categories as cmc " +
@@ -35,7 +36,7 @@ public interface GameRepository extends JpaRepository<Game,Long> {
             "join categories_projections as cp " +
             "on cp.id = cmc.category_id " +
             "where lower(g.game_name) regexp lower(:word) or lower(cp.category) regexp lower(:word)" ,nativeQuery = true)
-    List<Game> getAllByCriteria(@Param("word") String word);
+    Set<Game> getAllByCriteria(@Param("word") String word);
 
 
     @Query("select g from Game g order by g.releasedYear desc")

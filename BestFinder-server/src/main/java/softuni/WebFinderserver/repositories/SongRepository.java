@@ -11,6 +11,7 @@ import softuni.WebFinderserver.model.entities.categories.Song;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface SongRepository extends JpaRepository<Song,Long> {
@@ -35,7 +36,7 @@ public interface SongRepository extends JpaRepository<Song,Long> {
             "join songs_categories as sc on sc.id = ssc.category_id " +
             "where lower(sc.category) regexp lower(:word) or lower(s.song_name) regexp lower(:word) or lower(s2.full_name) regexp (:word) " +
             "order by s.released_year desc", nativeQuery = true)
-    List<Song> getSongsByCriteriaAndOrderedByYearDesc(@Param("word") String word);
+    Set<Song> getSongsByCriteriaAndOrderedByYearDesc(@Param("word") String word);
 
     @Query(value = "select * from songs as s " +
             "join songs_singers as ss on ss.song_id = s.id " +
@@ -43,7 +44,7 @@ public interface SongRepository extends JpaRepository<Song,Long> {
             "join songs_songs_categories as ssc on ssc.song_id = s.id " +
             "join songs_categories as sc on sc.id = ssc.category_id " +
             "where lower(sc.category) regexp lower(:word) or lower(s.song_name) regexp lower(:word) or lower(s2.full_name) regexp (:word) " , nativeQuery = true)
-    List<Song> getSongsByCriteria(@Param("word") String word);
+    Set<Song> getSongsByCriteria(@Param("word") String word);
 
 
 }
