@@ -23,6 +23,7 @@ import softuni.WebFinderserver.services.LikeService;
 import softuni.WebFinderserver.services.businessServicesInt.AnimeService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.util.CloudUtil;
 
 import java.io.IOException;
@@ -172,10 +173,16 @@ public class AnimeServiceImpl implements AnimeService {
         List<Comment> collect = anime.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
 
-        anime.setComments(collect);
-        commentService.deleteCommentById(commentId);
-        animeRepository.saveAndFlush(anime);
-        return this.getById(anime.getId(), email);
+        UserEntity userByEmail = userService.findUserByEmail(email);
+
+        if(userByEmail.getRole().name().equals("ADMIN") || commentService.isOwnerOfComment(commentId, userByEmail.getId())) {
+            anime.setComments(collect);
+            commentService.deleteCommentById(commentId);
+            animeRepository.saveAndFlush(anime);
+            return this.getById(anime.getId(), email);
+        }
+
+        throw new UserException("Not allowed to delete another user commend", HttpStatus.valueOf(403));
     }
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {

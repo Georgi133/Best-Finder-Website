@@ -29,6 +29,8 @@ public class Game extends CataloguesWithCommonCategories {
         this.resume = resume;
     }
 
+
+
     @Column(nullable = false)
     private String pictureUrl;
 

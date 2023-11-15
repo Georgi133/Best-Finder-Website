@@ -51,4 +51,5 @@ public class AdminController {
        return ResponseEntity.status(HttpStatus.OK).body(new SuccessDto(true));
     }
 
+
 }

@@ -23,6 +23,7 @@ import softuni.WebFinderserver.services.LikeService;
 import softuni.WebFinderserver.services.businessServicesInt.GameService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.util.CloudUtil;
 
 import java.io.IOException;
@@ -170,10 +171,16 @@ public class GameServiceImpl implements GameService {
         List<Comment> collect = game.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
 
-        game.setComments(collect);
-        commentService.deleteCommentById(commentId);
-        gameRepository.saveAndFlush(game);
-        return this.getById(game.getId(), userEmail);
+        UserEntity userByEmail = userService.findUserByEmail(userEmail);
+
+        if(userByEmail.getRole().name().equals("ADMIN") || commentService.isOwnerOfComment(commentId, userByEmail.getId())) {
+            game.setComments(collect);
+            commentService.deleteCommentById(commentId);
+            gameRepository.saveAndFlush(game);
+            return this.getById(game.getId(), userEmail);
+        }
+
+        throw new UserException("Not allowed to delete another user commend", HttpStatus.valueOf(403));
 
     }
 

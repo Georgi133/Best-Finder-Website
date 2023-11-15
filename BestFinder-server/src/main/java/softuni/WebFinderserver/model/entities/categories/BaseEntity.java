@@ -16,5 +16,4 @@ public  abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-
 }

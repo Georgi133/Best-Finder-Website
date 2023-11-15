@@ -52,7 +52,6 @@ public class Movie extends CataloguesWithCommonCategories {
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-
     @Column(nullable = false)
     private Integer releasedYear;
 

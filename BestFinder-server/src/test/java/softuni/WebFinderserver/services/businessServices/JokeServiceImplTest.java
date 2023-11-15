@@ -16,6 +16,7 @@ import softuni.WebFinderserver.model.dtos.JokeUploadDto;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
 import softuni.WebFinderserver.model.entities.categories.Game;
 import softuni.WebFinderserver.model.entities.categories.Joke;
@@ -28,6 +29,7 @@ import softuni.WebFinderserver.repositories.UserRepository;
 import softuni.WebFinderserver.services.CommentService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -100,11 +102,85 @@ public class JokeServiceImplTest {
         Mockito.when(userService.findUserByEmail(EMAIL))
                 .thenReturn(user);
 
+        Mockito.when(commentService.isOwnerOfComment(commendId,user.getId()))
+                .thenReturn(true);
+
         BaseView baseView = toTest.deleteCommentById(gameId, commendId, EMAIL);
 
         String stringOfResult = mapString(baseView);
 
         Assertions.assertFalse(stringOfResult.contains("change yourself"));
+    }
+
+    @Test
+    public void deleteCommentByIdShouldBeOkayBecauseOfAdminRole() throws JsonProcessingException {
+        Long gameId = ID;
+        Long commendId = ID;
+
+        Mockito.doAnswer(invocation -> {
+            return null;
+        }).when(commentService).deleteCommentById(commendId);
+
+        Joke joke = getGame(JOKE_NAME);
+
+        UserEntity user = getUser();
+        user.setRole(RoleEnum.ADMIN);
+
+        Comment comment = getComment(joke, user);
+        joke.setComments(List.of(comment));
+        Assertions.assertEquals("change yourself", joke.getComments().get(0).getText());
+
+        Mockito.when(jokeRepository.findById(gameId))
+                .thenReturn(Optional.of(joke));
+
+        Mockito.doAnswer(invocation -> {
+            return null;
+        }).when(jokeRepository).saveAndFlush(joke);
+
+        Mockito.when(userService.findUserByEmail(EMAIL))
+                .thenReturn(user);
+
+        Mockito.when(commentService.isOwnerOfComment(commendId,user.getId()))
+                .thenReturn(false);
+
+        BaseView baseView = toTest.deleteCommentById(gameId, commendId, EMAIL);
+
+        String stringOfResult = mapString(baseView);
+
+        Assertions.assertFalse(stringOfResult.contains("change yourself"));
+    }
+
+    @Test
+    public void deleteCommentByIdShouldThrowIfUserIsNotOwnerOfCommentAndIsNotAdmin() throws JsonProcessingException {
+        Long gameId = ID;
+        Long commendId = ID;
+
+        Mockito.doAnswer(invocation -> {
+            return null;
+        }).when(commentService).deleteCommentById(commendId);
+
+        Joke joke = getGame(JOKE_NAME);
+
+        UserEntity user = getUser();
+
+        Comment comment = getComment(joke, user);
+        joke.setComments(List.of(comment));
+        Assertions.assertEquals("change yourself", joke.getComments().get(0).getText());
+
+        Mockito.when(jokeRepository.findById(gameId))
+                .thenReturn(Optional.of(joke));
+
+        Mockito.doAnswer(invocation -> {
+            return null;
+        }).when(jokeRepository).saveAndFlush(joke);
+
+        Mockito.when(userService.findUserByEmail(EMAIL))
+                .thenReturn(user);
+
+        Mockito.when(commentService.isOwnerOfComment(commendId,user.getId()))
+                .thenReturn(false);
+
+        Assertions.assertThrows(UserException.class, () -> toTest.deleteCommentById(gameId, commendId, EMAIL));
     }
 
     @Test

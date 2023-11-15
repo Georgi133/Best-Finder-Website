@@ -65,7 +65,8 @@ export const Comment = ({
       </div> }
       {(emailOfUserOwnerOfTheComment === userEmail || userRole === 'ADMIN') 
       && !isEditClicked 
-      && (<div>
+      && (
+      <div>
           <button onClick={onEditClick} className={style.userBtn} type="button">
             Edit
           </button>
@@ -73,7 +74,7 @@ export const Comment = ({
             Delete
           </button>
         </div>
-      )}
+       )}
     </div>
   );
 };

@@ -31,6 +31,7 @@ public class Song extends BaseCatalogue {
     @Column(nullable = false, unique = true)
     private String songName;
 
+
     @Column(nullable = false)
     private Integer releasedYear;
 

@@ -22,6 +22,7 @@ import softuni.WebFinderserver.services.LikeService;
 import softuni.WebFinderserver.services.businessServicesInt.JokeService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.util.CloudUtil;
 
 import java.io.IOException;
@@ -148,10 +149,16 @@ public class JokeServiceImpl implements JokeService {
         List<Comment> collect = joke.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
 
-        joke.setComments(collect);
-        commentService.deleteCommentById(commentId);
-        jokeRepository.saveAndFlush(joke);
-        return this.getById(joke.getId(), userEmail);
+        UserEntity userByEmail = userService.findUserByEmail(userEmail);
+
+        if(userByEmail.getRole().name().equals("ADMIN") || commentService.isOwnerOfComment(commentId, userByEmail.getId())) {
+            joke.setComments(collect);
+            commentService.deleteCommentById(commentId);
+            jokeRepository.saveAndFlush(joke);
+            return this.getById(joke.getId(), userEmail);
+        }
+
+        throw new UserException("Not allowed to delete another user commend", HttpStatus.valueOf(403));
 
     }
 

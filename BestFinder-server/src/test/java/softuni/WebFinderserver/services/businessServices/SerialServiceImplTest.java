@@ -12,16 +12,17 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
+import softuni.WebFinderserver.model.dtos.SerialUploadDto;
 import softuni.WebFinderserver.model.entities.*;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
 import softuni.WebFinderserver.model.entities.categories.Movie;
+import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.RoleEnum;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.CommentView;
 import softuni.WebFinderserver.repositories.CategoryProjectionRepository;
-import softuni.WebFinderserver.repositories.MovieRepository;
+import softuni.WebFinderserver.repositories.SerialRepository;
 import softuni.WebFinderserver.repositories.UserRepository;
 import softuni.WebFinderserver.services.CommentService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
@@ -36,24 +37,24 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 
-public class MovieServiceImplTest {
+public class SerialServiceImplTest {
 
     private final String EMAIL = "scrimr321@abv.bg";
-    private final String MOVIE_NAME = "MovieUnit";
+    private final String SERIAL_NAME = "SerialUnit";
 
     private final String DOES_NOT_MATTER = "no-matter";
 
     private final Long ID = 1L;
 
     @Mock
-    private MovieRepository movieRepository;
+    private SerialRepository serialRepository;
     @Mock
     private CategoryProjectionRepository categoryProjectionRepository;
     @Mock
     private CommentService commentService;
 
     @InjectMocks
-    private MovieServiceImpl toTest;
+    private SerialServiceImpl toTest;
 
     @Mock
     private UserRepository mockUserRepository;
@@ -69,10 +70,10 @@ public class MovieServiceImplTest {
 
     @Test
     public void createMovieShouldThrowIfFileNull() throws IOException {
-        MovieUploadDto dto = new MovieUploadDto();
+        SerialUploadDto dto = new SerialUploadDto();
         dto.setTorrentName("Listopad");
-       MockMultipartFile file = null;
-       Assertions.assertThrows(UploadTorrentException.class,() -> toTest.createMovie(dto,file));
+        MockMultipartFile file = null;
+        Assertions.assertThrows(UploadTorrentException.class,() -> toTest.createSerial(dto,file));
     }
 
     @Test
@@ -84,20 +85,20 @@ public class MovieServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
+        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2, "action");
 
         UserEntity user = getUser();
 
-        Comment comment = getComment(movie, user);
-        movie.setComments(List.of(comment));
-        Assertions.assertEquals("change yourself", movie.getComments().get(0).getText());
+        Comment comment = getComment(serial, user);
+        serial.setComments(List.of(comment));
+        Assertions.assertEquals("change yourself", serial.getComments().get(0).getText());
 
-        Mockito.when(movieRepository.findById(movieId))
-                        .thenReturn(Optional.of(movie));
+        Mockito.when(serialRepository.findById(movieId))
+                .thenReturn(Optional.of(serial));
 
         Mockito.doAnswer(invocation -> {
             return null;
-        }).when(movieRepository).saveAndFlush(movie);
+        }).when(serialRepository).saveAndFlush(serial);
 
         Mockito.when(userService.findUserByEmail(EMAIL))
                 .thenReturn(user);
@@ -121,21 +122,21 @@ public class MovieServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
+        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
 
-        Comment comment = getComment(movie, user);
-        movie.setComments(List.of(comment));
-        Assertions.assertEquals("change yourself", movie.getComments().get(0).getText());
+        Comment comment = getComment(serial, user);
+        serial.setComments(List.of(comment));
+        Assertions.assertEquals("change yourself", serial.getComments().get(0).getText());
 
-        Mockito.when(movieRepository.findById(gameId))
-                .thenReturn(Optional.of(movie));
+        Mockito.when(serialRepository.findById(gameId))
+                .thenReturn(Optional.of(serial));
 
         Mockito.doAnswer(invocation -> {
             return null;
-        }).when(movieRepository).saveAndFlush(movie);
+        }).when(serialRepository).saveAndFlush(serial);
 
         Mockito.when(userService.findUserByEmail(EMAIL))
                 .thenReturn(user);
@@ -159,20 +160,20 @@ public class MovieServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
+        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
 
-        Comment comment = getComment(movie, user);
-        movie.setComments(List.of(comment));
-        Assertions.assertEquals("change yourself", movie.getComments().get(0).getText());
+        Comment comment = getComment(serial, user);
+        serial.setComments(List.of(comment));
+        Assertions.assertEquals("change yourself", serial.getComments().get(0).getText());
 
-        Mockito.when(movieRepository.findById(gameId))
-                .thenReturn(Optional.of(movie));
+        Mockito.when(serialRepository.findById(gameId))
+                .thenReturn(Optional.of(serial));
 
         Mockito.doAnswer(invocation -> {
             return null;
-        }).when(movieRepository).saveAndFlush(movie);
+        }).when(serialRepository).saveAndFlush(serial);
 
         Mockito.when(userService.findUserByEmail(EMAIL))
                 .thenReturn(user);
@@ -186,7 +187,7 @@ public class MovieServiceImplTest {
     @Test
     public void deleteCommentByIdShouldThrowIfMovieNotExist() {
         Long movieId = ID;
-        Mockito.when(movieRepository.findById(movieId))
+        Mockito.when(serialRepository.findById(movieId))
                 .thenThrow(TorrentException.class);
 
         Assertions.assertThrows(TorrentException.class, () -> toTest.deleteCommentById(movieId, ID, EMAIL));
@@ -199,18 +200,18 @@ public class MovieServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
+        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).editCommentById(commentId, "change yourself edit");
 
-        Comment comment = getComment(movie, user);
-        movie.setComments(List.of(comment));
+        Comment comment = getComment(serial, user);
+        serial.setComments(List.of(comment));
 
-        Mockito.when(movieRepository.findById(movieId))
-                .thenReturn(Optional.of(movie));
+        Mockito.when(serialRepository.findById(movieId))
+                .thenReturn(Optional.of(serial));
 
         CommentView commentView = new CommentView();
         commentView.setId(ID);
@@ -231,29 +232,33 @@ public class MovieServiceImplTest {
     @Test
     public void editShouldThrowIfMovieNotExist() throws JsonProcessingException {
         Long movieId = ID;
-        Mockito.when(movieRepository.findById(movieId))
+        Mockito.when(serialRepository.findById(movieId))
                 .thenThrow(TorrentException.class);
         CommentEditDto dto = new CommentEditDto();
 
         Assertions.assertThrows(TorrentException.class, () -> toTest.editCommentById(movieId, ID, dto));
     }
 
-    public Movie testMovieWithDiffNameAndActor(String name, String actor, Integer year, String category) {
+    public Serial testMovieWithDiffNameAndActor(String name, String actor, Integer seasons
+            , String category) {
 
         Mockito.when(categoryProjectionRepository.findFirstByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase())))
                 .thenReturn(new CategoryProjection(CategoryProjectionEnum.valueOf(category.toUpperCase())));
 
         CategoryProjection byCategory = categoryProjectionRepository.findFirstByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase()));
-        Movie movie = new Movie(name, DOES_NOT_MATTER, year, List.of(new Actor(actor)),List.of(new CategoryProjection()));
-        movie.setPictureUrl("pickTest");
-        movie.setId(1L);
-        movie.setComments(List.of(new Comment()));
-        movie.setAddedDate(LocalDate.now());
-        movie.setTrailer("youtube.com");
-        movie.setCategories(List.of(byCategory));
-        movie.setLikes(new ArrayList<>());
+        Serial serial = new Serial();
+        serial.setId(ID);
+        serial.setSerialName(name);
+        serial.setActors(List.of(new Actor(actor)));
+        serial.setCategories(List.of(byCategory));
+        serial.setSeasons(seasons);
+        serial.setPictureUrl("pickTest");
+        serial.setAddedDate(LocalDate.now());
+        serial.setTrailer("youtube.com");
+        serial.setCategories(List.of(byCategory));
+        serial.setLikes(new ArrayList<>());
 
-        return movie;
+        return serial;
     }
 
     public UserEntity getUser () {
@@ -283,6 +288,4 @@ public class MovieServiceImplTest {
     public String mapString (Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
-
-
 }

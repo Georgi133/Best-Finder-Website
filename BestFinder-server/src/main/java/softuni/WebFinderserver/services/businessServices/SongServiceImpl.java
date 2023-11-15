@@ -22,6 +22,7 @@ import softuni.WebFinderserver.services.*;
 import softuni.WebFinderserver.services.businessServicesInt.SongService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.util.CloudUtil;
 
 import java.io.IOException;
@@ -163,17 +164,23 @@ public class SongServiceImpl implements SongService {
     }
 
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
-        Song movie = songRepository
+        Song song = songRepository
                 .findById(animeId)
                 .orElseThrow(() -> new TorrentException("No such song when deleting comment",HttpStatus.valueOf(403)));
 
-        List<Comment> collect = movie.getComments().stream().filter(comment -> comment.getId() != commentId)
+        List<Comment> collect = song.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
 
-        movie.setComments(collect);
-        commentService.deleteCommentById(commentId);
-        songRepository.saveAndFlush(movie);
-        return this.getById(movie.getId(), userEmail);
+        UserEntity userByEmail = userService.findUserByEmail(userEmail);
+
+        if(userByEmail.getRole().name().equals("ADMIN") || commentService.isOwnerOfComment(commentId, userByEmail.getId())) {
+            song.setComments(collect);
+            commentService.deleteCommentById(commentId);
+            songRepository.saveAndFlush(song);
+            return this.getById(song.getId(), userEmail);
+        }
+
+        throw new UserException("Not allowed to delete another user commend", HttpStatus.valueOf(403));
 
     }
 

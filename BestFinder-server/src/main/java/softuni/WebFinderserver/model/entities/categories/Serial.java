@@ -31,6 +31,8 @@ public class Serial extends CataloguesWithCommonCategories {
         this.setCategories(categories);
         this.resume = resume;
     }
+
+
     @Column(nullable = false)
     private String pictureUrl;
 

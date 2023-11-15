@@ -21,7 +21,7 @@ public class Comment extends BaseEntity {
         this.text = text;
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false , columnDefinition = "TEXT")
     private String text;
 
     @ManyToOne

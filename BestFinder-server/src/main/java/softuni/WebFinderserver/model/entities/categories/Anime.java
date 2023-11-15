@@ -33,6 +33,7 @@ public class Anime extends CataloguesWithCommonCategories {
     @Column(nullable = false)
     private String pictureUrl;
 
+
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
@@ -45,7 +46,7 @@ public class Anime extends CataloguesWithCommonCategories {
     @Column(nullable = false)
     private Integer releasedYear;
 
-//    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String resume;
 
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)

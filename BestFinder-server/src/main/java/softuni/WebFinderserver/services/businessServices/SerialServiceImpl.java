@@ -22,6 +22,7 @@ import softuni.WebFinderserver.services.*;
 import softuni.WebFinderserver.services.businessServicesInt.SerialService;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.util.CloudUtil;
 
 import java.io.IOException;
@@ -163,10 +164,16 @@ public class SerialServiceImpl implements SerialService {
         List<Comment> collect = serial.getComments().stream().filter(comment -> comment.getId() != commentId)
                 .collect(Collectors.toList());
 
-        serial.setComments(collect);
-        commentService.deleteCommentById(commentId);
-        serialRepository.saveAndFlush(serial);
-        return this.getById(serial.getId(), userEmail);
+        UserEntity userByEmail = userService.findUserByEmail(userEmail);
+
+        if(userByEmail.getRole().name().equals("ADMIN") || commentService.isOwnerOfComment(commentId, userByEmail.getId())) {
+            serial.setComments(collect);
+            commentService.deleteCommentById(commentId);
+            serialRepository.saveAndFlush(serial);
+            return this.getById(serial.getId(), userEmail);
+        }
+
+        throw new UserException("Not allowed to delete another user commend", HttpStatus.valueOf(403));
     }
 
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {

@@ -13,7 +13,7 @@ public class GameAnimeUploadDto {
     @NotBlank
     private String torrent;
     @NotNull
-    @Size(min = 8, message = "Name must be more or equal to 4 characters")
+    @Size(min = 4, message = "Name must be more or equal to 4 characters")
     private String torrentName;
     @NotNull
     @Size(min = 4, message = "Resume must be more or equal to 4 characters")

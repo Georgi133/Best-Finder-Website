@@ -152,11 +152,24 @@ p {
     color: red;
 }
 
+@media screen and (max-width:  550px) {
+    .innerContainer {
+        max-width: 50vh;
+    
+    }
+}
+
 @media screen and (max-width:  528px) {
     .frame {
         width: 46vh;
         height: 30vh;
     
+    }
+}
+
+@media screen and (max-width:  429px) {
+    .commentInnerContainer {
+        width: 40vh;
     }
 }
 
@@ -166,4 +179,16 @@ p {
         min-width: 30vh;
     }
 
+}
+
+@media screen and (max-width:  399px) {
+    .innerContainer {
+        max-width: 40vh;
+    }
+    .image{
+        min-width: 30vh;
+    }
+    .frame {
+        width: 280px;
+    }
 }
