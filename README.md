@@ -7,7 +7,7 @@
   * [Features](#features)
   * [What is in Backend?](#what-is-in-backend)
   * [Installation](#installation)
-  * [⚙️ Configuration](#configuration)
+  * [Configuration](#configuration)
   * [View](#view)
 
 <hr /> 
@@ -45,7 +45,7 @@
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
- ## Configuration
+ ## ⚙️ Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
