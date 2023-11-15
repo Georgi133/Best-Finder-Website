@@ -5,14 +5,14 @@
  
 - [Built with](#built-with)
   * [Features](#features)
-  * [What is in Backend?](#what-is-in-backend)
+  * [What is in Backend](#what-is-in-backend)
   * [Installation](#installation)
   * [Configuration](#configuration)
   * [View](#view)
 
 <hr /> 
 
-  ## 🛠 Built with:
+  ## 🛠 Built with
  - Java 17
  - Spring Boot
  - Spring Security
@@ -32,7 +32,7 @@
  - Admin - Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user 
  roles. Can search by email to see user information.
 
- ## What is in Backend?
+ ## What is in Backend
  - Filter - to check for valid jwt token
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
@@ -45,7 +45,7 @@
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
- ## ⚙ Configuration
+ ## Configuration ⚙
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
