@@ -7,7 +7,7 @@
   * [Features](#features)
   * [What is in Backend?](#what-is-in-backend)
   * [Installation](#installation)
-  * [Configuration](#configuration)
+  * [⚙️ Configuration](#configuration)
   * [View](#view)
 
 <hr /> 
