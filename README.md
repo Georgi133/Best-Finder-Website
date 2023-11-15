@@ -2,7 +2,7 @@
  Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc.                                             
  
    # :notebook_with_decorative_cover: Table of Contents 
-- [Built with](#built-with)
+  * [Built with](#built-with)
   * [Features](#features)
   * [What is in Backend](#what-is-in-backend)
   * [Installation](#installation)
@@ -11,7 +11,7 @@
 
 <hr /> 
 
-  ## 🛠 Built with
+  ## Built with
  - Java 17
  - Spring Boot
  - Spring Security
@@ -82,7 +82,7 @@ best-finder.defaultpass: ${ADMIN_PASS}
 ```
 ## View 
  <strong>Home Page, Movies Page, and Movie Details </strong>
- <hr/>
+ 
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/2391c93f-db73-4a0d-92be-9d98e08d66fb" />
