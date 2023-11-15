@@ -45,7 +45,7 @@
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
- ## Configuration ⚙
+ ## Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
@@ -81,7 +81,8 @@ jwt.token: ${TOKEN}
 best-finder.admin: ${ADMIN_EMAIL}
 best-finder.defaultpass: ${ADMIN_PASS}
 ```
-## View - Home Page, Movies Page, and Movie Details
+## View 
+ <strong>Home Page, Movies Page, and Movie Details </strong>
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/2391c93f-db73-4a0d-92be-9d98e08d66fb" />
