@@ -11,7 +11,7 @@
 
 <hr /> 
 
-  ## 🛠 Built with
+  ### 🛠 Built with
  - Java 17
  - Spring Boot
  - Spring Security
