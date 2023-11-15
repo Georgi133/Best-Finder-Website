@@ -2,7 +2,7 @@
  Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc.                                             
  
    # :notebook_with_decorative_cover: Table of Contents 
-  * [Built with](#built-with)
+  - [Built with](#built-with)
   * [Features](#features)
   * [What is in Backend](#what-is-in-backend)
   * [Installation](#installation)
