@@ -11,11 +11,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
-import softuni.WebFinderserver.model.dtos.MovieUploadDto;
 import softuni.WebFinderserver.model.dtos.SerialUploadDto;
 import softuni.WebFinderserver.model.entities.*;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
-import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.RoleEnum;
@@ -44,7 +42,13 @@ public class SerialServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private Serial serial = null;
+
     private final Long ID = 1L;
+
+    private final String ACTOR = "actor";
+
+    private final String CATEGORY = "action";
 
     @Mock
     private SerialRepository serialRepository;
@@ -66,6 +70,7 @@ public class SerialServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        serial = getSerial(SERIAL_NAME, ACTOR, 5, CATEGORY);
     }
 
     @Test
@@ -84,8 +89,6 @@ public class SerialServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2, "action");
 
         UserEntity user = getUser();
 
@@ -122,8 +125,6 @@ public class SerialServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
-
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
 
@@ -159,8 +160,6 @@ public class SerialServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
 
@@ -200,7 +199,6 @@ public class SerialServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Serial serial = testMovieWithDiffNameAndActor(SERIAL_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {
@@ -239,7 +237,7 @@ public class SerialServiceImplTest {
         Assertions.assertThrows(TorrentException.class, () -> toTest.editCommentById(movieId, ID, dto));
     }
 
-    public Serial testMovieWithDiffNameAndActor(String name, String actor, Integer seasons
+    public Serial getSerial(String name, String actor, Integer seasons
             , String category) {
 
         Mockito.when(categoryProjectionRepository.findFirstByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase())))

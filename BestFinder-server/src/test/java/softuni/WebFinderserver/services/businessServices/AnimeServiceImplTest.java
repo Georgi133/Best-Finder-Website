@@ -46,6 +46,10 @@ public class AnimeServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private final String CATEGORY = "action";
+
+    private Anime anime = null;
+
     private final Long ID = 1L;
     @Mock
     private AnimeRepository animeRepository;
@@ -67,6 +71,7 @@ public class AnimeServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        anime = getAnime(ANIME_NAME, 2004, CATEGORY);
     }
 
     @Test
@@ -85,8 +90,6 @@ public class AnimeServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Anime anime = getAnime(ANIME_NAME, 2004, "action");
 
         UserEntity user = getUser();
 
@@ -123,7 +126,6 @@ public class AnimeServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Anime anime = getAnime(ANIME_NAME, 2004, "action");
 
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
@@ -160,8 +162,6 @@ public class AnimeServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Anime anime = getAnime(ANIME_NAME, 2004, "action");
 
         UserEntity user = getUser();
 
@@ -201,7 +201,6 @@ public class AnimeServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Anime anime = getAnime(ANIME_NAME, 2004, "action");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {

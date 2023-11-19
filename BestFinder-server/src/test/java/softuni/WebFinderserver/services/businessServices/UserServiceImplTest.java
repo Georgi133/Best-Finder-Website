@@ -48,7 +48,6 @@ public class UserServiceImplTest {
 
         getUser();
 
-
         UserInfoView byEmail = toTest.findByEmail(dto);
 
         Assertions.assertEquals(EMAIL,byEmail.getEmail());
@@ -129,7 +128,6 @@ public class UserServiceImplTest {
         dto.setChangeUserRole("NotExist");
 
         getUser();
-
 
         Assertions.assertThrows(UserException.class, () -> toTest.changeRole(dto));
     }

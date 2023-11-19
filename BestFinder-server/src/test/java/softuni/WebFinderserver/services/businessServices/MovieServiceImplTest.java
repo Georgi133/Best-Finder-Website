@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
 import softuni.WebFinderserver.model.entities.*;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
@@ -43,7 +42,13 @@ public class MovieServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private final String ACTOR_NAME = "Actor";
+
+    private final String CATEGORY = "action";
+
     private final Long ID = 1L;
+
+    private Movie movie = null;
 
     @Mock
     private MovieRepository movieRepository;
@@ -65,6 +70,7 @@ public class MovieServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        movie = getMovie(MOVIE_NAME, ACTOR_NAME, 2004, CATEGORY);
     }
 
     @Test
@@ -83,8 +89,6 @@ public class MovieServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
 
@@ -121,8 +125,6 @@ public class MovieServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
-
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
 
@@ -158,8 +160,6 @@ public class MovieServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
 
@@ -199,7 +199,6 @@ public class MovieServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Movie movie = testMovieWithDiffNameAndActor(MOVIE_NAME, "ActorUnit", 2004, "action");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {
@@ -238,7 +237,7 @@ public class MovieServiceImplTest {
         Assertions.assertThrows(TorrentException.class, () -> toTest.editCommentById(movieId, ID, dto));
     }
 
-    public Movie testMovieWithDiffNameAndActor(String name, String actor, Integer year, String category) {
+    public Movie getMovie(String name, String actor, Integer year, String category) {
 
         Mockito.when(categoryProjectionRepository.findFirstByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase())))
                 .thenReturn(new CategoryProjection(CategoryProjectionEnum.valueOf(category.toUpperCase())));

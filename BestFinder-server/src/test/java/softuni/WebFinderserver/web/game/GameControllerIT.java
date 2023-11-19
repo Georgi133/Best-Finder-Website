@@ -119,7 +119,7 @@ public class GameControllerIT {
         dto.setCategory3("");
         dto.setTorrentName("TestM2");
 
-        GameRepository.save(testGameWithDiffNameAndActor("TestM29", 2004,"comedy"));
+        GameRepository.save(getGame("TestM2", 2004,"comedy"));
 
         String jsonStr = mapToJson(dto);
 
@@ -141,8 +141,8 @@ public class GameControllerIT {
     void getAllFilteredByYearOk() throws Exception {
         TorrentSearchBarDto dto = new TorrentSearchBarDto();
         dto.setSearchBar("act");
-        Game Game1 = testGameWithDiffNameAndActor("Tob29" , 2003, "comedy");
-        Game Game2 = testGameWithDiffNameAndActor("Test229", 2004, "action");
+        Game Game1 = getGame("Tob29" , 2003, "comedy");
+        Game Game2 = getGame("Test229", 2004, "action");
         GameRepository.save(Game1);
         GameRepository.save(Game2);
         String jsonContent = mapToJson(dto);
@@ -171,8 +171,8 @@ public class GameControllerIT {
     void getAllFilteredByLikesOk() throws Exception {
         TorrentSearchBarDto dto = new TorrentSearchBarDto();
         dto.setSearchBar("act");
-        Game Game1 = testGameWithDiffNameAndActor("T9", 2003, "comedy");
-        Game Game2 = testGameWithDiffNameAndActor("Tes269", 2004,"action");
+        Game Game1 = getGame("T9", 2003, "comedy");
+        Game Game2 = getGame("Tes269", 2004,"action");
         GameRepository.save(Game1);
         GameRepository.save(Game2);
         String jsonContent = mapToJson(dto);
@@ -185,8 +185,8 @@ public class GameControllerIT {
 
     @Test
     void sortByYearOk() throws Exception {
-        Game Game1 = testGameWithDiffNameAndActor("test229", 2004,"comedy");
-        Game Game2 = testGameWithDiffNameAndActor("Test239", 2003,"action");
+        Game Game1 = getGame("test229", 2004,"comedy");
+        Game Game2 = getGame("Test239", 2003,"action");
         GameRepository.save(Game1);
         GameRepository.save(Game2);
 
@@ -205,7 +205,7 @@ public class GameControllerIT {
     @Test
     void getByIdOk() throws Exception {
         List<Game> all = GameRepository.findAll();
-        Game Game = testGameWithDiffNameAndActor("Testtt9", 2004,"comedy");
+        Game Game = getGame("Testtt9", 2004,"comedy");
         Long id = GameRepository.save(Game).getId();
         UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te9@abv.bg"));
@@ -239,7 +239,7 @@ public class GameControllerIT {
         userRepository.save(testEntityEmailVariable("test29@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test29@abv.bg");
-        Game Game = testGameWithDiffNameAndActor("uploadTest", 2004,"comedy");
+        Game Game = getGame("uploadTest", 2004,"comedy");
         Long id = GameRepository.save(Game).getId();
 
         String jsonRequest = mapToJson(dto);
@@ -280,7 +280,7 @@ public class GameControllerIT {
 
     @Test
     void likeOk() throws Exception {
-        Game Game = testGameWithDiffNameAndActor("LikeMovi9", 1901,"comedy");
+        Game Game = getGame("LikeMovi9", 1901,"comedy");
         Long id = GameRepository.save(Game).getId();
         UserEmailDto emailDto = new UserEmailDto();
         emailDto.setUserEmail("LikeOk9@abv.bg");
@@ -312,7 +312,7 @@ public class GameControllerIT {
 
     @Test
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
-        Game Game = testGameWithDiffNameAndActor("LikeGame9", 1901,"comedy");
+        Game Game = getGame("LikeGame9", 1901,"comedy");
         Long id = GameRepository.save(Game).getId();
         UserEmailDto emailDto = new UserEmailDto();
         emailDto.setUserEmail("UnLike9@abv.bg");
@@ -346,7 +346,7 @@ public class GameControllerIT {
         return entity;
     }
 
-    public Game testGameWithDiffNameAndActor(String name, Integer year, String category) {
+    public Game getGame(String name, Integer year, String category) {
 
         CategoryProjection byCategory = categoryProjectionRepository.getByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase()));
         Game game = new Game();

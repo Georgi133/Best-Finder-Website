@@ -44,7 +44,11 @@ public class GameServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private final String CATEGORY = "action";
+
     private final Long ID = 1L;
+
+    private Game game = null;
     @Mock
     private GameRepository gameRepository;
     @Mock
@@ -65,6 +69,7 @@ public class GameServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        game = getGame(GAME_NAME, 2004, CATEGORY);
     }
 
     @Test
@@ -84,7 +89,6 @@ public class GameServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Game game = getGame(GAME_NAME, 2004, "action");
 
         UserEntity user = getUser();
 
@@ -120,8 +124,6 @@ public class GameServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Game game = getGame(GAME_NAME, 2004, "action");
 
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
@@ -159,7 +161,6 @@ public class GameServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Game game = getGame(GAME_NAME, 2004, "action");
 
         UserEntity user = getUser();
 
@@ -199,7 +200,6 @@ public class GameServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Game game = getGame(GAME_NAME, 2004, "action");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {

@@ -11,10 +11,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
-import softuni.WebFinderserver.model.dtos.GameAnimeUploadDto;
 import softuni.WebFinderserver.model.dtos.SongUploadDto;
 import softuni.WebFinderserver.model.entities.*;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
 import softuni.WebFinderserver.model.entities.categories.Song;
 import softuni.WebFinderserver.model.enums.RoleEnum;
@@ -44,6 +42,10 @@ public class SongServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private final String CATEGORY = "pop";
+
+    private Song song = null;
+
     private final Long ID = 1L;
     @Mock
     private SongRepository songRepository;
@@ -65,6 +67,7 @@ public class SongServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        song = getSong(SONG_NAME, 2004, CATEGORY);
     }
 
     @Test
@@ -83,8 +86,6 @@ public class SongServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Song song = getGame(SONG_NAME, 2004, "pop");
 
         UserEntity user = getUser();
 
@@ -121,8 +122,6 @@ public class SongServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Song song = getGame(SONG_NAME, 2004, "pop");
-
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
 
@@ -158,8 +157,6 @@ public class SongServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Song song = getGame(SONG_NAME, 2004, "pop");
 
         UserEntity user = getUser();
 
@@ -199,7 +196,6 @@ public class SongServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Song song = getGame(SONG_NAME, 2004, "pop");
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {
@@ -238,7 +234,7 @@ public class SongServiceImplTest {
         Assertions.assertThrows(TorrentException.class, () -> toTest.editCommentById(movieId, ID, dto));
     }
 
-    public Song getGame(String name, Integer year, String category) {
+    public Song getSong(String name, Integer year, String category) {
 
         Mockito.when(songCategory.findFirstByCategory(SongCategoryEnum.valueOf(category.toUpperCase())))
                 .thenReturn(new SongCategory(SongCategoryEnum.valueOf(category.toUpperCase())));

@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import softuni.WebFinderserver.model.entities.BlackList;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.repositories.BlackListRepository;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,8 @@ public class BlackServiceImplTest {
 
     private final String IP_ADDRESS = "87.11";
     private final Long ID = 1L;
+
+    private BlackList blackList = null;
     @InjectMocks
     private BlackListServiceImpl toTest;
 
@@ -25,13 +28,13 @@ public class BlackServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        blackList = getBList();
         MockitoAnnotations.openMocks(this);
     }
 
 
     @Test
     public void isBlackListedShouldReturnTrue() {
-        BlackList blackList = getBList();
         Mockito.when(blackListRepository.findFirstByBlockedIpAddress(IP_ADDRESS))
                 .thenReturn(Optional.of(blackList));
         Assertions.assertTrue(toTest.isBlackListed(IP_ADDRESS));
@@ -54,17 +57,15 @@ public class BlackServiceImplTest {
 
     @Test
     public void addToBlackListShouldBeFalseIfIpAlreadyBanned() {
-        BlackList bList = getBList();
         Mockito.when(blackListRepository.findFirstByBlockedIpAddress(IP_ADDRESS))
-                .thenReturn(Optional.of(bList));
+                .thenReturn(Optional.of(blackList));
         Assertions.assertFalse(toTest.addToBlackList(IP_ADDRESS));
     }
 
     @Test
     public void removeIpAddressFromBList() {
-        BlackList bList = getBList();
         Mockito.when(blackListRepository.findFirstByBlockedIpAddress(IP_ADDRESS))
-                .thenReturn(Optional.of(bList));
+                .thenReturn(Optional.of(blackList));
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(blackListRepository).deleteById(ID);

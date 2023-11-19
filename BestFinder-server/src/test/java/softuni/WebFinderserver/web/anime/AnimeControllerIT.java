@@ -120,7 +120,7 @@ public class AnimeControllerIT {
         dto.setCategory3("");
         dto.setTorrentName("TestM8");
 
-        animeRepository.save(testAnimeWithDiffNameAndActor("TestM28", 2004,"comedy"));
+        animeRepository.save(testAnimeWithDiffNameAndActor("TestM8", 2004,"comedy"));
 
         String jsonStr = mapToJson(dto);
 

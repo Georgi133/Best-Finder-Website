@@ -11,19 +11,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
-import softuni.WebFinderserver.model.dtos.GameAnimeUploadDto;
 import softuni.WebFinderserver.model.dtos.JokeUploadDto;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.BaseCatalogue;
-import softuni.WebFinderserver.model.entities.categories.Game;
 import softuni.WebFinderserver.model.entities.categories.Joke;
 import softuni.WebFinderserver.model.enums.RoleEnum;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.CommentView;
-import softuni.WebFinderserver.repositories.CategoryProjectionRepository;
 import softuni.WebFinderserver.repositories.JokeRepository;
 import softuni.WebFinderserver.repositories.UserRepository;
 import softuni.WebFinderserver.services.CommentService;
@@ -46,6 +42,8 @@ public class JokeServiceImplTest {
 
     private final String DOES_NOT_MATTER = "no-matter";
 
+    private Joke joke = null;
+
     private final Long ID = 1L;
     @Mock
     private JokeRepository jokeRepository;
@@ -64,6 +62,7 @@ public class JokeServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        joke = getJoke(JOKE_NAME);
         MockitoAnnotations.openMocks(this);
     }
 
@@ -83,8 +82,6 @@ public class JokeServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Joke joke = getGame(JOKE_NAME);
 
         UserEntity user = getUser();
 
@@ -121,8 +118,6 @@ public class JokeServiceImplTest {
             return null;
         }).when(commentService).deleteCommentById(commendId);
 
-        Joke joke = getGame(JOKE_NAME);
-
         UserEntity user = getUser();
         user.setRole(RoleEnum.ADMIN);
 
@@ -158,8 +153,6 @@ public class JokeServiceImplTest {
         Mockito.doAnswer(invocation -> {
             return null;
         }).when(commentService).deleteCommentById(commendId);
-
-        Joke joke = getGame(JOKE_NAME);
 
         UserEntity user = getUser();
 
@@ -199,7 +192,6 @@ public class JokeServiceImplTest {
         Long commentId = ID;
         CommentEditDto dto = new CommentEditDto();
         dto.setComment("change yourself edit");
-        Joke joke = getGame(JOKE_NAME);
 
         UserEntity user = getUser();
         Mockito.doAnswer(invocation -> {
@@ -238,7 +230,7 @@ public class JokeServiceImplTest {
         Assertions.assertThrows(TorrentException.class, () -> toTest.editCommentById(movieId, ID, dto));
     }
 
-    public Joke getGame(String name) {
+    public Joke getJoke(String name) {
 
 
         Joke joke = new Joke();
