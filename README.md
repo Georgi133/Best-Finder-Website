@@ -38,6 +38,7 @@
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
  - Custom exceptions
  - Exception handling
+ - JWT token
  - JavaMailSender, Cloudinary
  - AOP
  - JUnit, Mockito - Unit and Integration tests
