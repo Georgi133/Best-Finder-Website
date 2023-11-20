@@ -35,7 +35,7 @@
  - Filter - to check for valid jwt token
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
- - Schedule - checking every hour if 24 hours from ban of the user is expired and if it's remove the restriction of the user
+ - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
  - Custom exceptions
  - Exception handling
  - JavaMailSender, Cloudinary
