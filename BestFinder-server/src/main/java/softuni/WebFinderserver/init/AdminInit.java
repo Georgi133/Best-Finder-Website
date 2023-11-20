@@ -29,19 +29,26 @@ public class AdminInit implements CommandLineRunner {
         adminInit(this.email, this.password);
     }
 
-    private void adminInit(String email , String password) {
+    public void adminInit(String email , String password) {
+
+        if(email.trim().isEmpty() || password.trim().isEmpty() || email.isBlank() || password.isBlank()) {
+            throw new RuntimeException("Admin data should not be empty or filled with spaces");
+        }
+
         if(!userRepository.findByEmail(email).isPresent()) {
             UserEntity admin = UserEntity.builder()
                     .pass(passwordEncoder.encode(password))
                     .age(999)
                     .role(RoleEnum.ADMIN)
                     .email(email)
-                    .ipAddress("unknown")
+                    .ipAddress("AdminIp")
                     .fullName("Admin Adminov")
                     .build();
 
             userRepository.save(admin);
         }
+
+
 
     }
 

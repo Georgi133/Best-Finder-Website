@@ -1,15 +1,15 @@
 package softuni.WebFinderserver.services.businessServices;
 
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import softuni.WebFinderserver.jwt.JwtService;
+import softuni.WebFinderserver.services.jwt.JwtService;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.entities.ForgottenPasswordEmailMessageEvent;
 import softuni.WebFinderserver.model.entities.Like;
@@ -19,17 +19,16 @@ import softuni.WebFinderserver.model.views.UserInfoView;
 import softuni.WebFinderserver.model.views.UserLoginView;
 import softuni.WebFinderserver.model.views.UserRegisterView;
 import softuni.WebFinderserver.repositories.UserRepository;
-import softuni.WebFinderserver.services.EmailService;
 import softuni.WebFinderserver.services.businessServicesInt.BlackListService;
 import softuni.WebFinderserver.services.businessServicesInt.UserService;
 import softuni.WebFinderserver.services.exceptions.user.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -37,11 +36,11 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final BlackListService blackListService;
-    private  final ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher publisher;
 
     public UserRegisterView register(UserRegistrationDto request, HttpServletRequest requestServlet) {
-        if(isUserExist(request.getEmail())) {
-            throw new InvalidRegisterException("There is user with such email",  HttpStatus.valueOf(403));
+        if (isUserExist(request.getEmail())) {
+            throw new InvalidRegisterException("There is user with such email", HttpStatus.valueOf(403));
         }
 
         String ipAddress = getIpAddress(requestServlet);
@@ -73,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken (
+                    .authenticate(new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()));
         } catch (RuntimeException e) {
@@ -98,10 +97,10 @@ public class UserServiceImpl implements UserService {
     public String getIpAddress(HttpServletRequest request) {
         String ipAddress = null;
         String xForwardedForHeader = request.getHeader("X-Forwarded-For");
-        if(xForwardedForHeader != null && !xForwardedForHeader.equals("unknown")) {
+        if (xForwardedForHeader != null && !xForwardedForHeader.equals("unknown")) {
             ipAddress = xForwardedForHeader;
         }
-        if(ipAddress == null) {
+        if (ipAddress == null) {
             ipAddress = request.getRemoteAddr();
         }
         return ipAddress;
@@ -112,10 +111,10 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new UserException("Email of user is not valid when changing password", HttpStatus.valueOf(401)));
 
-        if(dto.getNewPassword().equals(dto.getConfirmPassword())) {
+        if (dto.getNewPassword().equals(dto.getConfirmPassword())) {
             if (arePasswordsMatching(dto.getCurrentPassword(), userEntity.getPassword())) {
                 userEntity.setPass(passwordEncoder.encode(dto.getNewPassword()));
-            }else {
+            } else {
                 throw new InvalidPasswordException("Current password does not match", HttpStatus.valueOf(401));
             }
         } else {
@@ -125,12 +124,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean arePasswordsMatching(String rawPassword, String userPassword) {
-       return passwordEncoder.matches(rawPassword,userPassword);
+        return passwordEncoder.matches(rawPassword, userPassword);
     }
 
     public UserInfoView getUserByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException("Email of user not valid when fetching data for profile change",HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new UserException("Email of user not valid when fetching data for profile change", HttpStatus.BAD_REQUEST));
 
         return UserInfoView
                 .builder()
@@ -151,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
         UserEntity save = userRepository.save(userEntity);
 
-        return  UserInfoView.builder()
+        return UserInfoView.builder()
                 .id(save.id)
                 .role(save.getRole())
                 .email(save.getEmail())
@@ -161,14 +160,14 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserInfoView findByEmail(UserFindByEmailDto dto) {
-        if(!dto.getCurrentUserRole().equals("ADMIN")) {
+        if (!dto.getCurrentUserRole().equals("ADMIN")) {
             throw new UnAuthorizedException("User doesn't have the authority for this operation", HttpStatus.valueOf(401));
         }
         UserEntity userEntity = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new UserException("User with such email does not exist", HttpStatus.BAD_REQUEST));
 
 
-        return  UserInfoView.builder()
+        return UserInfoView.builder()
                 .id(userEntity.id)
                 .role(userEntity.getRole())
                 .email(userEntity.getEmail())
@@ -178,7 +177,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserEntity findUserByEmail(String email) {
-       return userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("User with such email does not exist", HttpStatus.BAD_REQUEST));
     }
 
@@ -186,11 +185,11 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new UserException("User with such email does not exist", HttpStatus.BAD_REQUEST));
 
-        if(!dto.getRole().equals("ADMIN")) {
-            throw new UnAuthorizedException("User doesn't have the authority for this operation",HttpStatus.valueOf(401));
+        if (!dto.getRole().equals("ADMIN")) {
+            throw new UnAuthorizedException("User doesn't have the authority for this operation", HttpStatus.valueOf(401));
         }
 
-        if(!dto.getChangeUserRole().toUpperCase().equals(RoleEnum.ADMIN.name()) &&
+        if (!dto.getChangeUserRole().toUpperCase().equals(RoleEnum.ADMIN.name()) &&
                 !dto.getChangeUserRole().toUpperCase().equals(RoleEnum.USER.name())) {
             throw new UserException("Role is not valid", HttpStatus.BAD_REQUEST);
         }
@@ -198,7 +197,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setRole(RoleEnum.valueOf(dto.getChangeUserRole().toUpperCase()));
         UserEntity savedEntity = userRepository.save(userEntity);
 
-        return  UserInfoView.builder()
+        return UserInfoView.builder()
                 .id(savedEntity.id)
                 .role(savedEntity.getRole())
                 .email(savedEntity.getEmail())
@@ -221,7 +220,7 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = userRepository.findByEmail(dto.getUserEmail())
                 .orElseThrow(() -> new UnAuthorizedException("Such email does not exist", HttpStatus.valueOf(401)));
-        String newPassword = UUID.randomUUID().toString().substring(0,10);
+        String newPassword = UUID.randomUUID().toString().substring(0, 10);
         userEntity.setPass(passwordEncoder.encode(newPassword));
         userRepository.save(userEntity);
 
@@ -236,6 +235,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void banUser(UserEmailDto userEmailDto) {
         UserEntity userByEmail = findUserByEmail(userEmailDto.getUserEmail());
+
+        if (userByEmail.getIpAddress().equals("AdminIp")) {
+            log.info("Admin tried to ban Head admin !!!");
+            throw new UserException("Head admin cannot be banned!", HttpStatus.valueOf(403));
+        }
+
         blackListService.addToBlackList(userByEmail.getIpAddress());
     }
 

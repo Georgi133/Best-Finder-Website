@@ -1,4 +1,4 @@
-package softuni.WebFinderserver.jwt;
+package softuni.WebFinderserver.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import softuni.WebFinderserver.services.jwt.JwtService;
 
 import java.io.IOException;
 

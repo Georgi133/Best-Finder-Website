@@ -15,9 +15,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import softuni.WebFinderserver.jwt.JwtAuthenticationFilter;
+import softuni.WebFinderserver.filter.JwtAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
