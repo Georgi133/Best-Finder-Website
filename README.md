@@ -48,7 +48,7 @@
  - <strong>In-memory database (h2-Database) for Integration testing as well as in-memory email server (GreenMail)</strong>
 
  ## What is in Frontend
- - <strong>Using local storage - for storigе and extractin of JWT token</strong>
+ - <strong>Using local storage - for storagе and extractin of JWT token</strong>
  - <strong>JWT decoding - to get the specific part of the JWT which hides the user information (email and role)</strong>
  - I18n
  - <strong>Exception handling</strong>
