@@ -55,7 +55,7 @@
  - <strong>Custom pages for the different types of exceptions</strong>
  - <strong>Data validity checks</strong>
  - <strong>Custom messages if some of the data is not valid</strong>
- - <strong>!!!Page restrictions!!!</strong>If user is not logged in or doesn't have rights for some pages - he won't be able to access them because of FRONTEND restrictions and it will be redirected to login page, but if somehow he succeed, BACKEND will stop him!
+ - <strong>!!!Page restrictions!!!</strong> If user is not logged in or doesn't have rights for some pages - he won't be able to access them because of FRONTEND restrictions and it will be redirected to login page, but if somehow he succeed, BACKEND will stop him!
 
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
