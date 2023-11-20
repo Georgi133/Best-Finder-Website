@@ -38,6 +38,7 @@
  - Schedule - checking every hour if 24 hours from ban of the user is expired and if it's remove the restriction of the user
  - Custom exceptions , Exception handling
  - JavaMailSender, Cloudinary
+ - AOP
  - JUnit and Integration tests
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
