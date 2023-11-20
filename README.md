@@ -37,7 +37,7 @@
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
- - Hibernate Validator - Checks for invalid data
+ - <strong>Hibernate Validator - Checks for invalid data</strong>
  - <strong>Custom exceptions</strong>
  - <strong>Exception handling</strong>
  - JWT token
