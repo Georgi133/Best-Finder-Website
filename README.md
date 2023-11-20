@@ -40,7 +40,7 @@
  - Exception handling
  - JavaMailSender, Cloudinary
  - AOP
- - JUnit and Integration tests
+ - JUnit, Mockito - Unit and Integration tests
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
