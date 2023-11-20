@@ -36,7 +36,8 @@
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
  - Schedule - checking every hour if 24 hours from ban of the user is expired and if it's remove the restriction of the user
- - Custom exceptions , Exception handling
+ - Custom exceptions
+ - Exception handling
  - JavaMailSender, Cloudinary
  - AOP
  - JUnit and Integration tests
