@@ -5,6 +5,7 @@
   * [Built with](#built-with)
   * [Features](#features)
   * [What is in Backend](#what-is-in-backend)
+  * [What is in FrontEnd](#what-is-in-frontend)
   * [Installation](#installation)
   * [Configuration](#configuration)
   * [View](#view)
@@ -36,6 +37,7 @@
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
+ - Hibernate Validator - Checks for invalid data
  - <strong>Custom exceptions</strong>
  - <strong>Exception handling</strong>
  - JWT token
@@ -44,6 +46,16 @@
  - I18n as well as in frontend
  - <strong>JUnit, Mockito - Unit and Integration tests</strong>
  - <strong>In-memory database (h2-Database) for Integration testing as well as in-memory email server (GreenMail)</strong>
+
+ ## What is in Frontend
+ - <strong>Using local storage - for storigе and extractin of JWT token</strong>
+ - <strong>JWT decoding - to get the specific part of the JWT which hides the user information (email and role)</strong>
+ - I18n
+ - <strong>Exception handling</strong>
+ - <strong>Custom pages for the different types of exceptions</strong>
+ - <strong>Data validity checks</strong>
+ - <strong>Custom messages if some of the data is not valid</strong>
+ - <strong>!!!Page restrictions!!!</strong>If user is not logged in or doesn't have rights for some pages - he won't be able to access them because of FRONTEND restrictions and it will be redirected to login page, but if somehow he succeed, BACKEND will stop him!
 
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
