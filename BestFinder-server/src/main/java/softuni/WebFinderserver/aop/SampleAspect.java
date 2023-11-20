@@ -12,10 +12,6 @@ public class SampleAspect {
     @Pointcut("execution(* softuni.WebFinderserver.init.AdminInit.run(..))")
     void methodInitAdmin(){}
 
-    @Before("methodInitAdmin()")
-    public void beforeAdminInit() {
-        log.info("Starting to persist admin in the base");
-    }
 
     @AfterThrowing("methodInitAdmin()")
     public void ifNotFilledDataInYaml() {
@@ -24,7 +20,7 @@ public class SampleAspect {
 
     @AfterReturning("methodInitAdmin()")
     public void successfullySavedAdmin() {
-        log.info("ADMIN saved to the base !!!");
+        log.info("Head ADMIN is in the base !!!");
     }
 
 }
