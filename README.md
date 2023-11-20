@@ -5,7 +5,7 @@
   * [Built with](#built-with)
   * [Features](#features)
   * [What is in Backend](#what-is-in-backend)
-  * [What is in FrontEnd](#what-is-in-frontend)
+  * [What is in Frontend](#what-is-in-frontend)
   * [Installation](#installation)
   * [Configuration](#configuration)
   * [View](#view)
