@@ -36,12 +36,13 @@
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
- - Custom exceptions
- - Exception handling
+ - <strong>Custom exceptions</strong>
+ - <strong>Exception handling</strong>
  - JWT token
  - JavaMailSender, Cloudinary
  - AOP
- - JUnit, Mockito - Unit and Integration tests
+ - <strong>JUnit, Mockito - Unit and Integration tests</strong>
+ - <strong>In-memory database (h2-database) for Integration testing as well as in-memory mail (greenmail)</strong>
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
