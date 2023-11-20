@@ -42,7 +42,7 @@
  - JavaMailSender, Cloudinary
  - AOP
  - <strong>JUnit, Mockito - Unit and Integration tests</strong>
- - <strong>In-memory database (h2-database) for Integration testing as well as in-memory mail (greenmail)</strong>
+ - <strong>In-memory database (h2-Database) for Integration testing as well as in-memory email server (GreenMail)</strong>
  ## Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
