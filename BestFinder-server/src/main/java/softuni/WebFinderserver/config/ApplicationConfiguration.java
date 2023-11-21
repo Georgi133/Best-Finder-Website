@@ -48,6 +48,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public ModelMapper modelMapper () {
+
         return new ModelMapper();
     }
 

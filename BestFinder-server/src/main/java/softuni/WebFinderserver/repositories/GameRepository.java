@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Game;
 
 import java.time.LocalDate;
@@ -15,7 +14,7 @@ import java.util.Set;
 @Repository
 public interface GameRepository extends JpaRepository<Game,Long> {
 
-    Optional<Game> findFirstByGameName(String gameName);
+    Optional<Game> findFirstByTorrentName(String gameName);
 
     @Query("select g from Game g order by size(g.likes) desc")
     List<Game> getAll();

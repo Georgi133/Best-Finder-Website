@@ -350,8 +350,8 @@ public class GameControllerIT {
 
         CategoryProjection byCategory = categoryProjectionRepository.getByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase()));
         Game game = new Game();
-        game.setGameName(name);
-        game.setResume("testGame");
+        game.setTorrentName(name);
+        game.setTorrentResume("testGame");
         game.setCategories(List.of(byCategory));
         game.setReleasedYear(year);
         game.setPictureUrl("pickTest");

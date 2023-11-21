@@ -1,5 +1,6 @@
 package softuni.WebFinderserver.services.businessServices;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Game;
-import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.GameCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @Service
 public class GameServiceImpl implements GameService {
 
+    private final ModelMapper mapper;
     private final GameRepository gameRepository;
     private final CloudUtil cloudUtil;
     private final CategoryEmptyCleanerService categoryCleaner;
@@ -43,7 +44,8 @@ public class GameServiceImpl implements GameService {
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public GameServiceImpl(GameRepository gameRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public GameServiceImpl(ModelMapper mapper, GameRepository gameRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+        this.mapper = mapper;
         this.gameRepository = gameRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -54,7 +56,7 @@ public class GameServiceImpl implements GameService {
     }
 
     public BaseView createGame(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
-        Optional<Game> game = gameRepository.findFirstByGameName(dto.getTorrentName());
+        Optional<Game> game = gameRepository.findFirstByTorrentName(dto.getTorrentName());
         if (game.isPresent()) {
             throw new UploadTorrentException("Game with such name already exist",HttpStatus.BAD_REQUEST);
         }
@@ -72,8 +74,8 @@ public class GameServiceImpl implements GameService {
     private GameCreateView mapToView(Game savedGame) {
         int startIndex = savedGame.getTrailer().length() - 11;
         GameCreateView build = GameCreateView.builder()
-                .resume(savedGame.getResume())
-                .gameName(savedGame.getGameName())
+                .resume(savedGame.getTorrentResume())
+                .gameName(savedGame.getTorrentName())
                 .categories(savedGame.getCategories().stream().map(gameCat -> gameCat.getCategory().name()).collect(Collectors.joining(", ")))
                 .releasedYear(savedGame.getReleasedYear())
                 .addedDate(savedGame.getAddedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
@@ -95,17 +97,14 @@ public class GameServiceImpl implements GameService {
     private Game mapToGame(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);
 
-        Game game = new Game();
-        game.setGameName(dto.getTorrentName());
+        Game game = mapper.map(dto,Game.class);
+
         game.setLikes(new ArrayList<>());
-        game.setTrailer(dto.getTrailer());
         game.setComments(new ArrayList<>());
-        game.setResume(dto.getTorrentResume());
         game.setCategories(categoryCleaner
                 .clearEmptyProperties(List.of(dto.getCategory1(), dto.getCategory2(), dto.getCategory3())));
         game.setPictureUrl(cloudUtil.takeUrl(urlUploaded));
         game.setAddedDate(LocalDate.now());
-        game.setReleasedYear(dto.getReleasedYear());
 
         return game;
     }

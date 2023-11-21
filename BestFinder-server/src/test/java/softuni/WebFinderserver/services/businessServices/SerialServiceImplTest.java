@@ -246,7 +246,7 @@ public class SerialServiceImplTest {
         CategoryProjection byCategory = categoryProjectionRepository.findFirstByCategory(CategoryProjectionEnum.valueOf(category.toUpperCase()));
         Serial serial = new Serial();
         serial.setId(ID);
-        serial.setSerialName(name);
+        serial.setTorrentName(name);
         serial.setActors(List.of(new Actor(actor)));
         serial.setCategories(List.of(byCategory));
         serial.setSeasons(seasons);

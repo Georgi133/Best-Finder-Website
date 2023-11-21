@@ -1,5 +1,6 @@
 package softuni.WebFinderserver.services.businessServices;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
 import softuni.WebFinderserver.model.entities.*;
-import softuni.WebFinderserver.model.entities.categories.CataloguesWithCommonCategories;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -39,8 +38,9 @@ public class MovieServiceImpl implements MovieService {
     private final CommentService commentService;
     private final LikeService likeService;
     private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
 
-    public MovieServiceImpl(MovieRepository movieRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    public MovieServiceImpl(MovieRepository movieRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource, ModelMapper modelMapper) {
         this.movieRepository = movieRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -49,10 +49,11 @@ public class MovieServiceImpl implements MovieService {
         this.commentService = commentService;
         this.likeService = likeService;
         this.messageSource = messageSource;
+        this.modelMapper = modelMapper;
     }
 
     public BaseView createMovie (MovieUploadDto dto, MultipartFile file) throws IOException {
-        Optional<Movie> movie = movieRepository.findFirstByMovieName(dto.getTorrentName());
+        Optional<Movie> movie = movieRepository.findFirstByTorrentName(dto.getTorrentName());
 
         if(movie.isPresent()) {
             throw new UploadTorrentException("Movie with such name already exist", HttpStatus.BAD_REQUEST);
@@ -69,10 +70,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private MovieCreateView mapToView(Movie savedMovie) {
+
         int startIndex = savedMovie.getTrailer().length() - 11;
         MovieCreateView build = MovieCreateView.builder()
-                .movieName(savedMovie.getMovieName())
-                .resume(savedMovie.getResume())
+                .movieName(savedMovie.getTorrentName())
+                .resume(savedMovie.getTorrentResume())
                 .releasedYear(savedMovie.getReleasedYear())
                 .addedDate(savedMovie.getAddedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .pictureUrl(savedMovie.getPictureUrl())
@@ -94,19 +96,16 @@ public class MovieServiceImpl implements MovieService {
     private Movie mapToMovie(MovieUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);
 
-        Movie movie = new Movie();
-        movie.setMovieName(dto.getTorrentName());
+        Movie movie = modelMapper.map(dto,Movie.class);
+
         movie.setLikes(new ArrayList<>());
         movie.setComments(new ArrayList<>());
-        movie.setTrailer(dto.getTrailer());
-        movie.setResume(dto.getTorrentResume());
         movie.setActors(actorCleanerService
                 .getActor(List.of(dto.getActor1(),dto.getActor2(),dto.getActor3(),dto.getActor4(),dto.getActor5())));
         movie.setCategories(categoryCleaner
                 .clearEmptyProperties(List.of(dto.getCategory1(), dto.getCategory2(), dto.getCategory3())));
         movie.setPictureUrl(cloudUtil.takeUrl(urlUploaded));
         movie.setAddedDate(LocalDate.now());
-        movie.setReleasedYear(dto.getReleasedYear());
 
         return movie;
     }

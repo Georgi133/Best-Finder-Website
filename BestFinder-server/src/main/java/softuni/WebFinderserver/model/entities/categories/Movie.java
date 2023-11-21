@@ -27,8 +27,8 @@ public class Movie extends CataloguesWithCommonCategories {
     )
 
     {
-        this.resume = resume;
-        this.movieName = movieName;
+        this.torrentResume = resume;
+        this.torrentName = movieName;
         this.releasedYear = releasedYear;
         this.actors = actors;
         this.setCategories(categories);
@@ -43,11 +43,11 @@ public class Movie extends CataloguesWithCommonCategories {
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
-    @Column(nullable = false, unique = true)
-    private String movieName;
+    @Column(name = "movie_name", nullable = false, unique = true)
+    private String torrentName;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String resume;
+    @Column(name = "resume",columnDefinition = "TEXT", nullable = false)
+    private String torrentResume;
 
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;

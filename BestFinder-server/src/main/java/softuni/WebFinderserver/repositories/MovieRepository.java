@@ -3,9 +3,7 @@ package softuni.WebFinderserver.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
-import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 
 import java.time.LocalDate;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-    Optional<Movie> findFirstByMovieName(String movieName);
+    Optional<Movie> findFirstByTorrentName(String movieName);
 
     @Query("select m from Movie m order by size(m.likes) desc")
     List<Movie> getAll();

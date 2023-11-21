@@ -25,11 +25,11 @@ public class Serial extends CataloguesWithCommonCategories {
                   List<Actor> actors,
                   List<CategoryProjection> categories,
                   String resume) {
-        this.serialName = serialName;
+        this.torrentName = serialName;
         this.seasons = seasons;
         this.actors = actors;
         this.setCategories(categories);
-        this.resume = resume;
+        this.torrentResume = resume;
     }
 
 
@@ -39,8 +39,8 @@ public class Serial extends CataloguesWithCommonCategories {
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
-    @Column(nullable = false , unique = true)
-    private String serialName;
+    @Column(name = "serial_name",nullable = false , unique = true)
+    private String torrentName;
 
     @Column(nullable = false)
     private Integer seasons;
@@ -56,8 +56,8 @@ public class Serial extends CataloguesWithCommonCategories {
     )
     private List<Actor> actors;
 
-    @Column(columnDefinition = "TEXT")
-    private String resume;
+    @Column(name = "resume",columnDefinition = "TEXT")
+    private String torrentResume;
 
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;

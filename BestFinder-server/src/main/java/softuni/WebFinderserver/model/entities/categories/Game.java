@@ -23,10 +23,10 @@ public class Game extends CataloguesWithCommonCategories {
                 Integer releasedYear,
                 List<CategoryProjection> categories,
                 String resume) {
-        this.gameName = gameName;
+        this.torrentName = gameName;
         this.releasedYear = releasedYear;
         this.setCategories(categories);
-        this.resume = resume;
+        this.torrentResume = resume;
     }
 
 
@@ -37,8 +37,8 @@ public class Game extends CataloguesWithCommonCategories {
     @Column(columnDefinition = "DATE")
     private LocalDate addedDate;
 
-    @Column(nullable = false, unique = true)
-    private String gameName;
+    @Column(name = "game_name",nullable = false, unique = true)
+    private String torrentName;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String trailer;
@@ -46,8 +46,8 @@ public class Game extends CataloguesWithCommonCategories {
     @Column(nullable = false)
     private Integer releasedYear;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String resume;
+    @Column(name = "resume",columnDefinition = "TEXT", nullable = false)
+    private String torrentResume;
 
     @OneToMany(mappedBy = "project")
     private List<Like> likes;

@@ -4,8 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import softuni.WebFinderserver.model.entities.categories.Anime;
-import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 
 import java.time.LocalDate;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Repository
 public interface SerialRepository extends JpaRepository<Serial,Long> {
 
-    Optional<Serial> findFirstBySerialName(String serialName);
+    Optional<Serial> findFirstByTorrentName(String serialName);
 
     @Query("select s from Serial s order by size(s.likes) desc")
     List<Serial> getAll();

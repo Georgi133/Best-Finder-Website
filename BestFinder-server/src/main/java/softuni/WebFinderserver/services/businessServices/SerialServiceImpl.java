@@ -1,5 +1,6 @@
 package softuni.WebFinderserver.services.businessServices;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import softuni.WebFinderserver.model.entities.Actor;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
-import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -42,7 +42,9 @@ public class SerialServiceImpl implements SerialService {
     private final LikeService likeService;
     private final MessageSource messageSource;
 
-    public SerialServiceImpl(SerialRepository serialRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource) {
+    private final ModelMapper modelMapper;
+
+    public SerialServiceImpl(SerialRepository serialRepository, CloudUtil cloudUtil, CategoryEmptyCleanerService categoryCleaner, ActorCleanerService actorCleanerService, UserServiceImpl userService, CommentService commentService, LikeService likeService, MessageSource messageSource, ModelMapper modelMapper) {
         this.serialRepository = serialRepository;
         this.cloudUtil = cloudUtil;
         this.categoryCleaner = categoryCleaner;
@@ -51,10 +53,11 @@ public class SerialServiceImpl implements SerialService {
         this.commentService = commentService;
         this.likeService = likeService;
         this.messageSource = messageSource;
+        this.modelMapper = modelMapper;
     }
 
     public BaseView createSerial(SerialUploadDto dto, MultipartFile file) throws IOException {
-        Optional<Serial> movie = serialRepository.findFirstBySerialName(dto.getTorrentName());
+        Optional<Serial> movie = serialRepository.findFirstByTorrentName(dto.getTorrentName());
 
         if (movie.isPresent()) {
             throw new UploadTorrentException("Serial with such name already exist", HttpStatus.BAD_REQUEST);
@@ -72,8 +75,8 @@ public class SerialServiceImpl implements SerialService {
     private SerialsCreateView mapToView(Serial savedSerial) {
         int startIndex = savedSerial.getTrailer().length() - 11;
         SerialsCreateView build = SerialsCreateView.builder()
-                .serialName(savedSerial.getSerialName())
-                .resume(savedSerial.getResume())
+                .serialName(savedSerial.getTorrentName())
+                .resume(savedSerial.getTorrentResume())
                 .seasons(savedSerial.getSeasons())
                 .addedDate(savedSerial.getAddedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .pictureUrl(savedSerial.getPictureUrl())
@@ -96,19 +99,16 @@ public class SerialServiceImpl implements SerialService {
     private Serial mapToSerial(SerialUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);
 
-        Serial serial = new Serial();
-        serial.setSerialName(dto.getTorrentName());
+        Serial serial = modelMapper.map(dto,Serial.class);
+
         serial.setLikes(new ArrayList<>());
         serial.setComments(new ArrayList<>());
-        serial.setTrailer(dto.getTrailer());
-        serial.setResume(dto.getTorrentResume());
         serial.setActors(actorCleanerService
                 .getActor(List.of(dto.getActor1(), dto.getActor2(), dto.getActor3(), dto.getActor4(), dto.getActor5())));
         serial.setCategories(categoryCleaner
                 .clearEmptyProperties(List.of(dto.getCategory1(), dto.getCategory2(), dto.getCategory3())));
         serial.setPictureUrl(cloudUtil.takeUrl(urlUploaded));
         serial.setAddedDate(LocalDate.now());
-        serial.setSeasons(dto.getSeasons());
 
         return serial;
     }
