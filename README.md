@@ -25,7 +25,7 @@
  - JWT token
 
  ## Features
- - Multi-language support. Stores jwt token in local storage. Could be runned from any device - responsive.
+ - Multi-language support. Could be runned from any device - responsive.
  - Users - Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
   can sort by likes descending, search bar combined with sorting operations. Users could change their given 
  information and change password.Could edit or delete only its own comments and unlike if torrent is liked earlier.
