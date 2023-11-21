@@ -6,7 +6,7 @@
   * [Features](#dart-features)
   * [What is in Backend](#what-is-in-backend)
   * [What is in Frontend](#what-is-in-frontend)
-  * [Installation](#installation)
+  * [Installation](#wrench-installation)
   * [Configuration](#gear-configuration)
   * [View](#camera-view)
 
@@ -57,7 +57,7 @@
  - <strong>Custom messages if some of the data is not valid</strong>
  - <strong>!!!Page restrictions!!!</strong> If user is not logged in or doesn't have rights for some pages - he won't be able to access them because of FRONTEND restrictions and it will be redirected to login page, but if somehow he succeed, BACKEND will stop him!
 
- ## Installation
+ ## :wrench: Installation
  <strong>Running the BestFinder-server RESTful API requires:</strong>
  -  JDK 17.
  -  Apache Maven 4.0.0+
