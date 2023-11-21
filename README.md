@@ -26,10 +26,10 @@
 
  ## :dart: Features
  - Multi-language support. Could be runned from any device - responsive.
- - Users - _Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
+ - <strong>Users</strong> - _Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
   can sort by likes descending, search bar combined with sorting operations. Users could change their given 
  information and change password.Could edit or delete only its own comments and unlike if torrent is liked earlier._
- - Admin - _Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user 
+ - <strong>Admin</strong> - _Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user 
  roles. Can search by email to see user information._
 
  ## What is in Backend
