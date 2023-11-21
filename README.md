@@ -7,8 +7,8 @@
   * [What is in Backend](#what-is-in-backend)
   * [What is in Frontend](#what-is-in-frontend)
   * [Installation](#installation)
-  * [Configuration](#configuration)
-  * [View](#view)
+  * [Configuration](#gear-configuration)
+  * [View](#camera-view)
 
 <hr /> 
 
@@ -62,7 +62,7 @@
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
- ## Configuration
+ ## :gear: Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
 spring.datasource.url: jdbc:mysql://localhost:${PORT}/${DATABASE_NAME}?allowPublicKeyRetrieval=true
@@ -98,7 +98,7 @@ jwt.token: ${TOKEN}
 best-finder.admin: ${ADMIN_EMAIL}
 best-finder.defaultpass: ${ADMIN_PASS}
 ```
-## View 
+## :camera: View 
  <strong>Home Page, Movies Page, and Movie Details </strong>
  
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
