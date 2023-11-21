@@ -46,7 +46,7 @@
  - I18n as well as in frontend
  - <strong>JUnit, Mockito - Unit and Integration tests</strong>
  - <strong>In-memory database (h2-Database) for Integration testing as well as in-memory email server (GreenMail)</strong>
-
+ - ModelMapper
  ## What is in Frontend
  - <strong>Using local storage - for storagе and extraction of JWT token</strong>
  - <strong>JWT decoding - to get the specific part of the JWT which hides the user information (email and role)</strong>
