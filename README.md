@@ -2,7 +2,7 @@
  _Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc._                                             
  
    # :notebook_with_decorative_cover: Table of Contents 
-  * [Built with](#black_nib-built-with)
+  * [Built with](#hammer-built-with)
   * [Features](#dart-features)
   * [What is in Backend](#what-is-in-backend)
   * [What is in Frontend](#what-is-in-frontend)
@@ -12,7 +12,7 @@
 
 <hr /> 
 
-  ## :black_nib: Built with
+  ## :hammer: Built with
  - Java 17
  - Spring Boot
  - Spring Security
