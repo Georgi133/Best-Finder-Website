@@ -8,23 +8,27 @@ export const TorrentNotExist = () => {
   const [reloadPage, setReloadPage] = useState(false);
 
   const reload = () => {
-    setTimeout(redirect,3000);
+    setTimeout(redirect, 4000);
   };
 
   const redirect = () => {
-    navigate('/');
+    navigate("/");
     setReloadPage(false);
-  }
+  };
 
   useState(() => {
-    setReloadPage(true)
+    setReloadPage(true);
   }, []);
 
   return (
-    <div className={style.container}>
+    <>
       <MyNavBar />
-      {reloadPage && reload()}
-      <h1 className={style.header}>Torrent does not exist!</h1>
-    </div>
+      <div className={style.container}>
+        {reloadPage && reload()}
+        <h1 className={style.header}>Torrent does not exist!</h1>
+        <h3>We couldn't find the torrent that you are looking for.</h3>
+        <h3>Please check the address and try again.</h3>
+      </div>
+    </>
   );
 };
