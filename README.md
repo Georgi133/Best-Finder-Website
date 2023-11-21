@@ -3,7 +3,7 @@
  
    # :notebook_with_decorative_cover: Table of Contents 
   * [Built with](#built-with)
-  * [Features](#features)
+  * [Features](#dart-features)
   * [What is in Backend](#what-is-in-backend)
   * [What is in Frontend](#what-is-in-frontend)
   * [Installation](#installation)
@@ -24,7 +24,7 @@
  - Apache Maven
  - JWT token
 
- ## Features
+ ## :dart: Features
  - Multi-language support. Could be runned from any device - responsive.
  - Users - Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
   can sort by likes descending, search bar combined with sorting operations. Users could change their given 
