@@ -1,5 +1,5 @@
 # <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/37f3d3cf-229e-4243-aad7-47dcabcbf8f8"> Best-Finder-Website RESTful API
- Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc.                                             
+ _Best-Finder is website which helps you find out best movie, serial, game, anime, song or even joke when you have no idea what you want to watch, listen, play etc._                                             
  
    # :notebook_with_decorative_cover: Table of Contents 
   * [Built with](#built-with)
