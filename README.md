@@ -40,6 +40,8 @@
  - <strong>Hibernate Validator - checks for invalid data</strong>
  - <strong>Custom exceptions and custom messages</strong>
  - <strong>Exception handling</strong>
+ - <strong>Multithreading</strong> - make paralel information when there is update to refreshes the cache information inside the proxy, so when the client make request the operation will be free because server won't do anything except return the waiting cache inside the proxy
+ - <strong>Proxy Pattern</strong> - The proxy wrapps business services so when client requires something from them, proxy is invoked. Inside the proxy there are lists which cache the information once is done and if information is wanted again the proxy will return the cache and the operation will be free, if information is updated it makes Multithreading operation to update the cache.
  - JWT token
  - JavaMailSender, Cloudinary
  - AOP
