@@ -41,7 +41,7 @@
  - <strong>Custom exceptions and custom messages</strong>
  - <strong>Exception handling</strong>
  - <strong>Multithreading</strong> - make paralel operation when there is update to refresh the cache information inside the proxy, so when the client make request the operation will be free, because server won't do anything except returning the waiting cache inside the proxy
- - <strong>Proxy Pattern</strong> - the proxy wrapps business services so when client requires something from them, proxy is invoked. Inside the proxy there are lists which cache the information once is required, if information is required again the proxy will return the cache and the operation will be free, if information is updated - makes the multithreading operation described above.
+ - <strong>Proxy Pattern</strong> - the proxy wrapps business services so when client requires something from them, proxy is invoked. Inside the proxy there are lists which cache the information once is required, if information is required again the proxy will return the cache and the operation will be free, if information is updated - makes the multithreading operation described above
  - JWT token
  - JavaMailSender, Cloudinary
  - AOP
