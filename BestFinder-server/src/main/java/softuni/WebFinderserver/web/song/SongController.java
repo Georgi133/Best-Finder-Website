@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.web.song;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +24,7 @@ public class SongController {
 
     private final SongService songService;
 
-    public SongController(SongServiceImpl songService) {
+    public SongController(@Qualifier("SongProxy") SongService songService) {
         this.songService = songService;
     }
     @PreAuthorize("hasAuthority('ADMIN')")

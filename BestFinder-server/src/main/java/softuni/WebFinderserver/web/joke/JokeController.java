@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.web.joke;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ import java.util.List;
 public class JokeController {
     private  final JokeService jokeService;
 
-    public JokeController(JokeServiceImpl jokeService) {
+    public JokeController(@Qualifier("JokeProxy") JokeService jokeService) {
         this.jokeService = jokeService;
     }
 

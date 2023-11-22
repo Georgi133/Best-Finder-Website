@@ -43,7 +43,7 @@ public class Joke extends BaseCatalogue {
     private List<Comment> comments;
 
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
     private List<Like> likes;
 
 

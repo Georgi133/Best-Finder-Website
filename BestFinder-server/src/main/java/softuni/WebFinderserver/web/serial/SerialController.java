@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.web.serial;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +24,7 @@ public class SerialController {
 
     private final SerialService serialService;
 
-    public SerialController(SerialServiceImpl serialService) {
+    public SerialController(@Qualifier("SerialProxy") SerialService serialService) {
         this.serialService = serialService;
     }
 

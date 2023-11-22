@@ -224,7 +224,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
-
         LocalDate movieWhichWasLastAdded =
                 movieRepository.getMovieWhichWasLastAdded();
         String addedOn = "";

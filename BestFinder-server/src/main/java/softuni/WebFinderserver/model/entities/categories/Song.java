@@ -38,7 +38,7 @@ public class Song extends BaseCatalogue {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String songVideo;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "songs_songs_categories",
             joinColumns = { @JoinColumn(name = "song_id")},
@@ -48,10 +48,10 @@ public class Song extends BaseCatalogue {
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     private List<Singer> singers;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
     private List<Like> likes;
 
     @Column(columnDefinition = "DATE")

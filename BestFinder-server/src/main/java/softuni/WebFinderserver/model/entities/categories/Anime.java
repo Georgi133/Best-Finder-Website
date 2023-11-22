@@ -52,7 +52,7 @@ public class Anime extends CataloguesWithCommonCategories {
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
     private List<Like> likes;
 
 }

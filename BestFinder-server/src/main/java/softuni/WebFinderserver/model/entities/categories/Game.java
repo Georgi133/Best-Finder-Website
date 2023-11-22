@@ -49,7 +49,7 @@ public class Game extends CataloguesWithCommonCategories {
     @Column(name = "resume",columnDefinition = "TEXT", nullable = false)
     private String torrentResume;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
     private List<Like> likes;
 
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)

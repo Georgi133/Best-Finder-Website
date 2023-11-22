@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.web.movie;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,19 +12,18 @@ import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.TorrentInfoView;
 import softuni.WebFinderserver.services.businessServicesInt.MovieService;
-import softuni.WebFinderserver.services.businessServices.MovieServiceImpl;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 import softuni.WebFinderserver.services.exceptions.torrent.UploadTorrentException;
 
 import java.io.IOException;
-import java.util.List;
+
 
 @RestController
 public class MovieController {
 
     private final MovieService movieService;
 
-    public MovieController(MovieServiceImpl movieService) {
+    public MovieController(@Qualifier("MovieProxy") MovieService movieService) {
         this.movieService = movieService;
     }
 
@@ -40,65 +40,52 @@ public class MovieController {
     @GetMapping(value = "/get-all/movies")
     public ResponseEntity<?> getAll() {
 
-        List<BaseView> movies = movieService.getAll();
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(movies);
+                status(HttpStatus.OK).body(movieService.getAll());
     }
 
     @PostMapping(value = "/get-all/movies/filtered-by-year")
     public ResponseEntity<?> getAllFilteredByYear(@RequestBody TorrentSearchBarDto dto) {
-        List<BaseView> movies = movieService.getAllByCriteriaSortedByYear(dto.getSearchBar());
 
         return ResponseEntity.
-                status(HttpStatus.OK).body(movies);
+                status(HttpStatus.OK).body(movieService.getAllByCriteriaSortedByYear(dto.getSearchBar()));
     }
 
     @PostMapping(value = "/get-all/movies/filtered-by-likes")
     public ResponseEntity<?> getAllFilteredByLikes(@RequestBody TorrentSearchBarDto dto) {
 
-        List<BaseView> movies = movieService.getAllByCriteriaSortedByLikes(dto.getSearchBar());
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(movies);
+                status(HttpStatus.OK).body(movieService.getAllByCriteriaSortedByLikes(dto.getSearchBar()));
     }
 
     @GetMapping(value = "/movies/sort-by-year")
     public ResponseEntity<?> sortByYear() {
 
-        List<BaseView> movies = movieService.sortByYear();
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(movies);
+                status(HttpStatus.OK).body(movieService.sortByYear());
     }
 
     @PostMapping(value = "/get/movie/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id, @RequestBody UserEmailDto dto) {
 
-        BaseView anime = movieService.getById(id, dto.getUserEmail());
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(anime);
+                status(HttpStatus.OK).body(movieService.getById(id, dto.getUserEmail()));
     }
 
     @PostMapping(value = "/upload/movie/{id}/comment")
     public ResponseEntity<?> uploadComment(@RequestBody @Valid CommentUploadDto dto, @PathVariable Long id) {
 
-        BaseView anime = movieService.uploadCommentByMovieId(id, dto);
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(anime);
+                status(HttpStatus.OK).body(movieService.uploadCommentByMovieId(id, dto));
     }
 
     @DeleteMapping(value = "/delete/movie/{movieId}/comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long movieId,
-                                                        @PathVariable Long commentId,
-                                                        @RequestBody UserEmailDto dto) {
-
-        BaseView anime = movieService.deleteCommentById(movieId, commentId, dto.getUserEmail());
+                                           @PathVariable Long commentId,
+                                           @RequestBody UserEmailDto dto) {
 
         return ResponseEntity.
-                status(HttpStatus.OK).body(anime);
+                status(HttpStatus.OK).body(movieService.deleteCommentById(movieId, commentId, dto.getUserEmail()));
     }
 
     @PatchMapping(value = "/edit/movie/{movieId}/comment/{commentId}")
@@ -106,32 +93,29 @@ public class MovieController {
                                                       @PathVariable Long commentId,
                                                       @RequestBody CommentEditDto dto) {
 
-        BaseView anime = movieService.editCommentById(movieId, commentId ,dto);
         return ResponseEntity.
-                status(HttpStatus.OK).body(anime);
+                status(HttpStatus.OK).body(movieService.editCommentById(movieId, commentId, dto));
     }
 
     @PostMapping(value = "/movie/{id}/like")
     public ResponseEntity<?> like(@PathVariable Long id,
                                   @RequestBody UserEmailDto dto) {
 
-        BaseView anime = movieService.like(id ,dto.getUserEmail());
-
         return ResponseEntity.
-                status(HttpStatus.OK).body(anime);
+                status(HttpStatus.OK).body(movieService.like(id, dto.getUserEmail()));
     }
 
     @PostMapping(value = "/movie/{id}/unlike")
     public ResponseEntity<?> unlike(@PathVariable Long id, @RequestBody UserEmailDto dto) {
 
-        BaseView anime = movieService.unlike(id ,dto.getUserEmail());
+        BaseView anime = movieService.unlike(id, dto.getUserEmail());
 
         return ResponseEntity.
                 status(HttpStatus.OK).body(anime);
     }
 
     @GetMapping(value = "/movie-info")
-    public ResponseEntity<?> getInfo (ServletWebRequest request) {
+    public ResponseEntity<?> getInfo(ServletWebRequest request) {
         TorrentInfoView categoryInfo = movieService.getCategoryInfo(request.getLocale());
 
         return ResponseEntity.
@@ -146,8 +130,6 @@ public class MovieController {
                 .body(ErrorDto.builder().message(ex.getMessage())
                         .build());
     }
-
-
 
 
 }

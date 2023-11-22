@@ -1,6 +1,7 @@
 package softuni.WebFinderserver.web.game;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
-    public GameController(GameServiceImpl gameService) {
+    public GameController(@Qualifier("GameProxy") GameService gameService) {
         this.gameService = gameService;
     }
 

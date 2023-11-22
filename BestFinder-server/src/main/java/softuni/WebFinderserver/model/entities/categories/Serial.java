@@ -48,7 +48,7 @@ public class Serial extends CataloguesWithCommonCategories {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String trailer;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "serials_actors",
             joinColumns = { @JoinColumn(name = "serial_id")},
@@ -62,7 +62,7 @@ public class Serial extends CataloguesWithCommonCategories {
     @OneToMany(mappedBy = "catalogue",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
     private List<Like> likes;
 
 

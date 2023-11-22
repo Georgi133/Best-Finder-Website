@@ -56,7 +56,7 @@ public class Movie extends CataloguesWithCommonCategories {
     private Integer releasedYear;
 
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "movies_actors",
             joinColumns = { @JoinColumn(name = "movie_id")},
@@ -64,7 +64,7 @@ public class Movie extends CataloguesWithCommonCategories {
     )
     private List<Actor> actors;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
     private List<Like> likes;
 
 
