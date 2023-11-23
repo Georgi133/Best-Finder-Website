@@ -30,8 +30,8 @@ public class GameController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-game", consumes = {"multipart/form-data"})
     public ResponseEntity<?> register(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false)@Valid GameAnimeUploadDto dto) throws IOException {
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "dto")@Valid GameAnimeUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(gameService.createGame(dto, file));

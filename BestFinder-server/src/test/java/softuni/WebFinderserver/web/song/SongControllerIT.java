@@ -199,8 +199,8 @@ public class SongControllerIT {
     void sortByYearOk() throws Exception {
         Song Song1 = testSongWithDiffNameAndActor("test227", 2004,"pop","SingerT5");
         Song Song2 = testSongWithDiffNameAndActor("Test237", 2003,"rock","SingerT6");
-        songRepository.save(Song1);
-        songRepository.save(Song2);
+        Song song = songRepository.saveAndFlush(Song1);
+        Song song1 = songRepository.saveAndFlush(Song2);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/songs/sort-by-year"))
                 .andExpect(status().isOk()).andReturn();
@@ -291,7 +291,7 @@ public class SongControllerIT {
 
     @Test
     void likeOk() throws Exception {
-        Song Song = testSongWithDiffNameAndActor("LikeMovi7", 1901,"pop","SingerT2");
+        Song Song = testSongWithDiffNameAndActor("LikeMovi7", 2003,"pop","SingerT2");
         Long id = songRepository.save(Song).getId();
         UserEmailDto emailDto = new UserEmailDto();
         emailDto.setUserEmail("LikeOk7@abv.bg");
@@ -323,7 +323,7 @@ public class SongControllerIT {
 
     @Test
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
-        Song Song = testSongWithDiffNameAndActor("LikeSong7", 1901,"pop", "SingerT1");
+        Song Song = testSongWithDiffNameAndActor("LikeSong7", 2003,"pop", "SingerT1");
         Long id = songRepository.save(Song).getId();
         UserEmailDto emailDto = new UserEmailDto();
         emailDto.setUserEmail("UnLike7@abv.bg");

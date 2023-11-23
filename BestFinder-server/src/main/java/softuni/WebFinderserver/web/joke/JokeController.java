@@ -30,8 +30,8 @@ public class JokeController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-joke", consumes = {"multipart/form-data"})
     public ResponseEntity<?> register(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false)@Valid JokeUploadDto dto) throws IOException {
+            @RequestPart(value = "file" , required = false) MultipartFile file,
+            @RequestPart(value = "dto")@Valid JokeUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(jokeService.createJoke(dto, file));

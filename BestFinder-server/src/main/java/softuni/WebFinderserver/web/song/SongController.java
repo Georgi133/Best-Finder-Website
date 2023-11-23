@@ -1,5 +1,7 @@
 package softuni.WebFinderserver.web.song;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@Tag(name = "Songs")
 public class SongController {
 
     private final SongService songService;
@@ -30,8 +33,8 @@ public class SongController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-song", consumes = {"multipart/form-data"})
     public ResponseEntity<?> register(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false)@Valid SongUploadDto dto) throws IOException {
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "dto")@Valid SongUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(songService.createSong(dto, file));

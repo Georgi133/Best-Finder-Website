@@ -25,14 +25,16 @@ public class AnimeServiceProxy implements AnimeService {
     private AnimeServiceImpl service;
     private TorrentInfoView bgInfo;
     private List<BaseView> ordinaryTorrentCollection;
+    private List<BaseView> ordinaryTorrentCollectionByYear;
     private TorrentInfoView enInfo;
     private Thread thread;
 
 
     @Override
     public AnimeCreateView createAnime(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
-        if (ordinaryTorrentCollection != null) {
+        if (ordinaryTorrentCollection != null || ordinaryTorrentCollectionByYear!= null) {
             ordinaryTorrentCollection = null;
+            ordinaryTorrentCollectionByYear = null;
         }
         AnimeCreateView anime = service.createAnime(dto, file);
 
@@ -40,6 +42,7 @@ public class AnimeServiceProxy implements AnimeService {
             @Override
             public void run() {
                 getAll();
+                sortByYear();
             }
         });
 
@@ -49,7 +52,11 @@ public class AnimeServiceProxy implements AnimeService {
 
     @Override
     public List<BaseView> sortByYear() {
-        return service.sortByYear();
+        if (ordinaryTorrentCollectionByYear == null) {
+            ordinaryTorrentCollectionByYear = service.sortByYear();
+            return ordinaryTorrentCollectionByYear;
+        }
+        return ordinaryTorrentCollectionByYear;
     }
 
     @Override

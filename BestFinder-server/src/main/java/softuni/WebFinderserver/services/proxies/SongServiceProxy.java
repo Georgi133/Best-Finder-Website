@@ -24,13 +24,15 @@ public class SongServiceProxy implements SongService {
     private SongServiceImpl service;
     private TorrentInfoView bgInfo;
     private List<BaseView> ordinaryTorrentCollection;
+    private List<BaseView> ordinaryTorrentCollectionByYear;
     private TorrentInfoView enInfo;
     private Thread thread;
 
     @Override
     public BaseView createSong(SongUploadDto dto, MultipartFile file) throws IOException {
-        if (ordinaryTorrentCollection != null) {
+        if (ordinaryTorrentCollection != null || ordinaryTorrentCollectionByYear!= null) {
             ordinaryTorrentCollection = null;
+            ordinaryTorrentCollectionByYear = null;
         }
         BaseView song = service.createSong(dto, file);
 
@@ -38,6 +40,7 @@ public class SongServiceProxy implements SongService {
             @Override
             public void run() {
                 getAll();
+                sortByYear();
             }
         });
 
@@ -47,7 +50,11 @@ public class SongServiceProxy implements SongService {
 
     @Override
     public List<BaseView> sortByYear() {
-        return service.sortByYear();
+        if (ordinaryTorrentCollectionByYear == null) {
+            ordinaryTorrentCollectionByYear = service.sortByYear();
+            return ordinaryTorrentCollectionByYear;
+        }
+        return ordinaryTorrentCollectionByYear;
     }
 
     @Override

@@ -1,5 +1,9 @@
 package softuni.WebFinderserver.web.serial;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -31,14 +35,20 @@ public class SerialController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-serial", consumes = {"multipart/form-data"})
     public ResponseEntity<?> register(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false)@Valid SerialUploadDto dto) throws IOException {
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "dto")@Valid SerialUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(serialService.createSerial(dto, file));
     }
 
 
+//    @Operation(summary = "Get all users", security = {
+//            @SecurityRequirement(name = "Bearer")})
+//    @ApiResponses(
+//            value = {@ApiResponse(responseCode = "200", description = "View all users"),
+//                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN.")}
+//    )
     @GetMapping(value = "/get-all/serials")
     public ResponseEntity<?> getAll() {
 

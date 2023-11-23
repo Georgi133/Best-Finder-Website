@@ -22,6 +22,7 @@ public class MovieServiceProxy implements MovieService {
 
     private TorrentInfoView bgInfo;
     private List<BaseView> ordinaryTorrentCollection;
+    private List<BaseView> ordinaryTorrentCollectionByYear;
     private TorrentInfoView enInfo;
     private Thread thread;
 
@@ -31,8 +32,9 @@ public class MovieServiceProxy implements MovieService {
     @Override
     public BaseView createMovie(MovieUploadDto dto, MultipartFile file) throws IOException {
 
-        if (ordinaryTorrentCollection != null) {
+        if (ordinaryTorrentCollection != null || ordinaryTorrentCollectionByYear!= null) {
             ordinaryTorrentCollection = null;
+            ordinaryTorrentCollectionByYear = null;
         }
         BaseView movie = service.createMovie(dto, file);
 
@@ -40,6 +42,7 @@ public class MovieServiceProxy implements MovieService {
             @Override
             public void run() {
                getAll();
+               sortByYear();
             }
         });
 
@@ -49,7 +52,11 @@ public class MovieServiceProxy implements MovieService {
 
     @Override
     public List<BaseView> sortByYear() {
-        return service.sortByYear();
+        if (ordinaryTorrentCollectionByYear == null) {
+            ordinaryTorrentCollectionByYear = service.sortByYear();
+            return ordinaryTorrentCollectionByYear;
+        }
+        return ordinaryTorrentCollectionByYear;
     }
 
     @Override

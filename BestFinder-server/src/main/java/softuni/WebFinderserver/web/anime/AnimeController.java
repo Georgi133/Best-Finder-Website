@@ -1,5 +1,12 @@
 package softuni.WebFinderserver.web.anime;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -28,11 +35,21 @@ public class AnimeController {
         this.animeService = animeService;
     }
 
+
+//    @Operation(summary = "Create dog", security = {
+//            @SecurityRequirement(name = "Authorization")})
+//    @ApiResponses(
+//            value = {@ApiResponse(responseCode = "201", description = "Dog was register.",
+//                    content = {@Content(mediaType = "multipart/form-data",
+//                            schema = @Schema(implementation = GameAnimeUploadDto.class))}),
+//                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+//                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER.")}
+//    )
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-anime", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> register(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false)@Valid GameAnimeUploadDto dto) throws IOException {
+    public ResponseEntity<?> uploadAnime(
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "dto")@Valid GameAnimeUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(animeService.createAnime(dto, file));
@@ -145,7 +162,6 @@ public class AnimeController {
     @ExceptionHandler({UploadTorrentException.class, TorrentException.class})
     @ResponseBody
     public ResponseEntity<ErrorDto> handleException(TorrentException ex) {
-
         return ResponseEntity.status(ex.getCode())
                 .body(ErrorDto.builder().message(ex.getMessage())
                         .build());

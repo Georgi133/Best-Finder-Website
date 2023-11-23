@@ -30,8 +30,8 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/upload-movie", consumes = {"multipart/form-data"})
     public ResponseEntity<?> uploadMovie(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestPart(value = "dto", required = false) @Valid MovieUploadDto dto) throws IOException {
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "dto") @Valid MovieUploadDto dto) throws IOException {
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(movieService.createMovie(dto, file));
