@@ -143,36 +143,29 @@ public class JokeControllerIT {
 
 
     @Test
+    @WithMockUser(username = "te6@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
         Joke Joke = testJokeWithDiffNameAndActor("Testtt6");
         Long id = JokeRepository.save(Joke).getId();
-        UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te6@abv.bg"));
-        dto.setUserEmail("te6@abv.bg");
-        String jsonRequest = mapToJson(dto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/joke/{id}",id)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/joke/{id}",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "tes6@abv.bg", roles = {"USER"})
     void getByIdShouldThrowIfIdNotValid() throws Exception {
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("tes6@abv.bg");
         userRepository.save(testEntityEmailVariable("tes6@abv.bg"));
 
-        String jsonRequest = mapToJson(dto);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/joke/{id}",1000L)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/joke/{id}",1000L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void uploadCommentOk() throws Exception {
+    void uploadCommentCreated() throws Exception {
 
         CommentUploadDto dto = new CommentUploadDto();
         userRepository.save(testEntityEmailVariable("test26@abv.bg"));
@@ -186,19 +179,14 @@ public class JokeControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/joke/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfJokeNotExist() throws Exception {
 
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("abv@abv.bg");
-
-        String toJson = mapToJson(dto);
-
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/joke/{jokeId}/comment/{commendId}",1000L, 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -218,50 +206,38 @@ public class JokeControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "LikeOk6@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
         Joke Joke = testJokeWithDiffNameAndActor("LikeMovi6");
         Long id = JokeRepository.save(Joke).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeOk6@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeOk6@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/joke/{id}/like", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void likeShouldThrowWhenJokeDoesNotExist() throws Exception {
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeThrow6@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeThrow6@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/joke/{id}/like", 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "UnLike8@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Joke Joke = testJokeWithDiffNameAndActor("LikeJoke6");
         Long id = JokeRepository.save(Joke).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("UnLike6@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("UnLike6@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/joke/{id}/unlike", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

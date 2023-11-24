@@ -177,8 +177,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserEntity findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
+        UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("User with such email does not exist", HttpStatus.BAD_REQUEST));
+
+        return userEntity;
     }
 
     public UserInfoView changeRole(UserChangeRoleDto dto) {

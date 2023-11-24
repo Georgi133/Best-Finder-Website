@@ -18,7 +18,7 @@ public interface SongService {
 
     public BaseView getById(Long id, String userEmail);
 
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto);
+    public BaseView uploadCommentByAnimeId(Long id, CommentUploadDto dto);
 
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail);
 

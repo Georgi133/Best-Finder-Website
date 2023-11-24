@@ -63,8 +63,8 @@ public class SongServiceProxy implements SongService {
     }
 
     @Override
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        return service.uploadCommentByMovieId(id, dto);
+    public BaseView uploadCommentByAnimeId(Long id, CommentUploadDto dto) {
+        return service.uploadCommentByAnimeId(id, dto);
     }
 
     @Override

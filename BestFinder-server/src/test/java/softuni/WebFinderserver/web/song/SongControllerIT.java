@@ -199,8 +199,8 @@ public class SongControllerIT {
     void sortByYearOk() throws Exception {
         Song Song1 = testSongWithDiffNameAndActor("test227", 2004,"pop","SingerT5");
         Song Song2 = testSongWithDiffNameAndActor("Test237", 2003,"rock","SingerT6");
-        Song song = songRepository.saveAndFlush(Song1);
-        Song song1 = songRepository.saveAndFlush(Song2);
+        songRepository.saveAndFlush(Song1);
+        songRepository.saveAndFlush(Song2);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/songs/sort-by-year"))
                 .andExpect(status().isOk()).andReturn();
@@ -214,37 +214,30 @@ public class SongControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "te7@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
         List<Song> all = songRepository.findAll();
         Song Song = testSongWithDiffNameAndActor("Testtt7", 2004,"pop","SingerT4");
         Long id = songRepository.save(Song).getId();
-        UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te7@abv.bg"));
-        dto.setUserEmail("te7@abv.bg");
-        String jsonRequest = mapToJson(dto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/song/{id}",id)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/song/{id}",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "tes7@abv.bg", roles = {"USER"})
     void getByIdShouldThrowIfIdNotValid() throws Exception {
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("tes7@abv.bg");
         userRepository.save(testEntityEmailVariable("tes7@abv.bg"));
 
-        String jsonRequest = mapToJson(dto);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/song/{id}",1000L)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/song/{id}",1000L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void uploadCommentOk() throws Exception {
+    void uploadCommentCreated() throws Exception {
 
         CommentUploadDto dto = new CommentUploadDto();
         userRepository.save(testEntityEmailVariable("test27@abv.bg"));
@@ -258,19 +251,15 @@ public class SongControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/song/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfSongNotExist() throws Exception {
 
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("abv@abv.bg");
-
-        String toJson = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/song/{songId}/comment/{commendId}",1000L, 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -290,50 +279,39 @@ public class SongControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "LikeOk7@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
         Song Song = testSongWithDiffNameAndActor("LikeMovi7", 2003,"pop","SingerT2");
         Long id = songRepository.save(Song).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeOk7@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeOk7@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/song/{id}/like", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow7@abv.bg", roles = {"USER"})
     void likeShouldThrowWhenSongDoesNotExist() throws Exception {
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeThrow7@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeThrow7@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/song/{id}/like", 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "UnLike7@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Song Song = testSongWithDiffNameAndActor("LikeSong7", 2003,"pop", "SingerT1");
         Long id = songRepository.save(Song).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("UnLike7@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("UnLike7@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/song/{id}/unlike", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

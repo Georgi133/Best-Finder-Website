@@ -63,8 +63,8 @@ public class GameServiceProxy implements GameService {
     }
 
     @Override
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        return service.uploadCommentByMovieId(id, dto);
+    public BaseView uploadCommentByGameId(Long id, CommentUploadDto dto) {
+        return service.uploadCommentByGameId(id, dto);
     }
 
     @Override

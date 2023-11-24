@@ -34,9 +34,9 @@ export const GameDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "game", gameId);
+      onUnlikeTorrent("game", gameId);
       }else {
-        onLikeTorrent({userEmail}, "game", gameId);
+        onLikeTorrent("game", gameId);
       }
     
     }

@@ -34,9 +34,9 @@ export const AnimeDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "anime", animeId);
+      onUnlikeTorrent("anime", animeId);
       }else {
-        onLikeTorrent({userEmail}, "anime", animeId);
+        onLikeTorrent("anime", animeId);
       }
     
     }

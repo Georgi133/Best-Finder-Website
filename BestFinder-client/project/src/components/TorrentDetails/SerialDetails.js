@@ -34,9 +34,9 @@ export const SerialDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "serial", serialId);
+      onUnlikeTorrent("serial", serialId);
       }else {
-        onLikeTorrent({userEmail}, "serial", serialId);
+        onLikeTorrent("serial", serialId);
       }
     
     }
@@ -102,11 +102,11 @@ export const SerialDetails = () => {
           </div>
           {!isLiked.liked &&
           <button onClick={() => onLike('like')} className={style.likebtn} type="button">
-            <i className="fas fa-thumbs-up"> {t("article.like")}:</i>
+            <i className="fas fa-thumbs-up"> {t("article.like")}</i>
           </button>}
           {isLiked.liked &&
           <button onClick={() => onLike('unlike')} className={style.liked} type="button">
-          <i className="fas fa-thumbs-up"> {t("article.liked")}:</i>
+          <i className="fas fa-thumbs-up"> {t("article.liked")}</i>
         </button>}
 
         </article>

@@ -35,9 +35,9 @@ export const SongDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "song", songId);
+      onUnlikeTorrent("song", songId);
       }else {
-        onLikeTorrent({userEmail}, "song", songId);
+        onLikeTorrent("song", songId);
       }
     
     }

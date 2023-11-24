@@ -170,36 +170,29 @@ public class SerialControllerIT {
 
 
     @Test
+    @WithMockUser(username = "te2@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
         Serial Serial = testSerialWithDiffNameAndActor("Testtt","Tobey52", 4, "comedy");
         Long id = serialRepository.save(Serial).getId();
-        UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te2@abv.bg"));
-        dto.setUserEmail("te2@abv.bg");
-        String jsonRequest = mapToJson(dto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/serial/{id}",id)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/serial/{id}",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "tes2@abv.bg", roles = {"USER"})
     void getByIdShouldThrowIfIdNotValid() throws Exception {
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("tes2@abv.bg");
         userRepository.save(testEntityEmailVariable("tes2@abv.bg"));
 
-        String jsonRequest = mapToJson(dto);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/serial/{id}",55L)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/serial/{id}",55L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void uploadCommentOk() throws Exception {
+    void uploadCommentCreated() throws Exception {
 
         CommentUploadDto dto = new CommentUploadDto();
         userRepository.save(testEntityEmailVariable("test22@abv.bg"));
@@ -213,19 +206,14 @@ public class SerialControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/serial/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfSerialNotExist() throws Exception {
 
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("abv@abv.bg");
-
-        String toJson = mapToJson(dto);
-
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/serial/{serialId}/comment/{commendId}",1000L, 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -245,50 +233,40 @@ public class SerialControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "LikeOk2@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
         Serial serial = testSerialWithDiffNameAndActor("LikeMovi23", "Liker223", 1901, "comedy");
         Long id = serialRepository.save(serial).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeOk2@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeOk2@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/serial/{id}/like", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void likeShouldThrowWhenSerialDoesNotExist() throws Exception {
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("Like2Throw@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("Like2Throw@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/serial/{id}/like", 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "UnLike2@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Serial serial = testSerialWithDiffNameAndActor("LikeSerial", "Liker222", 1901, "comedy");
         Long id = serialRepository.save(serial).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("UnLike2@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("UnLike2@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/serial/{id}/unlike", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

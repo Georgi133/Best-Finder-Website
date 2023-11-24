@@ -9,6 +9,7 @@ import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
 import softuni.WebFinderserver.model.entities.*;
+import softuni.WebFinderserver.model.entities.categories.Joke;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -151,7 +152,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        Movie movie = movieRepository.findById(id).get();
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         movie.getComments().add(new Comment(dto.getComment(),movie,user));
         Movie savedMovie = movieRepository.save(movie);
@@ -198,7 +199,6 @@ public class MovieServiceImpl implements MovieService {
         return mapToView(movie);
     }
 
-
     public BaseView like(Long id, String userEmail) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
 
@@ -206,6 +206,9 @@ public class MovieServiceImpl implements MovieService {
         Like like = new Like(movie,userByEmail);
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail,savedLike);
+
+        movie.setLikes(likeService.getLikesOfTorrent(id));
+        movieRepository.save(movie);
 
         return getById(id, userEmail);
     }
@@ -219,6 +222,9 @@ public class MovieServiceImpl implements MovieService {
         userService.unlike(userByEmail);
 
         likeService.removeLike(movie, userByEmail);
+
+        movie.setLikes(likeService.getLikesOfTorrent(id));
+        movieRepository.save(movie);
 
         return getById(id, userEmail);
     }

@@ -40,12 +40,12 @@ import java.util.Arrays;
 public class SwaggerApiConfig {
 
 
-    @Bean
-    public MappingJackson2HttpMessageConverter octetStreamJsonConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "octet-stream")));
-        return converter;
-    }
+//    @Bean
+//    public MappingJackson2HttpMessageConverter octetStreamJsonConverter() {
+//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+//        converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "octet-stream")));
+//        return converter;
+//    }
 
 
 

@@ -36,9 +36,9 @@ export const MovieDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "movie", movieId);
+      onUnlikeTorrent("movie", movieId);
       }else {
-        onLikeTorrent({userEmail}, "movie", movieId);
+        onLikeTorrent("movie", movieId);
       }
     }
 

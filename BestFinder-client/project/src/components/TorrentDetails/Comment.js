@@ -70,7 +70,7 @@ export const Comment = ({
           <button onClick={onEditClick} className={style.userBtn} type="button">
             Edit
           </button>
-          <button onClick={() => onDeleteComment(torrentId, commentId, torrent, userEmail)} className={style.userBtn} type="button">
+          <button onClick={() => onDeleteComment(torrentId, commentId, torrent)} className={style.userBtn} type="button">
             Delete
           </button>
         </div>

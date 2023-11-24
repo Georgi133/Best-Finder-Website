@@ -11,9 +11,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithSecurityContext;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,6 +37,8 @@ import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.RoleEnum;
+import softuni.WebFinderserver.repositories.UserRepository;
+import softuni.WebFinderserver.services.exceptions.user.UserException;
 import softuni.WebFinderserver.testRepositories.TestCategoryProjectionRepository;
 import softuni.WebFinderserver.testRepositories.TestAnimeRepository;
 import softuni.WebFinderserver.testRepositories.TestUserRepository;
@@ -35,6 +47,7 @@ import softuni.WebFinderserver.util.CloudUtil;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,6 +73,9 @@ public class AnimeControllerIT {
 
     @MockBean
     private CloudUtil cloudUtil;
+
+    @MockBean
+    private SecurityContextHolder securityContextHolder;
 
     @BeforeEach
     void setUp () {
@@ -205,37 +221,29 @@ public class AnimeControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "te8@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
-        List<Anime> all = animeRepository.findAll();
         Anime Anime = testAnimeWithDiffNameAndActor("Testtt8", 2004,"comedy");
         Long id = animeRepository.save(Anime).getId();
-        UserEmailDto dto = new UserEmailDto();
-        userRepository.save(testEntityEmailVariable("te8@abv.bg"));
-        dto.setUserEmail("te8@abv.bg");
-        String jsonRequest = mapToJson(dto);
+        userRepository.saveAndFlush(testEntityEmailVariable("te8@abv.bg"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/anime/{id}",id)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/anime/{id}",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "tes8@abv.bg", roles = {"USER"})
     void getByIdShouldThrowIfIdNotValid() throws Exception {
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("tes8@abv.bg");
         userRepository.save(testEntityEmailVariable("tes8@abv.bg"));
 
-        String jsonRequest = mapToJson(dto);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/anime/{id}",1000L)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/anime/{id}",1000L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void uploadCommentOk() throws Exception {
+    void uploadCommentCreated() throws Exception {
 
         CommentUploadDto dto = new CommentUploadDto();
         userRepository.save(testEntityEmailVariable("test28@abv.bg"));
@@ -249,19 +257,15 @@ public class AnimeControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/anime/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfAnimeNotExist() throws Exception {
 
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("abv@abv.bg");
-
-        String toJson = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/anime/{animeId}/comment/{commendId}",1000L, 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -281,50 +285,47 @@ public class AnimeControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "LikeOk8@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
         Anime Anime = testAnimeWithDiffNameAndActor("LikeMovi8", 1901,"comedy");
         Long id = animeRepository.save(Anime).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeOk8@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeOk8@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/anime/{id}/like", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void likeShouldThrowWhenAnimeDoesNotExist() throws Exception {
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeThrow8@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeThrow8@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/anime/{id}/like", 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "UnLike8@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
+
+        UserEntity userEntity = testEntityEmailVariable("UnLike8@abv.bg");
+        userRepository.saveAndFlush(userEntity);
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+//        SecurityContextHolder.setContext(securityContext);
+//        Mockito. when(securityContext.getAuthentication()).thenReturn(authentication);
+
         Anime Anime = testAnimeWithDiffNameAndActor("LikeAnime8", 1901,"comedy");
         Long id = animeRepository.save(Anime).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("UnLike8@abv.bg");
-        UserEntity userEntity = testEntityEmailVariable("UnLike8@abv.bg");
-        userRepository.save(userEntity);
-
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/anime/{id}/unlike", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

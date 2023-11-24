@@ -9,6 +9,8 @@ import softuni.WebFinderserver.model.entities.categories.BaseEntity;
 import softuni.WebFinderserver.repositories.LikeRepository;
 import softuni.WebFinderserver.services.exceptions.torrent.TorrentException;
 
+import java.util.List;
+
 @Service
 public class LikeService {
 
@@ -27,6 +29,11 @@ public class LikeService {
         Like like = likeRepository.findFirstByProject_IdAndUser_Id(baseCategory.getId(), userByEmail.getId())
                 .orElseThrow(() -> new TorrentException("No such torrent or user when removing like", HttpStatus.BAD_REQUEST));
         likeRepository.delete(like);
+    }
+
+
+    public List<Like> getLikesOfTorrent(Long id) {
+       return likeRepository.findAllByProject_Id(id);
     }
 
 

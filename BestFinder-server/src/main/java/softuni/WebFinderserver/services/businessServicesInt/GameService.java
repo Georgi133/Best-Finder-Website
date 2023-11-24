@@ -18,7 +18,7 @@ public interface GameService {
 
     public BaseView getById(Long id, String userEmail);
 
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto);
+    public BaseView uploadCommentByGameId(Long id, CommentUploadDto dto);
 
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail);
 

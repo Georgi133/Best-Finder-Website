@@ -12,6 +12,7 @@ import softuni.WebFinderserver.model.entities.Actor;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -148,7 +149,9 @@ public class SerialServiceImpl implements SerialService {
     }
 
     public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        Serial serial = serialRepository.findById(id).get();
+
+        Serial serial = serialRepository.findById(id).orElseThrow(() -> new TorrentException("No such serial on add like",HttpStatus.BAD_REQUEST));
+
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         serial.getComments().add(new Comment(dto.getComment(), serial, user));
         Serial savedSerial = serialRepository.save(serial);
@@ -200,6 +203,8 @@ public class SerialServiceImpl implements SerialService {
         Like like = new Like(serial, userByEmail);
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail, savedLike);
+        serial.setLikes(likeService.getLikesOfTorrent(id));
+        serialRepository.save(serial);
 
         return getById(id, userEmail);
     }
@@ -213,6 +218,8 @@ public class SerialServiceImpl implements SerialService {
         userService.unlike(userByEmail);
 
         likeService.removeLike(serial, userByEmail);
+        serial.setLikes(likeService.getLikesOfTorrent(id));
+        serialRepository.save(serial);
 
         return getById(id, userEmail);
     }

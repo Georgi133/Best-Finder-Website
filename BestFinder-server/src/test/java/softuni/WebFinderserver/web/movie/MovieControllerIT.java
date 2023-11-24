@@ -221,37 +221,30 @@ public class MovieControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "te@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
         List<Movie> all = movieRepository.findAll();
         Movie movie = testMovieWithDiffNameAndActor("Testtt","Tobey5", 2004,"comedy");
         Long id = movieRepository.save(movie).getId();
-        UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te@abv.bg"));
-        dto.setUserEmail("te@abv.bg");
-        String jsonRequest = mapToJson(dto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/movie/{id}",id)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/movie/{id}",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "tes@abv.bg", roles = {"USER"})
     void getByIdShouldThrowIfIdNotValid() throws Exception {
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("tes@abv.bg");
         userRepository.save(testEntityEmailVariable("tes@abv.bg"));
 
-        String jsonRequest = mapToJson(dto);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get/movie/{id}",55L)
-                        .content(jsonRequest)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/movie/{id}",55L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void uploadCommentOk() throws Exception {
+    void uploadCommentCreated() throws Exception {
 
         CommentUploadDto dto = new CommentUploadDto();
         userRepository.save(testEntityEmailVariable("test2@abv.bg"));
@@ -265,19 +258,15 @@ public class MovieControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/movie/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfMovieNotExist() throws Exception {
 
-        UserEmailDto dto = new UserEmailDto();
-        dto.setUserEmail("abv@abv.bg");
-
-        String toJson = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/movie/{movieId}/comment/{commendId}",1000L, 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -297,50 +286,40 @@ public class MovieControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "LikeOk@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
         Movie movie = testMovieWithDiffNameAndActor("LikeMovi", "Liker2", 1901,"comedy");
         Long id = movieRepository.save(movie).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeOk@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeOk@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
-
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/movie/{id}/like", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "LikeThrow@abv.bg", roles = {"USER"})
     void likeShouldThrowWhenMovieDoesNotExist() throws Exception {
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("LikeThrow@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("LikeThrow@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/movie/{id}/like", 1000L)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "UnLike@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Movie movie = testMovieWithDiffNameAndActor("LikeMovie", "Liker", 1901,"comedy");
         Long id = movieRepository.save(movie).getId();
-        UserEmailDto emailDto = new UserEmailDto();
-        emailDto.setUserEmail("UnLike@abv.bg");
         UserEntity userEntity = testEntityEmailVariable("UnLike@abv.bg");
         userRepository.save(userEntity);
 
-        String toJson = mapToJson(emailDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/movie/{id}/unlike", id)
-                        .content(toJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

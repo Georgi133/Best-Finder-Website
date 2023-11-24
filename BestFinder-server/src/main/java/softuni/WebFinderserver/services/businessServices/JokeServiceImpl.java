@@ -10,6 +10,7 @@ import softuni.WebFinderserver.model.dtos.JokeUploadDto;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Game;
 import softuni.WebFinderserver.model.entities.categories.Joke;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.views.BaseView;
@@ -116,7 +117,7 @@ public class JokeServiceImpl implements JokeService {
     }
 
     public BaseView getById(Long id, String userEmail) {
-        Joke jokes = jokeRepository.findById(id).orElseThrow(() -> new TorrentException("Such torrent does not exist",HttpStatus.BAD_REQUEST));
+        Joke jokes = jokeRepository.findById(id).orElseThrow(() -> new TorrentException("Such torrent does not exist",HttpStatus.valueOf(400)));
         boolean isLiked = false;
         if (userEmail != null) {
             List<Like> collect = userService.findUserByEmail(userEmail)
@@ -132,7 +133,7 @@ public class JokeServiceImpl implements JokeService {
     }
 
     public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        Joke joke = jokeRepository.findById(id).get();
+        Joke joke = jokeRepository.findById(id).orElseThrow(() -> new TorrentException("No such joke on add like",HttpStatus.BAD_REQUEST));
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         joke.getComments().add(new Comment(dto.getComment(), joke, user));
         Joke savedJoke = jokeRepository.save(joke);
@@ -186,6 +187,8 @@ public class JokeServiceImpl implements JokeService {
         Like like = new Like(joke, userByEmail);
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail, savedLike);
+        joke.setLikes(likeService.getLikesOfTorrent(id));
+        jokeRepository.save(joke);
 
         return getById(id, userEmail);
     }
@@ -199,6 +202,8 @@ public class JokeServiceImpl implements JokeService {
         userService.unlike(userByEmail);
 
         likeService.removeLike(joke, userByEmail);
+        joke.setLikes(likeService.getLikesOfTorrent(id));
+        jokeRepository.save(joke);
 
         return getById(id, userEmail);
     }

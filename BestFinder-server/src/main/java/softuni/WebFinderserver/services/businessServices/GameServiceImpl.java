@@ -12,6 +12,7 @@ import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Game;
+import softuni.WebFinderserver.model.entities.categories.Song;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.GameCreateView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -152,8 +153,8 @@ public class GameServiceImpl implements GameService {
                 .setLikedByUser(isLiked);
     }
 
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        Game game = gameRepository.findById(id).get();
+    public BaseView uploadCommentByGameId(Long id, CommentUploadDto dto) {
+        Game game = gameRepository.findById(id).orElseThrow(() -> new TorrentException("No such game on add like",HttpStatus.BAD_REQUEST));
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         game.getComments().add(new Comment(dto.getComment(), game, user));
         Game savedGame = gameRepository.save(game);
@@ -208,6 +209,9 @@ public class GameServiceImpl implements GameService {
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail, savedLike);
 
+        game.setLikes(likeService.getLikesOfTorrent(id));
+        gameRepository.save(game);
+
         return getById(id, userEmail);
     }
 
@@ -220,6 +224,9 @@ public class GameServiceImpl implements GameService {
         userService.unlike(userByEmail);
 
         likeService.removeLike(game, userByEmail);
+
+        game.setLikes(likeService.getLikesOfTorrent(id));
+        gameRepository.save(game);
 
         return getById(id, userEmail);
     }

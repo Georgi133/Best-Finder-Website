@@ -33,9 +33,9 @@ export const JokeDetails = () => {
     const onLike = (category) => {
       setLiked(!isLiked.liked);
       if(category === 'unlike') {
-      onUnlikeTorrent({userEmail}, "joke", jokeId);
+      onUnlikeTorrent("joke", jokeId);
       }else {
-        onLikeTorrent({userEmail}, "joke", jokeId);
+        onLikeTorrent("joke", jokeId);
       }
     
     }

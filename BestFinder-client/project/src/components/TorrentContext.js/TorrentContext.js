@@ -126,13 +126,12 @@ export const TorrentProvider = ({ children }) => {
     }
   };
 
-  const onDeleteComment = async (torrentId, commentId, category, userEmail) => {
+  const onDeleteComment = async (torrentId, commentId, category) => {
     try {
     const result = await torrentService.deleteComment(
       torrentId,
       commentId,
-      category,
-      {userEmail}
+      category
     );
     setComments(result.comments);
     }catch (error) {
@@ -187,7 +186,7 @@ export const TorrentProvider = ({ children }) => {
       setIsLiked({liked : isLiked ? isLiked.userEmail === userEmail : false});
     }else {
     try {
-      const result = await torrentService.getById(id, category, {userEmail});
+      const result = await torrentService.getById(id, category);
       setComments(result.comments);
       setIsLiked({liked :result.likedByUser});
       setTorrentDetails(result);
@@ -202,9 +201,9 @@ export const TorrentProvider = ({ children }) => {
 
   };
 
-  const onLikeTorrent = async (data, category, id) => {
+  const onLikeTorrent = async (category, id) => {
     try {
-      const result = await torrentService.likeTorrent(data,category,id)
+      const result = await torrentService.likeTorrent(category,id)
     setIsLiked({liked : result.likedByUser});
     console.log(result.countLikes);
     setCountLikes(result.countLikes);
@@ -214,9 +213,9 @@ export const TorrentProvider = ({ children }) => {
     
   }
 
-  const onUnlikeTorrent = async (data, category, id) => {
+  const onUnlikeTorrent = async (category, id) => {
     try {
-      const result = await torrentService.unLikeTorrent(data, category, id)
+      const result = await torrentService.unLikeTorrent(category, id)
       setIsLiked({liked : result.likedByUser});
       console.log(result.countLikes);
       setCountLikes(result.countLikes);

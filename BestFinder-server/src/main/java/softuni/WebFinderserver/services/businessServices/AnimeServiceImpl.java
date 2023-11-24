@@ -12,6 +12,7 @@ import softuni.WebFinderserver.model.entities.Like;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Movie;
+import softuni.WebFinderserver.model.entities.categories.Song;
 import softuni.WebFinderserver.model.views.AnimeCreateView;
 import softuni.WebFinderserver.model.views.BaseView;
 import softuni.WebFinderserver.model.views.LikeView;
@@ -157,7 +158,10 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     public BaseView uploadCommentByAnimeId(Long id, CommentUploadDto dto) {
-        Anime anime = animeRepository.findById(id).get();
+
+        Anime anime = animeRepository.findById(id)
+                .orElseThrow(() -> new TorrentException("Such torrent does not exist", HttpStatus.BAD_REQUEST));
+
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         anime.getComments().add(new Comment(dto.getComment(), anime, user));
         Anime savedAnime = animeRepository.save(anime);
@@ -209,6 +213,9 @@ public class AnimeServiceImpl implements AnimeService {
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail, savedLike);
 
+        anime.setLikes(likeService.getLikesOfTorrent(id));
+        animeRepository.save(anime);
+
         return getById(id, userEmail);
     }
 
@@ -221,6 +228,8 @@ public class AnimeServiceImpl implements AnimeService {
         userService.unlike(userByEmail);
 
         likeService.removeLike(anime, userByEmail);
+        anime.setLikes(likeService.getLikesOfTorrent(id));
+        animeRepository.save(anime);
 
         return getById(id, userEmail);
     }

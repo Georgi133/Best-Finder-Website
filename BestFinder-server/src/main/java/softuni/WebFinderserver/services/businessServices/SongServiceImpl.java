@@ -120,9 +120,9 @@ public class SongServiceImpl implements SongService {
     }
 
     public List<BaseView> getAllByCriteriaSortedByLikes(String criteria) {
-        Set<Song> allMovies = songRepository.getSongsByCriteria(criteria);
+        Set<Song> allSongs = songRepository.getSongsByCriteria(criteria);
 
-        List<Song> list = allMovies.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
+        List<Song> list = allSongs.stream().sorted((m1, m2) -> Integer.compare(m2.getLikes().size(), m1.getLikes().size())).toList();
 
         return list.stream().map(this::mapToView).collect(Collectors.toList());
     }
@@ -154,8 +154,11 @@ public class SongServiceImpl implements SongService {
                 .setLikedByUser(isLiked);
     }
 
-    public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        Song song = songRepository.findById(id).get();
+    public BaseView uploadCommentByAnimeId(Long id, CommentUploadDto dto) {
+
+        Song song = songRepository.findById(id)
+                .orElseThrow(() -> new TorrentException("Such torrent does not exist", HttpStatus.BAD_REQUEST));
+
         UserEntity user = userService.findUserByEmail(dto.getUserEmail());
         song.getComments().add(new Comment(dto.getComment(), song, user));
         Song savedSong = songRepository.save(song);
@@ -202,35 +205,39 @@ public class SongServiceImpl implements SongService {
 
 
     public BaseView like(Long id, String userEmail) {
-        Song movie = songRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
+        Song song = songRepository.findById(id).orElseThrow(() -> new TorrentException("No such song on add like",HttpStatus.BAD_REQUEST));
 
         UserEntity userByEmail = userService.findUserByEmail(userEmail);
-        Like like = new Like(movie, userByEmail);
+        Like like = new Like(song, userByEmail);
         Like savedLike = likeService.saveLike(like);
         userService.like(userByEmail, savedLike);
+        song.setLikes(likeService.getLikesOfTorrent(id));
+        songRepository.save(song);
 
         return getById(id, userEmail);
     }
 
     public BaseView unlike(Long id, String userEmail) {
-        Song movie = songRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
+        Song song = songRepository.findById(id).orElseThrow(() -> new TorrentException("No such movie on add like",HttpStatus.BAD_REQUEST));
 
         UserEntity userByEmail = userService.findUserByEmail(userEmail);
         userByEmail.getLikes().removeIf(like -> like.getProject().getId() == id);
 
         userService.unlike(userByEmail);
 
-        likeService.removeLike(movie, userByEmail);
+        likeService.removeLike(song, userByEmail);
+        song.setLikes(likeService.getLikesOfTorrent(id));
+        songRepository.save(song);
 
         return getById(id, userEmail);
     }
 
     public TorrentInfoView getCategoryInfo(Locale lang) {
-        LocalDate movieWhichWasLastAdded =
+        LocalDate songWhichWasLastAdded =
                 songRepository.getMovieWhichWasLastAdded();
 
         String addedOn = "";
-        if(movieWhichWasLastAdded == null) {
+        if(songWhichWasLastAdded == null) {
             addedOn = setMessageLang(lang,"notadded");
         }else {
             addedOn = songRepository.getMovieWhichWasLastAdded().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

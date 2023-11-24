@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: Your API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /upload-anime:
+    post:
+      summary: Upload an anime
+      security:
+        - JWT: []  # Reference to the security scheme defined below
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                dto:
+                  $ref: '#/components/schemas/AnimeDTO'
+
+      responses:
+        '200':
+          description: OK
+
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AnimeDTO:
+      type: object
+      properties:
+        torrent:
+          type: string
+        torrentName:
+          type: string
+        torrentResume:
+          type: string
+        category1:
+          type: string
+        category2:
+          type: string
+        category3:
+          type: string
+        releasedYear:
+          type: integer
+        trailer:
+          type: string
+      required:
+        - torrent
+        - torrentName
+        - torrentResume
+        - category1
+        - releasedYear
+        - trailer
+
+
