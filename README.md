@@ -110,6 +110,7 @@ best-finder.defaultpass: ${ADMIN_PASS}
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/fb1eb17e-2199-4af2-8bf7-9659c661f46d" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/0fcf1667-3552-4b0c-80be-2544e22f2f5e" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/e2c8ec45-4602-494d-96c5-50f1d7a57b04" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/736815d5-5a90-4c0b-ad22-4d793500bfd8" />
   
    
 
