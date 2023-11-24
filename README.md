@@ -37,7 +37,7 @@
  - Interseptor - to check for blacklisted (banned) users everytime when request to server is made
  - Event and Listener - when user click on forgotten password and send the request for new password event is activated and the listener comes after
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
- - OPEN API - Swagger - for defining the structure of the API and easy testing, added authorization token for security which is received when user is logged
+ - Swagger - for defining the structure of the API and easy testing, added authorization token for security which is received when user is logged
  - <strong>Hibernate Validator - checks for invalid data</strong>
  - <strong>Custom exceptions and custom messages</strong>
  - <strong>Exception handling</strong>
