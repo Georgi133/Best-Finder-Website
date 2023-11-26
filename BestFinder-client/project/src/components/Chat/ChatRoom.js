@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 var stompClient = null
 
 export const ChatRoom = () => {
+
     const { t, i18n } = useTranslation();
     const [privateChats, setPrivateChats] = useState(new Map());  
     const { fullName, getUserFullName} = useAuthContext();
@@ -135,18 +136,19 @@ export const ChatRoom = () => {
         <div className="chat-box">
             <div className="member-list">
                 <ul>
-                    <li onClick={()=>{setTab("CHATROOM")}} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom</li>
+                    <li onClick={()=>{setTab("CHATROOM")}} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom - Everyone who is inside the chat</li>
                     {[...privateChats.keys()].map((name,index)=>(
-                        <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name === fullName ? `Your chat - ${name}` : name}</li>
+                        <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name === fullName ? `Your chat - ${name}` : 'Chat to - ' + name}</li>
                     ))}
                 </ul>
             </div>
+            <h2 className="chatHeader">Chat: </h2>
             {tab==="CHATROOM" && <div className="chat-content">
                 <ul className="chat-messages">
                     {publicChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === fullName && "self"}`} key={index}>
                             {chat.senderName !== fullName && <div className="avatar">{chat.senderName}</div>}
-                            {chat.senderName === fullName && <div className="avatar self"> You</div>}
+                            {chat.senderName === fullName && <div className="avatar self">You</div>}
                             {/* {chat.senderName} */}
                             <div className="message-data">{chat.message}</div>
                             
@@ -164,7 +166,7 @@ export const ChatRoom = () => {
                     {[...privateChats.get(tab)].map((chat,index)=>(
                         <li className={`message ${chat.senderName === fullName && "self"}`} key={index}>
                             {chat.senderName !== fullName && <div className="avatar">{chat.senderName}</div>}
-                            {chat.senderName === fullName && <div className="avatar self"> You</div>}
+                            {chat.senderName === fullName && <div className="avatar self">You</div>}
                             <div className="message-data">{chat.message}</div>
                             
                         </li>

@@ -115,3 +115,8 @@
     justify-content: end;
   }
 
+
+  .chatHeader {
+    color: white;
+    text-align: center;
+  }
