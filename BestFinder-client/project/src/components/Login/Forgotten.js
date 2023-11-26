@@ -7,6 +7,7 @@ import { useForm } from "../useForm/useForm";
 import { ButtonSubmit } from "./ButtonSubmit";
 import style from "./Login.module.css";
 import { useTranslation } from "react-i18next";
+import { Footer } from "../Footer/Footer";
 
 export const Forgotten = () => {
   const { t } = useTranslation();
@@ -39,8 +40,10 @@ export const Forgotten = () => {
   }
 
   return (
-    <div className={style.conainerForgotten}>
+    <>
       <MyNavBar />
+
+    <div className={style.conainerForgotten}>
       <h1 className={style.regenerationPass2}>{t("passRecovery")}:</h1>
 
       <form className={style.forgottenForm} onSubmit={onForgottenEmailSubmit}>
@@ -68,5 +71,8 @@ export const Forgotten = () => {
           </button>
       </form>
     </div>
+    <Footer />
+
+    </>
   );
 };

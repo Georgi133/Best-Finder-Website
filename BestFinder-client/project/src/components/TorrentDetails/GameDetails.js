@@ -12,6 +12,7 @@ import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useTranslation } from "react-i18next";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { Footer } from "../Footer/Footer";
 
 export const GameDetails = () => {
   const { gameId } = useParams();
@@ -154,6 +155,8 @@ export const GameDetails = () => {
           <ButtonSubmit />
         </form>
       </section>
+      <Footer />
+
     </>
   );
 };

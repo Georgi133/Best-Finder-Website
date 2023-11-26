@@ -24,7 +24,9 @@
     gap: 2vh;
 }
 
-
+.emailInp {
+    max-height: 34px;
+}
 
 .emailInp:hover {
     border: 2px rgb(7, 16, 51) solid;

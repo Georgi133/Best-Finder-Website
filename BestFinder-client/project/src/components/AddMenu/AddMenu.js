@@ -4,6 +4,8 @@ import style from "./AddMovie.module.css";
 import { MenuFinder } from "./MenuFinder";
 import { useTranslation } from "react-i18next";
 import { useTorrentContext } from "../TorrentContext.js/TorrentContext";
+import { Footer } from "../Footer/Footer";
+
 
 export const AddMenu = () => {
   const [valueCategory, setValueCategory] = useState("category");
@@ -61,6 +63,7 @@ export const AddMenu = () => {
         }
 
       </div>
+      <Footer />
     </>
   );
 };

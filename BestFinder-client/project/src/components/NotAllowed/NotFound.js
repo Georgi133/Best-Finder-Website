@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./NotAllowed.module.css";
 import { useState } from "react";
+import { Footer } from "../Footer/Footer";
 
 export const NotFound = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ export const NotFound = () => {
       <h3>Oops! We couldn't find the page that you are looking for.</h3>
       <h3>Please check the address and try again.</h3>
     </div>
+    <Footer />
+
     </>
   );
 };

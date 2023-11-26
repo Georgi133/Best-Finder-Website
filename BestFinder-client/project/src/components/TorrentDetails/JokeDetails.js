@@ -12,6 +12,7 @@ import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useTranslation } from "react-i18next";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { Footer } from "../Footer/Footer";
 
 export const JokeDetails = () => {
   const { jokeId } = useParams();
@@ -128,6 +129,8 @@ export const JokeDetails = () => {
           <ButtonSubmit />
         </form>
       </section>
+      <Footer />
+
     </>
   );
 };

@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { authServiceFactory } from "../services/AuthService";
 import { useLocalStorage } from "../useLocalStorage/useLocalStorage";
-import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 // import { authServiceFactory } from '../services/authService';
 
 export const AuthContext = createContext();
@@ -15,6 +14,9 @@ export const AuthProvider = ({ children, userReload }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorNumber, setErrorNumber] = useState(0);
   const [serverErrors, setServerErrors] = useState({});
+  const [fullName, setFullName] = useState("");
+
+  const [email, setEmail] = useState({});
   const [
     successfullySendedPasswordOnEmail,
     setsuccessfullySendedPasswordOnEmail,
@@ -156,6 +158,14 @@ export const AuthProvider = ({ children, userReload }) => {
     setIsLoggedOut(true);
   };
 
+  const getUserFullName =  async () => {
+    const result = await authService.getUserFullName();
+    console.log(result.fullName);
+    setFullName(result.fullName);
+    console.log(fullName);
+    return result.fullName;
+  }
+
   const onProfileChange = async (data) => {
     try {
       const result = await authService.getUserInfo(data);
@@ -179,6 +189,10 @@ export const AuthProvider = ({ children, userReload }) => {
     setRegisterSuccess,
     setIsProfileEdited,
     setChangedPasswordSuccess,
+    getUserFullName,
+    setEmail,
+    fullName,
+    email,
     isProfileEdited,
     changedPasswordSuccess,
     registerSuccess,

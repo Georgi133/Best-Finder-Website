@@ -6,6 +6,7 @@ import { SongArticle } from "./SongArticle";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useForm } from "../useForm/useForm";
 import { useTranslation } from "react-i18next";
+import { Footer } from "../Footer/Footer";
 
 export const SongsPage = () => {
 
@@ -138,6 +139,8 @@ export const SongsPage = () => {
           )
          }
         </section>
+        <Footer />
+
       </>
     )
 }

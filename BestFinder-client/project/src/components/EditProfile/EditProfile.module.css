@@ -156,6 +156,14 @@
   }
 }
 
+@media screen and (max-width:  400px) {
+
+  .container {
+    width: 320px;
+
+  }
+
+}
 
 
   @media screen and (max-height:  513px) {

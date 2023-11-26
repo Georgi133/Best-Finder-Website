@@ -33,6 +33,7 @@ import { ServerError } from "./components/ServerError/ServerError";
 import { BanUser } from "./components/BanUser/BanUser";
 import { TorrentNotExist } from "./components/TorrentNotExistError/TorrentNotExist";
 import { NotFound } from "./components/NotAllowed/NotFound";
+import { ChatRoom } from "./components/Chat/ChatRoom";
 
 function App() {
   const [user, setUser] = useState({});
@@ -143,6 +144,14 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+                 <Route
+                  path="/chat"
+                  element={
+                    <PrivateRoute>
+                      <ChatRoom />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/serials"
                   element={
@@ -206,7 +215,6 @@ function App() {
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
-              <Footer />
             </>
           </ValidatorProvider>
         </TorrentProvider>

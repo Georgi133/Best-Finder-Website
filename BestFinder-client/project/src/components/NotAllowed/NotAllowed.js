@@ -1,5 +1,6 @@
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./NotAllowed.module.css";
+import { Footer } from "../Footer/Footer";
 
 export const NotAllowed = () => {
   return (
@@ -10,6 +11,8 @@ export const NotAllowed = () => {
       <h1 className={style.header}>Not allowed to make such operations!</h1>
       <img className={style.picture} src='https://e7.pngegg.com/pngimages/759/253/png-clipart-computer-icons-business-mobile-app-favicon-error-message-symbol-angle-logo.png' alt='errorPicture'/>
     </div>
+    <Footer />
+
     </>
   );
 };

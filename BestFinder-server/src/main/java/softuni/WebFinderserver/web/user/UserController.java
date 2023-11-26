@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.*;
 import softuni.WebFinderserver.model.views.UserInfoView;
 import softuni.WebFinderserver.model.views.UserLoginView;
@@ -133,6 +134,10 @@ public class UserController {
         UserLoginView login = userService.login(userLoginDto);
 
         return ResponseEntity.ok(login);
+    }
+    @GetMapping("/get")
+    public ResponseEntity<?> getFullNameOfUser() {
+        return ResponseEntity.ok().body(UserEntityClone.getFullName());
     }
 
 

@@ -12,6 +12,7 @@ import { TorrentImage } from "./TorrentImage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useTranslation } from "react-i18next";
+import { Footer } from "../Footer/Footer";
 
 export const MovieDetails = () => {
 
@@ -162,6 +163,8 @@ export const MovieDetails = () => {
           <ButtonSubmit />
         </form>
       </section>
+      <Footer />
+
     </>
   );
 };

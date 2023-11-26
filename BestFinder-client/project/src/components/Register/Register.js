@@ -7,6 +7,7 @@ import { useAuthContext } from "../AuthContext/AuthContext";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../Footer/Footer";
 
 export const Register = () => {
   const { t } = useTranslation();
@@ -148,6 +149,8 @@ export const Register = () => {
           </div>
         </form>
       </div>
+      <Footer />
+
     </>
   );
 };

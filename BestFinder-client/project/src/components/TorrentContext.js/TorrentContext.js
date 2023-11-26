@@ -291,6 +291,7 @@ export const TorrentProvider = ({ children }) => {
     
   }
 
+
   const onCategorySubPageMount = async (category) => {
     try {
       const result = await torrentService.getCategoryInfo(category);

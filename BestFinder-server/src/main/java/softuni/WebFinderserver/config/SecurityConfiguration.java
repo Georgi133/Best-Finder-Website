@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/users/login")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/movie-info")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/ws/**")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-resources/**")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/v3/**")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/song-info")).permitAll()

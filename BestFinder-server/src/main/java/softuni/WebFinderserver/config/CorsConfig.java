@@ -11,6 +11,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -22,7 +23,7 @@ public class CorsConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("http://localhost:3000, http://localhost:8080, http://localhost:63342");
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000","http://localhost:8080", "http://localhost:63342"));
         configuration.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,

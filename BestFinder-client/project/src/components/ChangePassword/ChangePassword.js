@@ -7,6 +7,8 @@ import { ButtonSubmit } from "../Login/ButtonSubmit";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../Footer/Footer";
+
 
 export const ChangePassword = () => {
   const { onChangePasswordSubmit, userEmail, serverErrors, errorMessage, changedPasswordSuccess, setChangedPasswordSuccess} = useAuthContext();
@@ -107,6 +109,7 @@ export const ChangePassword = () => {
         <ButtonSubmit/>
       </form>
       </div>
+      <Footer />
     </>
   );
 };

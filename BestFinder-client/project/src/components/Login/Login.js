@@ -7,6 +7,7 @@ import { useForm } from "../useForm/useForm";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { Link } from "react-router-dom";
+import { Footer } from "../Footer/Footer";
 
 export const Login = () => {
   const { onLoginSubmit, errorMessage, serverErrors } = useAuthContext();
@@ -85,6 +86,8 @@ export const Login = () => {
           </div>
         </form>
       </div>
+      <Footer />
+
     </>
   );
 };

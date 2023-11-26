@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useForm } from "../useForm/useForm";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useTranslation } from "react-i18next";
+import { Footer } from "../Footer/Footer";
 
 export const AnimesPage = () => {
   const { t } = useTranslation();
@@ -135,6 +136,8 @@ export const AnimesPage = () => {
         )
          }
       </section>
+      <Footer />
+
     </>
     );
 }

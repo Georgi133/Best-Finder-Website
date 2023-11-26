@@ -6,6 +6,7 @@ import { JokeArticle } from "./JokeArticle";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { useForm } from "../useForm/useForm";
 import { useTranslation } from "react-i18next";
+import { Footer } from "../Footer/Footer";
 
 export const JokesPage = () => {
 
@@ -104,6 +105,8 @@ export const JokesPage = () => {
         )
          }
       </section>
+      <Footer />
+
     </>
     );
 }

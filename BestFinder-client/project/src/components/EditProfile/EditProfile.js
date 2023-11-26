@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { EditingProfileWindow } from './EditingProfileWindow';
 import  jwt_decode  from 'jwt-decode'
 
+import { Footer } from "../Footer/Footer";
+
 export const EditProfile = () => {
 
     const { t }  = useTranslation();
@@ -44,6 +46,8 @@ export const EditProfile = () => {
             {t("userForm.editButton")}
             </button>
         </div>
+        <Footer />
+
         </>
 
     );

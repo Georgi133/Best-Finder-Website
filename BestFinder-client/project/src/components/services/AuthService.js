@@ -18,5 +18,6 @@ export const authServiceFactory = () => {
         edit: (data) => request.patch(`${basePartOfUrl}/${baseUrl}/edit-profile`, data),
         findUserByEmail: (data) => request.post(`${basePartOfUrl}/${adminUrl}/find-user`,data),
         forgottenPassword: (data) => request.post(`${basePartOfUrl}/${baseUrl}/forgotten/password`,data),
+        getUserFullName: () => request.get(`${basePartOfUrl}/${baseUrl}/get`)
     }
 };

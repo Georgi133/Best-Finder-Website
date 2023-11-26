@@ -8,6 +8,8 @@ import { useAdminContext } from '../AdminContext/AdminContext'
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage'
 import { useValidatorContext } from '../ValidatorContext/ValidatorContext'
 import { useEffect } from 'react'
+import { Footer } from "../Footer/Footer";
+
 
 export const BanUser = () => {
     const { t } = useTranslation();
@@ -103,6 +105,7 @@ export const BanUser = () => {
             </>
           )}
         </div>
+        <Footer />
       </>
     );
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MyNavBar } from "../Header/MyNavBar";
 import style from "./TorrentNotExist.module.css";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../Footer/Footer";
 
 export const TorrentNotExist = () => {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ export const TorrentNotExist = () => {
         <h3>We couldn't find the torrent that you are looking for.</h3>
         <h3>Please check the address and try again.</h3>
       </div>
+      <Footer />
+
     </>
   );
 };

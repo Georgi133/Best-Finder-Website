@@ -11,6 +11,7 @@ export const MyNavBar = ({ url }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { userEmail, onLogout, userRole } = useAuthContext();
+
   const { setIsLangugeChanged,isLangugeChanged } = useTorrentContext();
 
   const emailForLogin = () => {
@@ -43,6 +44,8 @@ export const MyNavBar = ({ url }) => {
       navigate("/users/change-password");
     } else if (value === "prof") {
       navigate("/users/edit-profile");
+    } else if (value === "chat") {
+      navigate("/chat");
     }
   };
 
@@ -129,6 +132,9 @@ export const MyNavBar = ({ url }) => {
             </option>
             <option className={style.changeOpt2} value="prof">
               {t("profileChange.changeProfile")}
+            </option>
+            <option className={style.changeOpt2} value="chat">
+            Chat - Чат
             </option>
           </select>
         )}

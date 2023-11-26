@@ -9,6 +9,8 @@ import { ChangeUser } from "./ChangeUser";
 import { useTranslation } from "react-i18next";
 import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { Footer } from "../Footer/Footer";
+
 
 export const ChangeUserRole = () => {
   const { t } = useTranslation();
@@ -112,6 +114,7 @@ export const ChangeUserRole = () => {
           </>
         )}
       </div>
+      <Footer />
     </>
   );
 };
