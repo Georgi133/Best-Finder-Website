@@ -110,7 +110,7 @@ best-finder.defaultpass: ${ADMIN_PASS}
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/2391c93f-db73-4a0d-92be-9d98e08d66fb" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/fb1eb17e-2199-4af2-8bf7-9659c661f46d" />
-<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/3402c2b9-6f14-45a5-9ce9-4d8efaae4149" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/354f695a-51f5-4317-a1ca-b7f1daba8ee4" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/0fcf1667-3552-4b0c-80be-2544e22f2f5e" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/e2c8ec45-4602-494d-96c5-50f1d7a57b04" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/736815d5-5a90-4c0b-ad22-4d793500bfd8" />
