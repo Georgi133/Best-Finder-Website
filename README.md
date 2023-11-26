@@ -39,6 +39,7 @@
  - Schedule - checking every hour if 24 hours of user's ban have expired and if they have, remove the restriction of the user
  - Swagger - for defining the structure of the API and easy testing, added authorization token for security which is received when user is logged
  - <strong>Hibernate Validator - checks for invalid data</strong>
+ - <strong>WebSockets - public and private communication between users</strong>
  - <strong>Custom exceptions and custom messages</strong>
  - <strong>Exception handling</strong>
  - <strong>Multithreading</strong> - make parallel operation when there is update to refresh the cache information inside the proxy, so when the client make request the operation will be free, because server won't do anything except returning the waiting cache inside the proxy
@@ -53,6 +54,7 @@
  ## What is in Frontend
  - <strong>Using local storage - for storagе and extraction of JWT token</strong>
  - <strong>JWT decoding - to get the specific part of the JWT which hides the user information (email and role)</strong>
+ - <strong>WebSockets - chat communication</strong>
  - I18n
  - <strong>Exception handling</strong>
  - <strong>Custom pages for the different types of exceptions</strong>
@@ -108,6 +110,7 @@ best-finder.defaultpass: ${ADMIN_PASS}
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/2391c93f-db73-4a0d-92be-9d98e08d66fb" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/fb1eb17e-2199-4af2-8bf7-9659c661f46d" />
+<img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/3402c2b9-6f14-45a5-9ce9-4d8efaae4149" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/0fcf1667-3552-4b0c-80be-2544e22f2f5e" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/e2c8ec45-4602-494d-96c5-50f1d7a57b04" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/736815d5-5a90-4c0b-ad22-4d793500bfd8" />
