@@ -59,6 +59,10 @@ export const ChatRoom = () => {
                 }
                 break;
             case "MESSAGE":
+                if(!privateChats.get(payloadData.senderName)){
+                    privateChats.set(payloadData.senderName,[]);
+                    setPrivateChats(new Map(privateChats));
+                }
                 publicChats.push(payloadData);
                 setPublicChats([...publicChats]);
                 break;
@@ -147,7 +151,7 @@ export const ChatRoom = () => {
                 <ul className="chat-messages">
                     {publicChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === fullName && "self"}`} key={index}>
-                            {chat.senderName !== fullName && <div className="avatar">{chat.senderName}</div>}
+                            {chat.senderName !== fullName && <div onClick={() => {setTab(chat.senderName)}} className="avatar">{chat.senderName}</div>}
                             {chat.senderName === fullName && <div className="avatar self">You</div>}
                             {/* {chat.senderName} */}
                             <div className="message-data">{chat.message}</div>
