@@ -28,9 +28,9 @@
  - Multi-language support. Could be runned from any device - responsive.
  - Users - Can see all the sections, can like ,comment , sort by year descending if the section he is support years,
   can sort by likes descending, search bar combined with sorting operations. Users could change their given 
- information and change password.Could edit or delete only its own comments and unlike if torrent is liked earlier.
- - Admin - Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user 
- roles. Can search by email to see user information.
+ information and change password. Could edit or delete only its own comments and unlike if torrent is liked earlier.
+Could chat with other users in public room or chat with specific user privately, if they are both inside the chat page in the same time.
+ - Admin - Can edit and delete all the comments no matter who wrote them, can add torrents, ban users, change user roles.Can search by email to see user information.
 
  ## What is in Backend
  - Filter - to check for valid jwt token
@@ -104,7 +104,7 @@ best-finder.admin: ${ADMIN_EMAIL}
 best-finder.defaultpass: ${ADMIN_PASS}
 ```
 ## :camera: View 
- <strong>Home Page, Movies Page, and Movie Details </strong>
+ <strong>Home Page, Movies Page, Movie Details, Chat, Swagger UI </strong>
  
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/b87f7b23-fd8c-4400-ad30-eedacd2b9a19" />
 <img src="https://github.com/Georgi133/Best-Finder-Website/assets/117848275/51887cc6-10b9-4555-a062-2f88e93f4cb2" />
