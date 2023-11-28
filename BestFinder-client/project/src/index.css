@@ -103,6 +103,11 @@
     text-decoration: underline;
   }
 
+  .errorMessage {
+    color: red;
+    text-align: center;
+  }
+
   .avatar.self{
     color:#000;
     background-color: greenyellow;

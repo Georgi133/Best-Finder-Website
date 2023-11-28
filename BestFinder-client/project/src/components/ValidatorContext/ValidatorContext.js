@@ -20,6 +20,15 @@ export const ValidatorProvider = ({ children }) => {
     return errors;
   };
 
+  const validateChat = (message) => {
+    let errors = {};
+    if(!message) {
+      errors.message = "Must be at least 1 character!"
+    }
+    console.log(errors.message)
+    return errors;
+  }
+
 
   const torrentNameAndFileValidate = (values) => {
 
@@ -321,6 +330,7 @@ export const ValidatorProvider = ({ children }) => {
     jokeValidate,
     validateComment,
     onSearchInTorrentValidator,
+    validateChat,
     valid,
   };
 

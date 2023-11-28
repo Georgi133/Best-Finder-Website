@@ -6,12 +6,15 @@ import { MyNavBar } from "../Header/MyNavBar";
 import style from './Chat.module.css';
 import { Footer } from "../Footer/Footer";
 import { useTranslation } from "react-i18next";
+import { useValidatorContext } from "../ValidatorContext/ValidatorContext";
 
 var stompClient = null
 
 export const ChatRoom = () => {
 
-    const { t, i18n } = useTranslation();
+    const { validateChat } = useValidatorContext();
+    const { t } = useTranslation();
+    const [error, setError] = useState('');
     const [privateChats, setPrivateChats] = useState(new Map());  
     const { fullName, getUserFullName} = useAuthContext();
     const [publicChats, setPublicChats] = useState([]); 
@@ -89,23 +92,38 @@ export const ChatRoom = () => {
     }
 
     const handleMessage =(event)=>{
+        setError('');
+
         const {value}=event.target;
         setUserData({...userData,"message": value});
     }
     const sendValue=()=>{
+        console.log('here')
+          const errors = validateChat(userData.message);
+          if(errors.message) {
+            console.log('hrre2')
+            setError(errors.message)
+            return;
+          }
+          console.log('here')
             if (stompClient) {
               var chatMessage = {
                 senderName: fullName,
                 message: userData.message,
                 status:"MESSAGE"
               };
-              console.log(chatMessage);
               stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
               setUserData({...userData,"message": ""});
             }
     }
 
     const sendPrivateValue=()=>{
+        const errors = validateChat(userData.message);
+          if(errors.message) {
+            setError(errors.message);
+            return;
+          }
+        
         if (stompClient) {
           var chatMessage = {
             senderName: fullName,
@@ -160,9 +178,11 @@ export const ChatRoom = () => {
                     ))}
                 </ul>
 
+                {error && <div className="errorMessage">{error}</div>}
                 <div className="send-message">
                     <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
                     <button type="button" className="send-button" onClick={sendValue}>{t("userForm.submit")}</button>
+                    {/* {error && <div className="errorMessage">{error}</div>} */}
                 </div>
             </div>}
             {tab!=="CHATROOM" && <div className="chat-content">
@@ -177,6 +197,7 @@ export const ChatRoom = () => {
                     ))}
                 </ul>
 
+                {error && <div className="errorMessage">{error}</div>}
                 <div className="send-message">
                     <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
                     <button type="button" className="send-button" onClick={sendPrivateValue}>{t("userForm.submit")}</button>
