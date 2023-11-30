@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.SongUploadDto;
@@ -83,6 +84,7 @@ public class SongServiceImpl implements SongService {
                 .countLikes(savedSong.getLikes().size())
                 .comments(savedSong.getComments().stream().map(commentService::mapToView).collect(Collectors.toList()))
                 .videoUrl(savedSong.getSongVideo().substring(startIndex))
+//                .isLikedByUser(isLikedByUser(savedSong.getLikes()))
                 .likes(savedSong.getLikes()
                         .stream()
                         .map(like -> new LikeView(like.getId(), like.getProject().getId(), like.getUser().getEmail()))
@@ -92,6 +94,13 @@ public class SongServiceImpl implements SongService {
 
         return build;
     }
+
+//    private boolean isLikedByUser(List<Like> likes) {
+//        if(UserEntityClone.getUserEmail() != null) {
+//            likes.removeIf(l -> !l.getUser().getEmail().equals(UserEntityClone.getUserEmail()));
+//        }
+//        return !likes.isEmpty();
+//    }
 
     private Song mapToSong(SongUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);

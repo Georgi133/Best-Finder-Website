@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.GameAnimeUploadDto;
@@ -85,6 +86,7 @@ public class GameServiceImpl implements GameService {
                 .countLikes(savedGame.getLikes().size())
                 .comments(savedGame.getComments().stream().map(commentService::mapToView).collect(Collectors.toList()))
                 .videoUrl(savedGame.getTrailer().substring(startIndex))
+//                .isLikedByUser(isLikedByUser(savedGame.getLikes()))
                 .likes(savedGame.getLikes()
                         .stream()
                         .map(like -> new LikeView(like.getId(), like.getProject().getId(), like.getUser().getEmail()))
@@ -94,6 +96,13 @@ public class GameServiceImpl implements GameService {
 
         return build;
     }
+
+//    private boolean isLikedByUser(List<Like> likes) {
+//        if(UserEntityClone.getUserEmail() != null) {
+//            likes.removeIf(l -> !l.getUser().getEmail().equals(UserEntityClone.getUserEmail()));
+//        }
+//        return !likes.isEmpty();
+//    }
 
     private Game mapToGame(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);

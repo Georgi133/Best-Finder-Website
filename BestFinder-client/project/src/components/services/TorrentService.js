@@ -3,8 +3,10 @@ import { requestFactory } from './requester';
 
 const upload = `upload`;
 const getUrl = `get`;
-const baseUrl = process.env.NODE_ENV  === 'development' ? 
-'http://localhost:8080' : 'other'
+const baseUrl = process.env.NODE_ENV  !== 'development' ? 
+'http://localhost:8080' : 'https://lb-spring-app-webfinder.azuremicroservices.io';
+
+// http://localhost:8080
 
 export const torrentServiceFactory = () => {
     const request = requestFactory();

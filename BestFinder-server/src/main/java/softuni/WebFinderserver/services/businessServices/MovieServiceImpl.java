@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.MovieUploadDto;
@@ -85,6 +86,7 @@ public class MovieServiceImpl implements MovieService {
                 .countLikes(savedMovie.getLikes().size())
                 .comments(savedMovie.getComments().stream().map(commentService::mapToView).collect(Collectors.toList()))
                 .videoUrl(savedMovie.getTrailer().substring(startIndex))
+//                .isLikedByUser(isMovieLikedByUser(savedMovie.getLikes()))
                 .likes(savedMovie.getLikes()
                         .stream()
                         .map(like -> new LikeView(like.getId(), like.getProject().getId(),like.getUser().getEmail()))
@@ -94,6 +96,15 @@ public class MovieServiceImpl implements MovieService {
 
         return build;
     }
+
+//    private boolean isMovieLikedByUser(List<Like> likes) {
+//        if(UserEntityClone.getUserEmail() != null) {
+//            likes.removeIf(l -> !l.getUser().getEmail().equals(UserEntityClone.getUserEmail()));
+//        }
+//        return !likes.isEmpty();
+//    }
+
+
     private Movie mapToMovie(MovieUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);
 
@@ -137,6 +148,7 @@ public class MovieServiceImpl implements MovieService {
     public BaseView getById(Long id, String userEmail) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new TorrentException("Such torrent does not exist",HttpStatus.BAD_REQUEST));
         boolean isLiked = false;
+
         if(userEmail != null) {
             List<Like> collect = userService
                     .findUserByEmail(userEmail)

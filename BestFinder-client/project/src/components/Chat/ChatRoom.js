@@ -32,7 +32,9 @@ export const ChatRoom = () => {
     }, [fullName]);
 
     const connect =()=>{
-        let Sock = new SockJS('http://localhost:8080/ws');
+        const baseUrl = process.env.NODE_ENV  !== 'development' ? 
+'http://localhost:8080' : 'https://lb-spring-app-webfinder.azuremicroservices.io';
+        let Sock = new SockJS(`${baseUrl}/ws`);
         stompClient = over(Sock);
         stompClient.connect({},onConnected, onError);
     }
@@ -180,8 +182,8 @@ export const ChatRoom = () => {
 
                 {error && <div className="errorMessage">{error}</div>}
                 <div className="send-message">
-                    <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
-                    <button type="button" className="send-button" onClick={sendValue}>{t("userForm.submit")}</button>
+                    <input type="text" className="input-message input2" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
+                    <button type="button" className="send-button button2" onClick={sendValue}>{t("userForm.submit")}</button>
                     {/* {error && <div className="errorMessage">{error}</div>} */}
                 </div>
             </div>}
@@ -199,8 +201,8 @@ export const ChatRoom = () => {
 
                 {error && <div className="errorMessage">{error}</div>}
                 <div className="send-message">
-                    <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
-                    <button type="button" className="send-button" onClick={sendPrivateValue}>{t("userForm.submit")}</button>
+                    <input type="text" className="input-message input2" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
+                    <button type="button" className="send-button button2" onClick={sendPrivateValue}>{t("userForm.submit")}</button>
                 </div>
             </div>}
         </div>
@@ -208,6 +210,7 @@ export const ChatRoom = () => {
         <div className="register">
             <h2>Chat Entrance !</h2>
             <input
+            className="input2"
                 id="user-name"
                 placeholder="Enter your name"
                 name="userName"
@@ -215,7 +218,7 @@ export const ChatRoom = () => {
                 onChange={handleUsername}
                 margin="normal"
               />
-              <button className="connect" type="button" onClick={registerUser}>
+              <button className="connect button2" type="button" onClick={registerUser}>
                     {t("userForm.submit")}
               </button> 
         </div>}

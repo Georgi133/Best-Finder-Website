@@ -23,7 +23,7 @@ public class CorsConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000","http://localhost:8080", "http://localhost:63342"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000","http://localhost:8080", "https://web-finder.azurewebsites.net", "https://lb-spring-app-webfinder.azuremicroservices.io"));
         configuration.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,

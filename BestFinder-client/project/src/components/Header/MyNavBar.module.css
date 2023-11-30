@@ -111,6 +111,7 @@ max-height: 40px;
 @media screen and (max-width: 424px) {
    .innerContainer {
     display: inline-block;
+    font-size: 6px;
    }
    .changeOptLang {
     margin: 1vh;
@@ -122,13 +123,21 @@ max-height: 40px;
 
 }
 
-@media screen and (max-width: 337px) {
+@media screen and (max-width: 370px) {
  
  .pg2 {
-    font-size: 9px;
+    font-size: 8px;
 }
  
  }
+
+ @media screen and (max-width: 354px) {
+   
+    .pg2 {
+        font-size: 7px;
+    }
+    
+    }
 
 
 

@@ -6,6 +6,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 14px;
+    gap: 4px;
 }
 
 .socialLinks {
@@ -29,17 +30,19 @@
     gap: 2vh;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 435px) {
     .footerCont{
-        padding: 4px;
+        font-size: 11px;
     }
     
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 420px) {
     .footerCont{
-        font-size: 14px;
+        padding: 4px;
+        font-size: 10px;
     }
     
-    
 }
+
+

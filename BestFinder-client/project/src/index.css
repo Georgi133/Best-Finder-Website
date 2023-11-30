@@ -12,10 +12,11 @@
       monospace;
   }
   
-  input {
+  .input2 {
     padding: 10px;
   }
-  button{
+
+  .button2 {
     border: none;
     padding: 10px;
     background: green;

@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.GameAnimeUploadDto;
@@ -88,6 +89,7 @@ public class AnimeServiceImpl implements AnimeService {
                 .animeName(savedAnime.getAnimeName())
                 .categories(savedAnime.getCategories().stream().map(categ -> categ.getCategory().name()).collect(Collectors.joining(", ")))
                 .releasedYear(savedAnime.getReleasedYear())
+//                .isLikedByUser(isLikedByUser(savedAnime.getLikes()))
                 .videoUrl(savedAnime.getTrailer().substring(startIndex))
                 .torrent("Anime")
                 .addedDate(savedAnime.getAddedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
@@ -97,6 +99,13 @@ public class AnimeServiceImpl implements AnimeService {
 
         return build;
     }
+
+//    private boolean isLikedByUser(List<Like> likes) {
+//        if(UserEntityClone.getUserEmail() != null) {
+//            likes.removeIf(l -> !l.getUser().getEmail().equals(UserEntityClone.getUserEmail()));
+//        }
+//        return !likes.isEmpty();
+//    }
 
     private Anime mapToAnime(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);

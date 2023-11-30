@@ -63,6 +63,11 @@
     margin-left: auto;
 }
 
+.selectCl:hover {
+    cursor: pointer;
+    opacity: 90%;
+}
+
 .searchContainer {
     display: flex;
     flex-direction: row;
@@ -134,7 +139,7 @@
   }
 
 
-  @media screen and (max-width:  473px) {
+  @media screen and (max-width:  492px) {
     .container {
         font-size: 9px;
     }

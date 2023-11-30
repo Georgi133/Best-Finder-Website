@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import softuni.WebFinderserver.model.UserEntityClone;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
 import softuni.WebFinderserver.model.dtos.CommentUploadDto;
 import softuni.WebFinderserver.model.dtos.JokeUploadDto;
@@ -76,6 +77,7 @@ public class JokeServiceImpl implements JokeService {
                 .addedDate(savedJoke.getAddedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .pictureUrl(savedJoke.getPictureUrl())
                 .countLikes(savedJoke.getLikes().size())
+//                .isLikedByUser(isLikedByUser(savedJoke.getLikes()))
                 .comments(savedJoke.getComments().stream().map(commentService::mapToView).collect(Collectors.toList()))
                 .likes(savedJoke.getLikes()
                         .stream()
@@ -86,6 +88,13 @@ public class JokeServiceImpl implements JokeService {
 
         return build;
     }
+
+//    private boolean isLikedByUser(List<Like> likes) {
+//        if(UserEntityClone.getUserEmail() != null) {
+//            likes.removeIf(l -> !l.getUser().getEmail().equals(UserEntityClone.getUserEmail()));
+//        }
+//        return !likes.isEmpty();
+//    }
 
     private Joke mapToJoke(JokeUploadDto dto, MultipartFile file) throws IOException {
         String urlUploaded = cloudUtil.upload(file);

@@ -19,7 +19,6 @@ public interface SerialRepository extends JpaRepository<Serial,Long> {
     @Query("select s from Serial s order by size(s.likes) desc")
     List<Serial> getAll();
 
-
     @Query("select s from Serial s order by s.seasons desc")
     List<Serial> getAllBySeasonsDesc();
 

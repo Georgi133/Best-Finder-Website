@@ -30,6 +30,12 @@ public class SongServiceProxy implements SongService {
 
     @Override
     public BaseView createSong(SongUploadDto dto, MultipartFile file) throws IOException {
+        if(bgInfo != null) {
+            bgInfo = null;
+        }
+        if(enInfo != null) {
+            enInfo = null;
+        }
         if (ordinaryTorrentCollection != null || ordinaryTorrentCollectionByYear!= null) {
             ordinaryTorrentCollection = null;
             ordinaryTorrentCollectionByYear = null;
@@ -64,26 +70,56 @@ public class SongServiceProxy implements SongService {
 
     @Override
     public BaseView uploadCommentByAnimeId(Long id, CommentUploadDto dto) {
+        if(ordinaryTorrentCollection != null) {
+            ordinaryTorrentCollection = null;
+        }
+        if(ordinaryTorrentCollectionByYear != null) {
+            ordinaryTorrentCollectionByYear = null;
+        }
         return service.uploadCommentByAnimeId(id, dto);
     }
 
     @Override
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
+        if(ordinaryTorrentCollection != null) {
+            ordinaryTorrentCollection = null;
+        }
+        if(ordinaryTorrentCollectionByYear != null) {
+            ordinaryTorrentCollectionByYear = null;
+        }
         return service.deleteCommentById(animeId, commentId, userEmail);
     }
 
     @Override
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
+        if(ordinaryTorrentCollection != null) {
+            ordinaryTorrentCollection = null;
+        }
+        if(ordinaryTorrentCollectionByYear != null) {
+            ordinaryTorrentCollectionByYear = null;
+        }
         return service.editCommentById(animeId, commentId, dto);
     }
 
     @Override
     public BaseView like(Long id, String userEmail) {
+        if(ordinaryTorrentCollection != null) {
+            ordinaryTorrentCollection = null;
+        }
+        if(ordinaryTorrentCollectionByYear != null) {
+            ordinaryTorrentCollectionByYear = null;
+        }
         return service.like(id, userEmail);
     }
 
     @Override
     public BaseView unlike(Long id, String userEmail) {
+        if(ordinaryTorrentCollection != null) {
+            ordinaryTorrentCollection = null;
+        }
+        if(ordinaryTorrentCollectionByYear != null) {
+            ordinaryTorrentCollectionByYear = null;
+        }
         return service.unlike(id, userEmail);
     }
 
