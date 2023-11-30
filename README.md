@@ -13,9 +13,6 @@
 
 <hr /> 
 
-  ##  Demo
-  - Deployed to: https://web-finder.azurewebsites.net/
-
   ## :hammer: Built with
  - Java 17
  - Spring Boot
@@ -27,6 +24,9 @@
  - HTML, CSS - Without using bootstrap or other sites for helping me visualize the site.
  - Apache Maven
  - JWT token
+
+##  Demo
+  - Deployed to: https://web-finder.azurewebsites.net/
 
  ## :dart: Features
  - Multi-language support. Could be runned from any device - responsive.
