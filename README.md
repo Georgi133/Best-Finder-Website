@@ -23,7 +23,7 @@
  - JavaScript
  - HTML, CSS - Without using bootstrap or other sites for helping me visualize the site.
  - Apache Maven
- - JWT token
+ - JWT.io
 
 ## :heavy_check_mark: Demo
   - Deployed to: https://web-finder.azurewebsites.net/
