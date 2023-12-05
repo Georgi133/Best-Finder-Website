@@ -25,6 +25,7 @@ import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.entities.Actor;
 import softuni.WebFinderserver.model.entities.CategoryProjection;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Serial;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.RoleEnum;
@@ -94,6 +95,7 @@ public class SerialControllerIT {
 
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
 
+        long count = serialRepository.count();
         Mockito.when(cloudUtil.upload(file))
                 .thenReturn("okey");
 
@@ -104,6 +106,8 @@ public class SerialControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1, serialRepository.count());
     }
 
     @Test
@@ -198,8 +202,12 @@ public class SerialControllerIT {
         userRepository.save(testEntityEmailVariable("test22@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test22@abv.bg");
-        Serial Serial = testSerialWithDiffNameAndActor("uploadTest", "Uploader2", 4, "comedy");
-        Long id = serialRepository.save(Serial).getId();
+        Serial serial = testSerialWithDiffNameAndActor("uploadTest", "Uploader2", 4, "comedy");
+        Long id = serialRepository.save(serial).getId();
+
+        serial.setComments(new ArrayList<>());
+
+        int size = serial.getComments().size();
 
         String jsonRequest = mapToJson(dto);
 
@@ -207,6 +215,10 @@ public class SerialControllerIT {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+
+        Serial byId = serialRepository.getSerialByTorrentName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
@@ -240,10 +252,14 @@ public class SerialControllerIT {
         UserEntity userEntity = testEntityEmailVariable("LikeOk2@abv.bg");
         userRepository.save(userEntity);
 
+        serial.setLikes(new ArrayList<>());
+        int size = serial.getLikes().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/serial/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, serialRepository.getSerialByTorrentName("LikeMovi23").getLikes().size());
     }
 
     @Test

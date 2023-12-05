@@ -89,7 +89,6 @@ public class UserControllerIT {
         dto.setFullName("Test Testov");
        restTemplate.postForObject(baseUrl + "/register", dto, UserRegisterView.class);
         Assertions.assertNotNull(userRepository.findAll().stream().map(u -> u.getEmail().equals("test2@abv.bg")));
-
     }
 
     @Test

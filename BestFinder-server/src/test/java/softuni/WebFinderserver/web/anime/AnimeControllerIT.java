@@ -33,6 +33,7 @@ import softuni.WebFinderserver.model.dtos.GameAnimeUploadDto;
 import softuni.WebFinderserver.model.dtos.TorrentSearchBarDto;
 import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.entities.CategoryProjection;
+import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
@@ -106,6 +107,7 @@ public class AnimeControllerIT {
 
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
 
+        long count = animeRepository.count();
         Mockito.when(cloudUtil.upload(file))
                 .thenReturn("okey");
 
@@ -116,6 +118,8 @@ public class AnimeControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1, animeRepository.count());
     }
 
     @Test
@@ -249,8 +253,12 @@ public class AnimeControllerIT {
         userRepository.save(testEntityEmailVariable("test28@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test28@abv.bg");
-        Anime Anime = testAnimeWithDiffNameAndActor("uploadTest", 2004,"comedy");
-        Long id = animeRepository.save(Anime).getId();
+        Anime anime = testAnimeWithDiffNameAndActor("uploadTest", 2004,"comedy");
+        anime.setComments(new ArrayList<>());
+
+        int size = anime.getComments().size();
+
+        Long id = animeRepository.save(anime).getId();
 
         String jsonRequest = mapToJson(dto);
 
@@ -258,12 +266,14 @@ public class AnimeControllerIT {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+        Anime byId = animeRepository.getAnimeByAnimeName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
     @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfAnimeNotExist() throws Exception {
-
 
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/anime/{animeId}/comment/{commendId}",1000L, 1000L)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -287,15 +297,19 @@ public class AnimeControllerIT {
     @Test
     @WithMockUser(username = "LikeOk8@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
-        Anime Anime = testAnimeWithDiffNameAndActor("LikeMovi8", 1901,"comedy");
-        Long id = animeRepository.save(Anime).getId();
+        Anime anime = testAnimeWithDiffNameAndActor("LikeMovi8", 1901,"comedy");
+        Long id = animeRepository.save(anime).getId();
         UserEntity userEntity = testEntityEmailVariable("LikeOk8@abv.bg");
         userRepository.save(userEntity);
 
+        anime.setLikes(new ArrayList<>());
+        int size = anime.getLikes().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/anime/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, animeRepository.getAnimeByAnimeName("LikeMovi8").getLikes().size());
     }
 
     @Test
@@ -322,8 +336,8 @@ public class AnimeControllerIT {
 //        SecurityContextHolder.setContext(securityContext);
 //        Mockito. when(securityContext.getAuthentication()).thenReturn(authentication);
 
-        Anime Anime = testAnimeWithDiffNameAndActor("LikeAnime8", 1901,"comedy");
-        Long id = animeRepository.save(Anime).getId();
+        Anime anime = testAnimeWithDiffNameAndActor("LikeAnime8", 1901,"comedy");
+        Long id = animeRepository.save(anime).getId();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/anime/{id}/unlike", id)
                         .contentType(MediaType.APPLICATION_JSON))

@@ -50,7 +50,7 @@ public class GameControllerIT {
     private String baseUrl = "http://localhost";
 
     @Autowired
-    private TestGameRepository GameRepository;
+    private TestGameRepository gameRepository;
 
     @Autowired
     private TestUserRepository userRepository;
@@ -85,6 +85,8 @@ public class GameControllerIT {
         dto.setTorrent("games");
         dto.setTorrentName("Spider29");
 
+        long count = gameRepository.count();
+
         String jsonStr = mapToJson(dto);
 
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
@@ -99,6 +101,8 @@ public class GameControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1, gameRepository.count());
     }
 
     @Test
@@ -119,7 +123,7 @@ public class GameControllerIT {
         dto.setCategory3("");
         dto.setTorrentName("TestM2");
 
-        GameRepository.save(getGame("TestM2", 2004,"comedy"));
+        gameRepository.save(getGame("TestM2", 2004,"comedy"));
 
         String jsonStr = mapToJson(dto);
 
@@ -143,8 +147,8 @@ public class GameControllerIT {
         dto.setSearchBar("act");
         Game Game1 = getGame("Tob29" , 2003, "comedy");
         Game Game2 = getGame("Test229", 2004, "action");
-        GameRepository.save(Game1);
-        GameRepository.save(Game2);
+        gameRepository.save(Game1);
+        gameRepository.save(Game2);
         String jsonContent = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get-all/games/filtered-by-year")
@@ -173,8 +177,8 @@ public class GameControllerIT {
         dto.setSearchBar("act");
         Game Game1 = getGame("T9", 2003, "comedy");
         Game Game2 = getGame("Tes269", 2004,"action");
-        GameRepository.save(Game1);
-        GameRepository.save(Game2);
+        gameRepository.save(Game1);
+        gameRepository.save(Game2);
         String jsonContent = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get-all/games/filtered-by-likes")
@@ -187,8 +191,8 @@ public class GameControllerIT {
     void sortByYearOk() throws Exception {
         Game Game1 = getGame("test229", 2004,"comedy");
         Game Game2 = getGame("Test239", 2003,"action");
-        GameRepository.save(Game1);
-        GameRepository.save(Game2);
+        gameRepository.save(Game1);
+        gameRepository.save(Game2);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/games/sort-by-year"))
                 .andExpect(status().isOk()).andReturn();
@@ -205,9 +209,9 @@ public class GameControllerIT {
     @Test
     @WithMockUser(username = "te9@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
-        List<Game> all = GameRepository.findAll();
+        List<Game> all = gameRepository.findAll();
         Game Game = getGame("Testtt9", 2004,"comedy");
-        Long id = GameRepository.save(Game).getId();
+        Long id = gameRepository.save(Game).getId();
         UserEmailDto dto = new UserEmailDto();
         userRepository.save(testEntityEmailVariable("te9@abv.bg"));
         dto.setUserEmail("te9@abv.bg");
@@ -241,8 +245,11 @@ public class GameControllerIT {
         userRepository.save(testEntityEmailVariable("test29@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test29@abv.bg");
-        Game Game = getGame("uploadTest", 2004,"comedy");
-        Long id = GameRepository.save(Game).getId();
+        Game game = getGame("uploadTest", 2004,"comedy");
+        Long id = gameRepository.save(game).getId();
+
+        game.setComments(new ArrayList<>());
+        int size = game.getComments().size();
 
         String jsonRequest = mapToJson(dto);
 
@@ -250,6 +257,10 @@ public class GameControllerIT {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+
+        Game byId = gameRepository.getGameByTorrentName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
@@ -279,15 +290,19 @@ public class GameControllerIT {
     @Test
     @WithMockUser(username = "LikeOk9@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
-        Game Game = getGame("LikeMovi9", 1901,"comedy");
-        Long id = GameRepository.save(Game).getId();
+        Game game = getGame("LikeMovi9", 1901,"comedy");
+        Long id = gameRepository.save(game).getId();
         UserEntity userEntity = testEntityEmailVariable("LikeOk9@abv.bg");
         userRepository.save(userEntity);
 
+        game.setLikes(new ArrayList<>());
+        int size = game.getLikes().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/game/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, gameRepository.getGameByTorrentName("LikeMovi9").getLikes().size());
     }
 
     @Test
@@ -306,7 +321,7 @@ public class GameControllerIT {
     @WithMockUser(username = "UnLike9@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Game Game = getGame("LikeGame9", 1901,"comedy");
-        Long id = GameRepository.save(Game).getId();
+        Long id = gameRepository.save(Game).getId();
         UserEntity userEntity = testEntityEmailVariable("UnLike9@abv.bg");
         userRepository.save(userEntity);
 

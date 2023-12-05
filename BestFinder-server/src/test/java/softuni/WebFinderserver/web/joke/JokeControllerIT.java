@@ -22,6 +22,7 @@ import softuni.WebFinderserver.model.dtos.JokeUploadDto;
 import softuni.WebFinderserver.model.dtos.TorrentSearchBarDto;
 import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Joke;
 import softuni.WebFinderserver.model.enums.RoleEnum;
 import softuni.WebFinderserver.testRepositories.TestCategoryProjectionRepository;
@@ -31,7 +32,6 @@ import softuni.WebFinderserver.util.CloudUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,7 +47,7 @@ public class JokeControllerIT {
     private String baseUrl = "http://localhost";
 
     @Autowired
-    private TestJokeRepository JokeRepository;
+    private TestJokeRepository jokeRepository;
 
     @Autowired
     private TestUserRepository userRepository;
@@ -81,6 +81,7 @@ public class JokeControllerIT {
 
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
 
+        long count = jokeRepository.count();
         Mockito.when(cloudUtil.upload(file))
                 .thenReturn("okey");
 
@@ -91,6 +92,8 @@ public class JokeControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1, jokeRepository.count());
     }
 
     @Test
@@ -107,7 +110,7 @@ public class JokeControllerIT {
         dto.setTorrent("Jokes");
         dto.setTorrentName("Fox77");
 
-        JokeRepository.save(testJokeWithDiffNameAndActor("Fox77"));
+        jokeRepository.save(testJokeWithDiffNameAndActor("Fox77"));
 
         String jsonStr = mapToJson(dto);
 
@@ -131,8 +134,8 @@ public class JokeControllerIT {
         dto.setSearchBar("act");
         Joke Joke1 = testJokeWithDiffNameAndActor("T6");
         Joke Joke2 = testJokeWithDiffNameAndActor("Tes266");
-        JokeRepository.save(Joke1);
-        JokeRepository.save(Joke2);
+        jokeRepository.save(Joke1);
+        jokeRepository.save(Joke2);
         String jsonContent = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/get-all/jokes/filtered-by-likes")
@@ -146,7 +149,7 @@ public class JokeControllerIT {
     @WithMockUser(username = "te6@abv.bg", roles = {"USER"})
     void getByIdOk() throws Exception {
         Joke Joke = testJokeWithDiffNameAndActor("Testtt6");
-        Long id = JokeRepository.save(Joke).getId();
+        Long id = jokeRepository.save(Joke).getId();
         userRepository.save(testEntityEmailVariable("te6@abv.bg"));
 
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/get/joke/{id}",id)
@@ -171,15 +174,22 @@ public class JokeControllerIT {
         userRepository.save(testEntityEmailVariable("test26@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test26@abv.bg");
-        Joke Joke = testJokeWithDiffNameAndActor("uploadTest");
-        Long id = JokeRepository.save(Joke).getId();
+        Joke joke = testJokeWithDiffNameAndActor("uploadTest");
+        Long id = jokeRepository.save(joke).getId();
 
+        joke.setComments(new ArrayList<>());
+
+        int size = joke.getComments().size();
         String jsonRequest = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/joke/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+
+        Joke byId = jokeRepository.getJokeByJokeName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
@@ -208,14 +218,19 @@ public class JokeControllerIT {
     @Test
     @WithMockUser(username = "LikeOk6@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
-        Joke Joke = testJokeWithDiffNameAndActor("LikeMovi6");
-        Long id = JokeRepository.save(Joke).getId();
+        Joke joke = testJokeWithDiffNameAndActor("LikeMovi6");
+        Long id = jokeRepository.save(joke).getId();
         UserEntity userEntity = testEntityEmailVariable("LikeOk6@abv.bg");
         userRepository.save(userEntity);
+
+        joke.setLikes(new ArrayList<>());
+        int size = joke.getLikes().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/joke/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, jokeRepository.getJokeByJokeName("LikeMovi6").getLikes().size());
     }
 
     @Test
@@ -233,7 +248,7 @@ public class JokeControllerIT {
     @WithMockUser(username = "UnLike8@abv.bg", roles = {"USER"})
     void unLikeShouldThrowWhenThereIsNoLikeForDeleting() throws Exception {
         Joke Joke = testJokeWithDiffNameAndActor("LikeJoke6");
-        Long id = JokeRepository.save(Joke).getId();
+        Long id = jokeRepository.save(Joke).getId();
         UserEntity userEntity = testEntityEmailVariable("UnLike6@abv.bg");
         userRepository.save(userEntity);
 

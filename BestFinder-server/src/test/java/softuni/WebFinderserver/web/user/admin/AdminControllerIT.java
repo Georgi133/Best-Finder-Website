@@ -3,6 +3,7 @@ package softuni.WebFinderserver.web.user.admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.dtos.UserFindByEmailDto;
 import softuni.WebFinderserver.model.entities.UserEntity;
 import softuni.WebFinderserver.model.enums.RoleEnum;
+import softuni.WebFinderserver.testRepositories.TestBlackListRepository;
 import softuni.WebFinderserver.testRepositories.TestUserRepository;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +39,9 @@ public class AdminControllerIT {
 
     @Autowired
     private TestUserRepository userRepository;
+
+    @Autowired
+    private TestBlackListRepository blackListRepository;
 
 
     @Autowired
@@ -95,6 +100,9 @@ public class AdminControllerIT {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
+        Assertions.assertTrue(userRepository.findByEmail("test@abv.bg").isPresent());
+        Assertions.assertEquals("ADMIN",userRepository.findByEmail("test@abv.bg").get().getRole().name());
     }
 
 
@@ -109,11 +117,15 @@ public class AdminControllerIT {
         UserEmailDto dto = new UserEmailDto();
         dto.setUserEmail("test@abv.bg");
 
+        long count = blackListRepository.count();
+
         String jsonRequest = mapToJson(dto);
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/ban-user")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
+        Assertions.assertEquals(count + 1 , blackListRepository.count());
     }
 
     public UserEntity testEntityWithoutArguments() {

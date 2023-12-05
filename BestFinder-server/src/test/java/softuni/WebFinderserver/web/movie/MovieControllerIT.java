@@ -24,6 +24,7 @@ import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.entities.Actor;
 import softuni.WebFinderserver.model.entities.CategoryProjection;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Movie;
 import softuni.WebFinderserver.model.enums.CategoryProjectionEnum;
 import softuni.WebFinderserver.model.enums.RoleEnum;
@@ -90,6 +91,8 @@ public class MovieControllerIT {
         dto.setCategory3("");
         dto.setTorrentName("Spider2");
 
+        long count = movieRepository.count();
+
         String jsonStr = mapToJson(dto);
 
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
@@ -104,6 +107,8 @@ public class MovieControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1 , movieRepository.count());
     }
 
     @Test
@@ -253,18 +258,25 @@ public class MovieControllerIT {
         Movie movie = testMovieWithDiffNameAndActor("uploadTest", "Uploader", 2004,"comedy");
         Long id = movieRepository.save(movie).getId();
 
+        movie.setComments(new ArrayList<>());
+
+        int size = movie.getComments().size();
+
         String jsonRequest = mapToJson(dto);
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/movie/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+
+        Movie byId = movieRepository.getMovieByTorrentName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
     @WithMockUser(username = "LikeThrow8@abv.bg", roles = {"USER"})
     void deleteCommentShouldThrowIfMovieNotExist() throws Exception {
-
 
         mockMvc.perform(MockMvcRequestBuilders.delete(baseUrl + "/delete/movie/{movieId}/comment/{commendId}",1000L, 1000L)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -293,9 +305,14 @@ public class MovieControllerIT {
         UserEntity userEntity = testEntityEmailVariable("LikeOk@abv.bg");
         userRepository.save(userEntity);
 
+        movie.setLikes(new ArrayList<>());
+        int size = movie.getLikes().size();
+
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/movie/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, movieRepository.getMovieByTorrentName("LikeMovi").getLikes().size());
     }
 
     @Test

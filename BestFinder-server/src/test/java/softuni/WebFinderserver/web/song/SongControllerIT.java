@@ -25,6 +25,7 @@ import softuni.WebFinderserver.model.dtos.UserEmailDto;
 import softuni.WebFinderserver.model.entities.Singer;
 import softuni.WebFinderserver.model.entities.SongCategory;
 import softuni.WebFinderserver.model.entities.UserEntity;
+import softuni.WebFinderserver.model.entities.categories.Anime;
 import softuni.WebFinderserver.model.entities.categories.Song;
 import softuni.WebFinderserver.model.enums.RoleEnum;
 import softuni.WebFinderserver.model.enums.SongCategoryEnum;
@@ -94,6 +95,8 @@ public class SongControllerIT {
 
         String jsonStr = mapToJson(dto);
 
+        long count = songRepository.count();
+
         MockMultipartFile jsonFile = new MockMultipartFile("dto", "non", "application/json", jsonStr.getBytes());
 
         Mockito.when(cloudUtil.upload(file))
@@ -106,6 +109,8 @@ public class SongControllerIT {
                         .file(file)
                         .file(jsonFile))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(count + 1, songRepository.count());
     }
 
     @Test
@@ -243,15 +248,23 @@ public class SongControllerIT {
         userRepository.save(testEntityEmailVariable("test27@abv.bg"));
         dto.setComment("Here we are");
         dto.setUserEmail("test27@abv.bg");
-        Song Song = testSongWithDiffNameAndActor("uploadTest", 2004,"pop","SingerT3");
-        Long id = songRepository.save(Song).getId();
+        Song song = testSongWithDiffNameAndActor("uploadTest", 2004,"pop","SingerT3");
+        Long id = songRepository.save(song).getId();
 
         String jsonRequest = mapToJson(dto);
+
+        song.setComments(new ArrayList<>());
+
+        int size = song.getComments().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/upload/song/{id}/comment",id)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+
+        Song byId = songRepository.getSongBySongName("uploadTest");
+
+        Assertions.assertEquals(size + 1, byId.getComments().size());
     }
 
     @Test
@@ -281,14 +294,19 @@ public class SongControllerIT {
     @Test
     @WithMockUser(username = "LikeOk7@abv.bg", roles = {"USER"})
     void likeOk() throws Exception {
-        Song Song = testSongWithDiffNameAndActor("LikeMovi7", 2003,"pop","SingerT2");
-        Long id = songRepository.save(Song).getId();
+        Song song = testSongWithDiffNameAndActor("LikeMovi7", 2003,"pop","SingerT2");
+        Long id = songRepository.save(song).getId();
         UserEntity userEntity = testEntityEmailVariable("LikeOk7@abv.bg");
         userRepository.save(userEntity);
+
+        song.setLikes(new ArrayList<>());
+        int size = song.getLikes().size();
 
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/song/{id}/like", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Assertions.assertEquals(size + 1, songRepository.getSongBySongName("LikeMovi7").getLikes().size());
     }
 
     @Test
