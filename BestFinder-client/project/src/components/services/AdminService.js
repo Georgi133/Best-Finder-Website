@@ -1,7 +1,7 @@
 import { requestFactory } from './requester';
 
 const adminUrl = `admins`;
-const baseUrl = process.env.NODE_ENV  === 'development' ? 
+const baseUrl = process.env.NODE_ENV  !== 'development' ? 
 'http://localhost:8080' : 'https://lb-spring-app-webfinder.azuremicroservices.io';
 
 const url = `${baseUrl}/${adminUrl}`

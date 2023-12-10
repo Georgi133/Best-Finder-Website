@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     public UserRegisterView register(UserRegistrationDto request, HttpServletRequest requestServlet) {
         if (isUserExist(request.getEmail())) {
-            throw new InvalidRegisterException("There is user with such email", HttpStatus.valueOf(403));
+            throw new InvalidRegisterException("There is user with such email", HttpStatus.CONFLICT);
         }
 
         String ipAddress = getIpAddress(requestServlet);

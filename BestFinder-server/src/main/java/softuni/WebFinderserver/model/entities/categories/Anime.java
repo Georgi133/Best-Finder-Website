@@ -9,6 +9,7 @@ import softuni.WebFinderserver.model.entities.CategoryProjection;
 import softuni.WebFinderserver.model.entities.Comment;
 import softuni.WebFinderserver.model.entities.Like;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Anime extends CataloguesWithCommonCategories {
+public class Anime extends CataloguesWithCommonCategories implements Serializable {
 
     public Anime(String animeName,
                  Integer releasedYear,

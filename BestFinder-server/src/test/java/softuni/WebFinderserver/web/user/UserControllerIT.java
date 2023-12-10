@@ -106,7 +106,7 @@ public class UserControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/register")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isConflict());
     }
 
 

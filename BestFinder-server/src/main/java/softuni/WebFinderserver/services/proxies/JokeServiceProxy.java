@@ -2,6 +2,9 @@ package softuni.WebFinderserver.services.proxies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
@@ -24,11 +27,13 @@ public class JokeServiceProxy implements JokeService {
     @Autowired
     private JokeServiceImpl service;
     private TorrentInfoView bgInfo;
-    private List<BaseView> ordinaryTorrentCollection;
     private TorrentInfoView enInfo;
     private Thread thread;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView createJoke(JokeUploadDto dto, MultipartFile file) throws IOException {
         if(bgInfo != null) {
             bgInfo = null;
@@ -36,9 +41,7 @@ public class JokeServiceProxy implements JokeService {
         if(enInfo != null) {
             enInfo = null;
         }
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
+
         BaseView joke = service.createJoke(dto, file);
 
         thread = new Thread(new Runnable() {
@@ -58,42 +61,43 @@ public class JokeServiceProxy implements JokeService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView uploadCommentByMovieId(Long id, CommentUploadDto dto) {
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
+
         return service.uploadCommentByMovieId(id , dto);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
         return service.deleteCommentById(animeId, commentId, userEmail);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
         return service.editCommentById(animeId, commentId, dto);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView like(Long id, String userEmail) {
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
         return service.like(id, userEmail);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "jokeByLikes", allEntries = true)
+    })
     public BaseView unlike(Long id, String userEmail) {
-        if (ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
         return service.unlike(id, userEmail);
     }
 
@@ -116,12 +120,9 @@ public class JokeServiceProxy implements JokeService {
     }
 
     @Override
+    @Cacheable("jokeByLikes")
     public List<BaseView> getAll() {
-        if (ordinaryTorrentCollection == null) {
-            ordinaryTorrentCollection = service.getAll();
-            return ordinaryTorrentCollection;
-        }
-        return ordinaryTorrentCollection;
+            return service.getAll();
     }
 
     @Override

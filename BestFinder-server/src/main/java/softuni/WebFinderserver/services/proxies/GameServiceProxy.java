@@ -2,6 +2,9 @@ package softuni.WebFinderserver.services.proxies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.WebFinderserver.model.dtos.CommentEditDto;
@@ -23,12 +26,14 @@ public class GameServiceProxy implements GameService {
     @Autowired
     private GameServiceImpl service;
     private TorrentInfoView bgInfo;
-    private List<BaseView> ordinaryTorrentCollection;
-    private List<BaseView> ordinaryTorrentCollectionByYear;
     private TorrentInfoView enInfo;
     private Thread thread;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView createGame(GameAnimeUploadDto dto, MultipartFile file) throws IOException {
         if(bgInfo != null) {
             bgInfo = null;
@@ -36,10 +41,7 @@ public class GameServiceProxy implements GameService {
         if(enInfo != null) {
             enInfo = null;
         }
-        if (ordinaryTorrentCollection != null || ordinaryTorrentCollectionByYear!= null) {
-            ordinaryTorrentCollection = null;
-            ordinaryTorrentCollectionByYear = null;
-        }
+
         BaseView game = service.createGame(dto, file);
 
         thread = new Thread(new Runnable() {
@@ -55,12 +57,9 @@ public class GameServiceProxy implements GameService {
     }
 
     @Override
+    @Cacheable("gameByYear")
     public List<BaseView> sortByYear() {
-        if (ordinaryTorrentCollectionByYear == null) {
-            ordinaryTorrentCollectionByYear = service.sortByYear();
-            return ordinaryTorrentCollectionByYear;
-        }
-        return ordinaryTorrentCollectionByYear;
+            return service.sortByYear();
     }
 
     @Override
@@ -69,57 +68,47 @@ public class GameServiceProxy implements GameService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView uploadCommentByGameId(Long id, CommentUploadDto dto) {
-        if(ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
-        if(ordinaryTorrentCollectionByYear != null) {
-            ordinaryTorrentCollectionByYear = null;
-        }
         return service.uploadCommentByGameId(id, dto);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView deleteCommentById(Long animeId, Long commentId, String userEmail) {
-        if(ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
-        if(ordinaryTorrentCollectionByYear != null) {
-            ordinaryTorrentCollectionByYear = null;
-        }
         return service.deleteCommentById(animeId,commentId,userEmail);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView editCommentById(Long animeId, Long commentId, CommentEditDto dto) {
-        if(ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
-        if(ordinaryTorrentCollectionByYear != null) {
-            ordinaryTorrentCollectionByYear = null;
-        }
         return service.editCommentById(animeId,commentId,dto);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView like(Long id, String userEmail) {
-        if(ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
-        if(ordinaryTorrentCollectionByYear != null) {
-            ordinaryTorrentCollectionByYear = null;
-        }
         return service.like(id, userEmail);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "gameByYear", allEntries = true),
+            @CacheEvict(value = "gameByLikes", allEntries = true)
+    })
     public BaseView unlike(Long id, String userEmail) {
-        if(ordinaryTorrentCollection != null) {
-            ordinaryTorrentCollection = null;
-        }
-        if(ordinaryTorrentCollectionByYear != null) {
-            ordinaryTorrentCollectionByYear = null;
-        }
         return service.unlike(id,userEmail);
     }
 
@@ -141,12 +130,9 @@ public class GameServiceProxy implements GameService {
     }
 
     @Override
+    @Cacheable("gameByLikes")
     public List<BaseView> getAll() {
-        if (ordinaryTorrentCollection == null) {
-            ordinaryTorrentCollection = service.getAll();
-            return ordinaryTorrentCollection;
-        }
-        return ordinaryTorrentCollection;
+           return service.getAll();
     }
 
     @Override

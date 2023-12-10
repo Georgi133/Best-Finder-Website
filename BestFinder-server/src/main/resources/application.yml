@@ -3,10 +3,10 @@ spring:
     exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://lb-db1.mysql.database.azure.com:3306/webfinder?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
+    url: "jdbc:mysql://localhost:3306/webfinder?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
     # lb-db1.mysql.database.azure.com:3306
     # ${DB_USERNAME}
-    username: ${DB_USERNAME}
+    username: root
     password: ${DB_PASSWORD}
   servlet:
     multipart:
@@ -30,6 +30,10 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 best-finder:
     admin: ${ADMIN_EMAIL}
@@ -56,6 +60,7 @@ app:
 
 jwt:
   token: ${TOKEN}
+
 
 
 
