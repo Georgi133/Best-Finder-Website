@@ -1,5 +1,6 @@
 package softuni.WebFinderserver.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -13,6 +14,11 @@ public class RedisConfig {
 //        return new JedisConnectionFactory();
 //    }
 
+    @Value("${redisparameters.host}")
+     private String host;
+    @Value("${redisparameters.port}")
+     private Integer port;
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
@@ -24,8 +30,8 @@ public class RedisConfig {
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory jedisConFactory
                 = new JedisConnectionFactory();
-        jedisConFactory.setHostName("localhost");
-        jedisConFactory.setPort(6379);
+        jedisConFactory.setHostName(host);
+        jedisConFactory.setPort(port);
         return jedisConFactory;
     }
 

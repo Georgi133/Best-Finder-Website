@@ -61,6 +61,10 @@ app:
 jwt:
   token: ${TOKEN}
 
+redisparameters:
+   host: ${REDIS_HOST}
+   port: ${REDIS_PORT}
+
 
 
 

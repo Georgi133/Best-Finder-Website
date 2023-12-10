@@ -65,6 +65,10 @@ app:
 jwt:
      token: ${TOKEN:405E635266550A586E3272357538782F413F4428472B4B6250645367566B5971}
 
+redisparameters:
+  host: localhost
+  port: 6379
+
 
 
 
