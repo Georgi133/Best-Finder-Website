@@ -48,6 +48,7 @@ Could chat with other users in public room or chat with specific user privately,
  - <strong>Exception handling</strong>
  - <strong>Multithreading</strong> - make parallel operation when there is update to refresh the cache information inside the proxy, so when the client make request the operation will be free, because server won't do anything except returning the waiting cache inside the proxy
  - <strong>Proxy Pattern</strong> - the proxy wrapps business services so when client requires something from them, proxy is invoked. Inside the proxy there are lists which cache the information once is required, if information is required again the proxy will return the cache and the operation will be free, if information is updated - makes the multithreading operation described above
+ - <strong>Redis</strong> - the cached values inside the proxy use Redis to store the data, Redis server is started by Docker
  - JWT token
  - JavaMailSender, Cloudinary
  - AOP
@@ -71,6 +72,7 @@ Could chat with other users in public room or chat with specific user privately,
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
+ -  Cached data is managed by Redis !! <strong>Is crucial to have running Redis server (preferable port 6379)</strong>
  ## :gear: Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
@@ -100,6 +102,12 @@ cloudinary.api-secret: ${CLOUD_API_SECRET}
 ```yaml
 jwt.token: ${TOKEN}
 ```
+
+```yaml
+redisparameters.host: ${REDIS_HOST}
+redisparameters.port: ${REDIS_PORT}
+```
+<strong>IT IS CRUCIAL when running tests in resources to configure the HOST and the PORT of REDIS if they are different than the given ones, otherwise none of the tests will pass !! </strong>
 
 - ADMIN credentials should be changed from ```application.yaml```:
   
