@@ -48,7 +48,7 @@ Could chat with other users in public room or chat with specific user privately 
  - <strong>Exception handling</strong>
  - <strong>Multithreading</strong> - make parallel operation when there is update to refresh the cache information inside the proxy, so when the client make request the operation will be free, because server won't do anything except returning the waiting cache inside the proxy
  - <strong>Proxy Pattern</strong> - the proxy wrapps business services so when client requires something from them, proxy is invoked. Inside the proxy there are lists which cache the information once is required, if information is required again the proxy will return the cache and the operation will be free, if information is updated - makes the multithreading operation described above
- - <strong>Redis</strong> - the cached values inside the proxy use Redis to store the data, Redis server is started by Docker
+ - <strong>Redis</strong> - the  values inside the proxy use Redis to cache the data, Redis server is started by Docker
  - JWT token
  - JavaMailSender, Cloudinary
  - AOP
