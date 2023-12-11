@@ -72,7 +72,7 @@ Could chat with other users in public room or chat with specific user privately,
  -  JDK 17.
  -  Apache Maven 4.0.0+
  -  Data management is operated by using a relational database management system - MySQL.
- -  Cached data is managed by Redis !! <strong>Is crucial to have running Redis server (preferable port 6379)</strong>
+ -  Cached data is managed by Redis !! <strong>It is crucial to have running Redis server (preferable port 6379)</strong>
  ## :gear: Configuration
   - Datasource location, port and name should be changed from ```application.yaml```:
 ```yaml 
