@@ -102,6 +102,7 @@ cloudinary.api-secret: ${CLOUD_API_SECRET}
 ```yaml
 jwt.token: ${TOKEN}
 ```
+- Redis - HOST and PORT should be changed from ```application.yaml```:
 
 ```yaml
 redisparameters.host: ${REDIS_HOST}
