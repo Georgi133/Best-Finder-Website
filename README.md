@@ -3,7 +3,6 @@
  
    # :notebook_with_decorative_cover: Table of Contents 
   * [Built with](#hammer-built-with)
-  * [Demo](#heavy_check_mark-demo)
   * [Features](#dart-features)
   * [What is in Backend](#what-is-in-backend)
   * [What is in Frontend](#what-is-in-frontend)
@@ -24,9 +23,6 @@
  - HTML, CSS - Without using bootstrap or other sites for helping me visualize the site.
  - Apache Maven
  - JWT.io
-
-## :heavy_check_mark: Demo
-  - Deployed to: https://web-finder.azurewebsites.net/
 
  ## :dart: Features
  - Multi-language support. Could be runned from any device - responsive.
